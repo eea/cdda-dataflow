@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dd11:designation_boundaries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dd11="http://dd.eionet.europa.eu/namespace.jsp?ns_id=11" xmlns:dd671="http://dd.eionet.europa.eu/namespace.jsp?ns_id=671" xsi:schemaLocation="http://dd.eionet.europa.eu/namespace.jsp?ns_id=11 http://dd.eionet.europa.eu/GetSchema?id=TBL9117">
+    <dd11:Row status="new">
+        <dd671:PARENT_ISO>AUT</dd671:PARENT_ISO>
+        <dd671:ISO3>AUT</dd671:ISO3>
+        <dd671:DESIG_ABBR>AT11</dd671:DESIG_ABBR>
+        <dd671:CDDA_Availability_code></dd671:CDDA_Availability_code>
+        <dd671:CDDA_Resolution_code></dd671:CDDA_Resolution_code>
+        <dd671:CDDA_Dissemination_code></dd671:CDDA_Dissemination_code>
+    </dd11:Row>
+    <dd11:Row status="new">
+        <dd671:PARENT_ISO>AUT</dd671:PARENT_ISO>
+        <dd671:ISO3>AUT</dd671:ISO3>
+        <dd671:DESIG_ABBR>AT11</dd671:DESIG_ABBR>
+        <dd671:CDDA_Availability_code>d</dd671:CDDA_Availability_code>
+        <dd671:CDDA_Resolution_code>d</dd671:CDDA_Resolution_code>
+        <dd671:CDDA_Dissemination_code>d</dd671:CDDA_Dissemination_code>
+    </dd11:Row>
+    <dd11:Row status="new">
+        <dd671:PARENT_ISO>DEU</dd671:PARENT_ISO>
+        <dd671:ISO3>DEU</dd671:ISO3>
+        <dd671:DESIG_ABBR>DE11</dd671:DESIG_ABBR>
+        <dd671:CDDA_Availability_code>01</dd671:CDDA_Availability_code>
+        <dd671:CDDA_Resolution_code>02</dd671:CDDA_Resolution_code>
+        <dd671:CDDA_Dissemination_code>03</dd671:CDDA_Dissemination_code>
+    </dd11:Row>
+    <dd11:Row status="new">
+        <dd671:PARENT_ISO>D</dd671:PARENT_ISO>
+        <dd671:ISO3>D</dd671:ISO3>
+        <dd671:DESIG_ABBR>DE7888788</dd671:DESIG_ABBR>
+        <dd671:CDDA_Availability_code>01</dd671:CDDA_Availability_code>
+        <dd671:CDDA_Resolution_code>02</dd671:CDDA_Resolution_code>
+        <dd671:CDDA_Dissemination_code>03</dd671:CDDA_Dissemination_code>
+    </dd11:Row>
+</dd11:designation_boundaries>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dd11:national_overview xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dd11="http://dd.eionet.europa.eu/namespace.jsp?ns_id=11" xmlns:dd670="http://dd.eionet.europa.eu/namespace.jsp?ns_id=670" xsi:schemaLocation="http://dd.eionet.europa.eu/namespace.jsp?ns_id=11 http://dd.eionet.europa.eu/GetSchema?id=TBL9119">
+    <dd11:Row status="new">
+        <dd670:PARENT_ISO></dd670:PARENT_ISO>
+        <dd670:ISO3></dd670:ISO3>
+        <dd670:Category></dd670:Category>
+        <dd670:Major_ecosystem></dd670:Major_ecosystem>
+        <dd670:Total_Area></dd670:Total_Area>
+        <dd670:Reference_year></dd670:Reference_year>
+        <dd670:Publication_title></dd670:Publication_title>
+        <dd670:Publication_url></dd670:Publication_url>
+        <dd670:Methodology_type></dd670:Methodology_type>
+        <dd670:Methodology_reference_title></dd670:Methodology_reference_title>
+        <dd670:Methodology_reference_url></dd670:Methodology_reference_url>
+        <dd670:Remark></dd670:Remark>
+    </dd11:Row>
+    <dd11:Row status="new">
+        <dd670:PARENT_ISO>AUT</dd670:PARENT_ISO>
+        <dd670:ISO3>AUT</dd670:ISO3>
+        <dd670:Category>A</dd670:Category>
+        <dd670:Major_ecosystem>Marine</dd670:Major_ecosystem>
+        <dd670:Total_Area>12.2222</dd670:Total_Area>
+        <dd670:Reference_year>20</dd670:Reference_year>
+        <dd670:Publication_title></dd670:Publication_title>
+        <dd670:Publication_url></dd670:Publication_url>
+        <dd670:Methodology_type>01</dd670:Methodology_type>
+        <dd670:Methodology_reference_title></dd670:Methodology_reference_title>
+        <dd670:Methodology_reference_url></dd670:Methodology_reference_url>
+        <dd670:Remark></dd670:Remark>
+    </dd11:Row>
+    <dd11:Row status="new">
+        <dd670:PARENT_ISO>AUT</dd670:PARENT_ISO>
+        <dd670:ISO3>AUT</dd670:ISO3>
+        <dd670:Category>A</dd670:Category>
+        <dd670:Major_ecosystem>Marine</dd670:Major_ecosystem>
+        <dd670:Total_Area>12.2222</dd670:Total_Area>
+        <dd670:Reference_year>2010</dd670:Reference_year>
+        <dd670:Publication_title></dd670:Publication_title>
+        <dd670:Publication_url></dd670:Publication_url>
+        <dd670:Methodology_type>01</dd670:Methodology_type>
+        <dd670:Methodology_reference_title></dd670:Methodology_reference_title>
+        <dd670:Methodology_reference_url></dd670:Methodology_reference_url>
+        <dd670:Remark></dd670:Remark>
+    </dd11:Row>
+    <dd11:Row status="new">
+        <dd670:PARENT_ISO>D</dd670:PARENT_ISO>
+        <dd670:ISO3>D</dd670:ISO3>
+        <dd670:Category>Ab</dd670:Category>
+        <dd670:Major_ecosystem>Mar</dd670:Major_ecosystem>
+        <dd670:Total_Area>abc</dd670:Total_Area>
+        <dd670:Reference_year>20</dd670:Reference_year>
+        <dd670:Publication_title></dd670:Publication_title>
+        <dd670:Publication_url></dd670:Publication_url>
+        <dd670:Methodology_type>01</dd670:Methodology_type>
+        <dd670:Methodology_reference_title></dd670:Methodology_reference_title>
+        <dd670:Methodology_reference_url></dd670:Methodology_reference_url>
+        <dd670:Remark></dd670:Remark>
+    </dd11:Row>
+</dd11:national_overview>

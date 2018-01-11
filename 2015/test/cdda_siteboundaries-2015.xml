@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dd11:site_boundaries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dd11="http://dd.eionet.europa.eu/namespace.jsp?ns_id=11" xmlns:dd417="http://dd.eionet.europa.eu/namespace.jsp?ns_id=417" xsi:schemaLocation="http://dd.eionet.europa.eu/namespace.jsp?ns_id=11 http://dd.eionet.europa.eu/GetSchema?id=TBL9118">
+    <dd11:Row status="new">
+        <dd417:SITE_CODE></dd417:SITE_CODE>
+        <dd417:SITE_CODE_NAT></dd417:SITE_CODE_NAT>
+        <dd417:PARENT_ISO></dd417:PARENT_ISO>
+        <dd417:ISO3></dd417:ISO3>
+        <dd417:CDDA_Availability_code></dd417:CDDA_Availability_code>
+        <dd417:CDDA_Resolution_code></dd417:CDDA_Resolution_code>
+        <dd417:CDDA_Dissemination_code></dd417:CDDA_Dissemination_code>
+    </dd11:Row>
+    <dd11:Row status="new">
+        <dd417:SITE_CODE>code</dd417:SITE_CODE>
+        <dd417:SITE_CODE_NAT>code_nat</dd417:SITE_CODE_NAT>
+        <dd417:PARENT_ISO>AUT</dd417:PARENT_ISO>
+        <dd417:ISO3>AUT</dd417:ISO3>
+        <dd417:CDDA_Availability_code>01</dd417:CDDA_Availability_code>
+        <dd417:CDDA_Resolution_code>02</dd417:CDDA_Resolution_code>
+        <dd417:CDDA_Dissemination_code>03</dd417:CDDA_Dissemination_code>
+    </dd11:Row>
+    <dd11:Row status="new">
+        <dd417:SITE_CODE>code</dd417:SITE_CODE>
+        <dd417:SITE_CODE_NAT>code_nat</dd417:SITE_CODE_NAT>
+        <dd417:PARENT_ISO>AUT</dd417:PARENT_ISO>
+        <dd417:ISO3>AUT</dd417:ISO3>
+        <dd417:CDDA_Availability_code>01</dd417:CDDA_Availability_code>
+        <dd417:CDDA_Resolution_code>02</dd417:CDDA_Resolution_code>
+        <dd417:CDDA_Dissemination_code>00</dd417:CDDA_Dissemination_code>
+    </dd11:Row>
+    <dd11:Row status="new">
+        <dd417:SITE_CODE></dd417:SITE_CODE>
+        <dd417:SITE_CODE_NAT>code_nat1</dd417:SITE_CODE_NAT>
+        <dd417:PARENT_ISO>DEU</dd417:PARENT_ISO>
+        <dd417:ISO3>DEU</dd417:ISO3>
+        <dd417:CDDA_Availability_code>01</dd417:CDDA_Availability_code>
+        <dd417:CDDA_Resolution_code>02</dd417:CDDA_Resolution_code>
+        <dd417:CDDA_Dissemination_code>03</dd417:CDDA_Dissemination_code>
+    </dd11:Row>
+    <dd11:Row status="new">
+        <dd417:SITE_CODE></dd417:SITE_CODE>
+        <dd417:SITE_CODE_NAT>code_nat1</dd417:SITE_CODE_NAT>
+        <dd417:PARENT_ISO>DAA</dd417:PARENT_ISO>
+        <dd417:ISO3>DAA</dd417:ISO3>
+        <dd417:CDDA_Availability_code>d</dd417:CDDA_Availability_code>
+        <dd417:CDDA_Resolution_code>d</dd417:CDDA_Resolution_code>
+        <dd417:CDDA_Dissemination_code>d</dd417:CDDA_Dissemination_code>
+    </dd11:Row>
+    <dd11:Row status="new">
+        <dd417:SITE_CODE>222222222</dd417:SITE_CODE>
+        <dd417:SITE_CODE_NAT>code_nat1</dd417:SITE_CODE_NAT>
+        <dd417:PARENT_ISO>AUT</dd417:PARENT_ISO>
+        <dd417:ISO3>AUT</dd417:ISO3>
+        <dd417:CDDA_Availability_code>d</dd417:CDDA_Availability_code>
+        <dd417:CDDA_Resolution_code>d</dd417:CDDA_Resolution_code>
+        <dd417:CDDA_Dissemination_code>d</dd417:CDDA_Dissemination_code>
+    </dd11:Row>
+</dd11:site_boundaries>
