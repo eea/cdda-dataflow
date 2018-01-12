@@ -68,17 +68,15 @@ as element(div)+
         xmlutil:executeDataTypesCheck($url, $xmlconv:SCHEMA_ID_DA, $xmlconv:ELEM_SCHEMA_NS_PREFIX_DA, $xmlconv:KEY_ELEMENT_DA, "3.a", "DesignatedArea"),
         xmlutil:executeCodeListCheck($url, $xmlconv:SCHEMA_ID_DA, $xmlconv:ELEM_SCHEMA_NS_PREFIX_DA, $xmlconv:KEY_ELEMENT_DA, "4.a")
         )
-(:
     let $ruleResults_LD := (
-        xmlutil:executeMandatoryValuesCheck($url, $xmlconv:SCHEMA_ID_LD, $xmlconv:ELEM_SCHEMA_NS_PREFIX_LD, $xmlconv:KEY_ELEMENT_LD, "1.b"),
-        xmlutil:executeDuplicatesCheck($url, $xmlconv:SCHEMA_ID_LD, $xmlconv:ELEM_SCHEMA_NS_PREFIX_LD, $xmlconv:KEY_ELEMENT_LD, "2.b", ("datasetId"), true()),
-        xmlutil:executeDataTypesCheck($url, $xmlconv:SCHEMA_ID_LD, $xmlconv:ELEM_SCHEMA_NS_PREFIX_LD, $xmlconv:KEY_ELEMENT_LD, "3.b")
+        xmlutil:executeMandatoryValuesCheck($url, $xmlconv:SCHEMA_ID_LD, $xmlconv:ELEM_SCHEMA_NS_PREFIX_LD, $xmlconv:KEY_ELEMENT_LD, "1.b", "LinkedDataset"),
+        xmlutil:executeDuplicatesCheck($url, $xmlconv:SCHEMA_ID_LD, $xmlconv:ELEM_SCHEMA_NS_PREFIX_LD, $xmlconv:KEY_ELEMENT_LD, "2.b", ("datasetId"), true(), "LinkedDataset"),
+        xmlutil:executeDataTypesCheck($url, $xmlconv:SCHEMA_ID_LD, $xmlconv:ELEM_SCHEMA_NS_PREFIX_LD, $xmlconv:KEY_ELEMENT_LD, "3.b", "LinkedDataset")
         )
-:)
 
     return(
-        uiutil:buildScriptResult($ruleResults_DA, ddutil:getDDTableUrl($xmlconv:SCHEMA_ID_DA), rules:getRules($xmlconv:SCHEMA_ID_DA))
-        (:uiutil:buildScriptResult($ruleResults_LD, ddutil:getDDTableUrl($xmlconv:SCHEMA_ID_LD), rules:getRules($xmlconv:SCHEMA_ID_LD)):)
+        uiutil:buildScriptResult($ruleResults_DA, ddutil:getDDTableUrl($xmlconv:SCHEMA_ID_DA), rules:getRules($xmlconv:SCHEMA_ID_DA)),
+        uiutil:buildScriptResult($ruleResults_LD, ddutil:getDDTableUrl($xmlconv:SCHEMA_ID_LD), rules:getRules($xmlconv:SCHEMA_ID_LD))
     )
 
 };

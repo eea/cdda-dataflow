@@ -1010,7 +1010,7 @@
         </Row>
         <Row>
             <datasetId>321</datasetId>
-            <gmlFileName>ABC.gml</gmlFileName>
+            <gmlFileName></gmlFileName>
             <wfsEndpoint/>
             <wfsVersion/>
             <wfsStoredQuery/>
