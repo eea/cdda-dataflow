@@ -66,7 +66,7 @@ declare variable $xmlutil:ALLOWED_BOOLEAN_VALUES as xs:string* := ("true", "fals
  : @param $mandatoryElems List of mandatory element names.
  : @return List of invalid element names.
  :)
-declare function xmlutil:getInvalidMandatoryValues($rowElement as element(dd11:Row),$mandatoryElems as xs:string*)
+declare function xmlutil:getInvalidMandatoryValues($rowElement as element(),$mandatoryElems as xs:string*)
 as xs:string*
 {
     for $elemName in $mandatoryElems
@@ -80,7 +80,7 @@ as xs:string*
  : @param $elementName XML element name to be checked.
  : @return Boolean, true if element is invalid.
  :)
-declare function xmlutil:isInvalidMandatory($rowElement as element(dd11:Row), $elementName as xs:string)
+declare function xmlutil:isInvalidMandatory($rowElement as element(), $elementName as xs:string)
 as xs:boolean
 {
     let $elem :=  $rowElement/*[name() = $elementName]
@@ -123,7 +123,7 @@ as xs:boolean
  : @param $allElements List of all element names to be checked.
  : @return List of invalid element names and invalid value true/false indexes(in case of multivalue elments).
  :)
-declare function xmlutil:getInvalidDataTypeValues($row as element(dd11:Row), $elemSchemaUrl as xs:string, $allElements as xs:string*)
+declare function xmlutil:getInvalidDataTypeValues($row as element(), $elemSchemaUrl as xs:string, $allElements as xs:string*)
 as xs:string*
 {
     let $schemaDoc := fn:doc($elemSchemaUrl)/xs:schema
@@ -141,7 +141,7 @@ as xs:string*
  : @param $schemaDoc xs:schema element from XML Schema
  : @return List of boolean values (valid/invalid tokens)
  :)
-declare function xmlutil:isInvalidDatatype($row as element(dd11:Row), $elementName as xs:string, $schemaDoc as element(xs:schema))
+declare function xmlutil:isInvalidDatatype($row as element(), $elementName as xs:string, $schemaDoc as element(xs:schema))
 as xs:boolean*
 {
     let $elements :=  $row/*[name()=$elementName]
@@ -486,7 +486,7 @@ as element(tr)*
  : @param $elements List of Row child elements
  : @return List of numeric values for given XML elements.
  :)
-declare function xmlutil:getElementsNumValues($row as element(dd11:Row), $elements as xs:string*)
+declare function xmlutil:getElementsNumValues($row as element(), $elements as xs:string*)
 as xs:decimal*{
     for $elemName in $elements
         for $elem in $row//*[local-name() = $elemName]
@@ -555,14 +555,14 @@ as element(rule)*
  : @return QA rule results in HTML format.
  :)
 declare function xmlutil:executeMandatoryValuesCheck($url as xs:string, $schemaId as xs:string,
-    $nsPrefix as xs:string, $keyElement as xs:string, $ruleCode as xs:string)
+    $nsPrefix as xs:string, $keyElement as xs:string, $ruleCode as xs:string, $container)
 as element(div)
 {
     let $ruleElementNames := rules:getRuleElementNames($schemaId, $nsPrefix, $ruleCode)
     let $errMessage := rules:getRuleMessage($schemaId, $ruleCode)
     let $ruleDef := rules:getRule($schemaId, $ruleCode)
 
-    let $result := xmlutil:checkMandatoryValues($url, $schemaId, $ruleCode, $errMessage, $ruleElementNames, $keyElement)
+    let $result := xmlutil:checkMandatoryValues($url, $schemaId, $ruleCode, $errMessage, $ruleElementNames, $keyElement, $container)
 
     return
         uiutil:buildRuleResult($result, $ruleDef, $ruleElementNames, <div/>, $uiutil:RESULT_TYPE_TABLE)
@@ -575,7 +575,7 @@ as element(div)
  : @return HTML table rows or empty sequence.
  :)
 declare function xmlutil:checkMandatoryValues($url as xs:string, $schemaId as xs:string, $ruleCode as xs:string, $errMessage as xs:string,
-    $ruleElements as xs:string*, $keyElement as xs:string)
+    $ruleElements as xs:string*, $keyElement as xs:string, $container)
 as element(tr)*
 {
     let $mandatoryElements := ddutil:getMandatoryElements($schemaId)
@@ -591,7 +591,8 @@ as element(tr)*
     let $nsPrefix := cutil:getElemNsPrefix($keyElement)
     let $ruleElements := cutil:getElementsWithNs($ruleElements, $nsPrefix)
 
-    for $rowElement at $pos in fn:doc($url)//child::dd11:Row
+    let $asd := trace($mandatoryElements, "mandatoryElements: ")
+    for $rowElement at $pos in fn:doc($url)//*[local-name() = $container]//child::*[local-name() = "Row"]
     let $invalidElems := xmlutil:getInvalidMandatoryValues($rowElement, $mandatoryElements)
     where not(empty($invalidElems))
     order by $pos
@@ -612,7 +613,7 @@ as element(tr)*
  : @return QA rule results in HTML format.
  :)
 declare function xmlutil:executeDuplicatesCheck($url as xs:string, $schemaId as xs:string,
-    $nsPrefix as xs:string, $keyElement as xs:string, $ruleCode as xs:string, $dupliateKeyElements as xs:string*, $isSites as xs:boolean)
+    $nsPrefix as xs:string, $keyElement as xs:string, $ruleCode as xs:string, $dupliateKeyElements as xs:string*, $isSites as xs:boolean, $container)
 as element(div)
 {
     let $ruleElementNames := rules:getRuleElementNames($schemaId, $nsPrefix, $ruleCode)
@@ -621,7 +622,7 @@ as element(div)
 
     let $result :=
         xmlutil:checkDuplicates($url, $schemaId, $ruleCode, $errMessage, $ruleElementNames,
-            $keyElement, $dupliateKeyElements)
+            $keyElement, $dupliateKeyElements, $container)
 
     return
         uiutil:buildCommonRuleResult($result, $ruleDef, $ruleElementNames)
@@ -634,10 +635,10 @@ as element(div)
  : @return HTML table rows or empty sequence.
  :)
 declare function xmlutil:checkDuplicates($url as xs:string, $schemaId as xs:string, $ruleCode as xs:string, $errMessage as xs:string,
-    $ruleElements as xs:string*, $keyElement as xs:string, $duplicateElements as xs:string*)
+    $ruleElements as xs:string*, $keyElement as xs:string, $duplicateElements as xs:string*, $container)
 as element(tr)*
 {
-    let $rows := fn:doc($url)//child::dd11:Row
+    let $rows := fn:doc($url)//*[local-name() = $container]/*[local-name() = "Row"]
     let $multiValueElems := ddutil:getMultivalueElements($schemaId)
     let $nsPrefix := cutil:getElemNsPrefix($keyElement)
     let $ruleElements := cutil:getElementsWithNs($ruleElements, $nsPrefix)
@@ -667,12 +668,12 @@ declare function xmlutil:checkDuplicateSites($url as xs:string, $schemaId as xs:
     $ruleElements as xs:string*, $keyElement as xs:string)
 as element(tr)*
 {
-    let $rows := fn:doc($url)//child::dd11:Row
+    let $rows := fn:doc($url)//child::*[local-name() = "Row"]
     let $nsPrefix := cutil:getElemNsPrefix($keyElement)
     let $multiValueElems := ddutil:getMultivalueElements($schemaId)
     let $ruleElements := cutil:getElementsWithNs($ruleElements, $nsPrefix)
     let $keys :=
-        for $duplicateRow in fn:doc($url)//child::dd11:Row
+        for $duplicateRow in fn:doc($url)//child::*[local-name() = "Row"]
         return
             if (not(cutil:isMissingOrEmpty($duplicateRow/*[local-name() = "SITE_CODE"]))) then
                 concat(lower-case(normalize-space(string($duplicateRow/*[local-name() = "SITE_CODE"]))), "##")
@@ -704,7 +705,7 @@ as element(tr)*
         }</tr>
 
 };
-declare function xmlutil:getDuplicateKey($row as element(dd11:Row), $duplicateElements as xs:string*)
+declare function xmlutil:getDuplicateKey($row as element(), $duplicateElements as xs:string*)
 as xs:string
 {
     let $keyValues :=
@@ -716,7 +717,7 @@ as xs:string
 
 
 };
-declare function xmlutil:getRowElementValue($row as element(dd11:Row), $elementName as xs:string)
+declare function xmlutil:getRowElementValue($row as element(), $elementName as xs:string)
 as xs:string
 {
         let $elem :=  $row/*[local-name() = $elementName]
@@ -725,7 +726,7 @@ as xs:string
         return $value
 };
 
-declare function xmlutil:anyValueNotEmpty($row as element(dd11:Row), $duplicateElements as xs:string*)
+declare function xmlutil:anyValueNotEmpty($row as element(), $duplicateElements as xs:string*)
 as xs:boolean
 {
      cutil:containsBoolean(
@@ -780,7 +781,7 @@ as element(tr)*
     let $elemSchemaUrl := ddutil:getDDElemSchemaUrl($schemaId)
     let $allElements := ddutil:getAllElements($schemaId)
 
-    for $row at $pos in fn:doc($url)//child::dd11:Row
+    for $row at $pos in fn:doc($url)//child::*[local-name() = "Row"]
     let $invalidElems := xmlutil:getInvalidDataTypeValues($row, $elemSchemaUrl, $allElements)
     let $invalidElemKeys := cutil:getHashMapKeys($invalidElems)
     where not(empty($invalidElems))
@@ -855,7 +856,7 @@ as element(tr)*
     let $multiValueElems := ddutil:getMultivalueElements($schemaId)
     let $validCoordinates := ()(:if (string-length($countryCode) = 2) then xmlutil:checkAllCoordinates($url, $countryCode, "", $longLatElements) else ():)
 
-    for $row at $pos in fn:doc($url)//child::dd11:Row
+    for $row at $pos in fn:doc($url)//child::*[local-name() = "Row"]
     let $isInvalidX1 := xmlutil:isInvalidLongLat($allBoundaries, $row/*[local-name() = $longLatElements[1]][1], fn:true(), $countryCode, "")
     let $isInvalidY1 := xmlutil:isInvalidLongLat($allBoundaries, $row/*[local-name() = $longLatElements[2]][1], fn:false(), $countryCode, "")
 
@@ -892,7 +893,7 @@ as element(tr)*
                     uiutil:buildTD($row, $elemName, $errMess, fn:false(), 0,$isInvalidElem, ddutil:getMultiValueDelim($multiValueElems, $elemName), $ruleCode)
         }</tr>
 };
-declare function xmlutil:isInvalidLongLatOnMapService($validCoordinates as node()*, $row as element(dd11:Row)
+declare function xmlutil:isInvalidLongLatOnMapService($validCoordinates as node()*, $row as element()
     , $longLatElements as xs:string*, $cc as xs:string, $pos as xs:integer)
 as xs:string?
 {
@@ -1099,7 +1100,7 @@ as xs:string
 declare function xmlutil:getInputPointXmlParam($url as xs:string, $cc as xs:string, $longLatElements as xs:string*) as
 xs:string*
 {
-    for $row at $pos in fn:doc($url)//child::dd11:Row
+    for $row at $pos in fn:doc($url)//child::*[local-name() = "Row"]
     let $x := if (cutil:isMissingOrEmpty($row/*[local-name() = $longLatElements[1]][1])) then "" else fn:normalize-space($row/*[local-name() = $longLatElements[1]][1])
     let $y := if (cutil:isMissingOrEmpty($row/*[local-name() = $longLatElements[2]][1])) then "" else fn:normalize-space($row/*[local-name() = $longLatElements[2]][1])
 
@@ -1169,7 +1170,7 @@ as element(tr)*
     let $ruleElems := xmlutil:getCodeListElementsForDisplay($schemaId, $nsPrefix, $ruleCode, true())
     let $errMessage := rules:getRuleMessage($schemaId, $ruleCode)
 
-    for $row at $pos in fn:doc($url)//child::dd11:Row
+    for $row at $pos in fn:doc($url)//child::*[local-name() = "Row"]
     let $invalidElems := xmlutil:getInvalidCodelistValues($row, ddutil:getDDCodelistXmlUrl($schemaId))
     let $invalidElemKeys := cutil:getHashMapKeys($invalidElems)
     where fn:not(fn:empty($invalidElems))
@@ -1194,7 +1195,9 @@ as element(tr)*
  : @param $codeListXmlUrl Url of DD codelists XML
  : @return List of invalid element names and invalid value true/false indexes(in case of multivalue elments).
  :)
-declare function xmlutil:getInvalidCodelistValues($row as element(dd11:Row), $codeListXmlUrl as xs:string)
+declare function xmlutil:getInvalidCodelistValues($row as element(
+
+), $codeListXmlUrl as xs:string)
 as xs:string*
 {
     let $codeListValues := fn:doc($codeListXmlUrl)//dd:value-list
@@ -1383,7 +1386,7 @@ as element(tr)*
     let $ruleElems := xmlutil:getCodeListElementsForDisplay($schemaId, $nsPrefix, $ruleCode, true())
     let $errMessage := rules:getRuleMessage($schemaId, $ruleCode)
 
-    for $row at $pos in fn:doc($url)//child::dd11:Row
+    for $row at $pos in fn:doc($url)//child::*[local-name() = "Row"]
     let $isInvalidISO3 := xmlutil:isInvalidCountryCode($row/*[local-name() = "ISO3"][1], $cc)
     let $isInvalidPARENT_ISO := xmlutil:isInvalidCountryCode($row/*[local-name() = "PARENT_ISO"][1], $cc)
     let $isInvalidDESIG_ABBR := xmlutil:isInvalidCountryCode($row/*[local-name() = "DESIG_ABBR"][1], $cc)
@@ -1604,7 +1607,7 @@ as element(tr)*
     let $siteCodeElem := "SITE_CODE"
     let $countrySiteCodes := $countrySiteCodesRdf//skos:Concept[ends-with(ddrdf:countryAllocated/lower-case(@rdf:resource), lower-case($countryCode))]
 
-    for $row at $pos in fn:doc($url)//child::dd11:Row
+    for $row at $pos in fn:doc($url)//child::*[local-name() = "Row"]
 
     let $siteCode := $row//*[local-name() = $siteCodeElem][1]
     let $siteCodeValue := if (cutil:isMissingOrEmpty($siteCode)) then "" else normalize-space($siteCode)
@@ -1677,7 +1680,7 @@ as element(tr)*
     let $numOfRows := 100
     let $errMessage := rules:getRuleMessage($schemaId, $ruleCode)
     let $siteCodeElem := "SITE_CODE"
-    let $reportedSiteCodes := fn:doc($url)//child::dd11:Row/*[local-name() = $siteCodeElem]/text()
+    let $reportedSiteCodes := fn:doc($url)//child::*[local-name() = "Row"]/*[local-name() = $siteCodeElem]/text()
 
     let $errLevel := $uiutil:ERROR_LEVEL
 
@@ -1750,7 +1753,7 @@ as element(tr)*
 
     let $checkedElems := ("Major_ecosystem_type", "Marine_area_perc")
 
-    for $row at $pos in fn:doc($url)//child::dd11:Row
+    for $row at $pos in fn:doc($url)//child::*[local-name() = "Row"]
 
     let $isInvalidValues :=
         not(cutil:isMissingOrEmpty($row/*[local-name() ="Major_ecosystem_type"][1])) and

@@ -26,6 +26,10 @@ declare variable $rules:DESIGBOUND_SCHEMA as xs:string := "9117";
 declare variable $rules:DESIGBOUND_NS_PREFIX as xs:string := "dd671:";
 declare variable $rules:NATIONALOVERVIEW_SCHEMA as xs:string := "9119";
 declare variable $rules:NATIONALOVERVIEW_NS_PREFIX as xs:string := "dd670:";
+declare variable $rules:DESIGNATEDAREA_SCHEMA as xs:string := "11022";
+declare variable $rules:DESIGNATEDAREA_NS_PREFIX as xs:string := "dd873:";
+declare variable $rules:LINKEDDATASET_SCHEMA as xs:string := "11023";
+declare variable $rules:LINKEDDATASET_NS_PREFIX as xs:string := "dd874:";
 (:~ URL of XML file folder at Converters :)
 declare variable $rules:CONVERTERS_XMLFILE_PATH as xs:string := "http://converters.eionet.europa.eu/xmlfile/";
 (:~ display fields definitions XML file :)
@@ -258,6 +262,40 @@ declare variable $rules:RULES_XML as element(root) :=
         , $rules:CODELISTS_RULE_MESSAGE, (), $uiutil:ERROR_LEVEL
         ,()
          )
+    }
+</rules>
+<rules title="{ $rules:DATASET_NAME } - Designated area" id="{ $rules:DESIGNATEDAREA_SCHEMA }">
+    {
+    rules:buildRuleGroup($rules:MANDATORY_RULE_ID, "1.a", $rules:MANDATORY_RULE_TITLE, $rules:MANDATORY_RULE_DESCR
+        , (fn:replace(fn:string-join(ddutil:getMandatoryElements($rules:DESIGNATEDAREA_SCHEMA),", "), $rules:DESIGNATEDAREA_NS_PREFIX,""))
+        , $rules:MANDATORY_RULE_MESSAGE, (), $uiutil:ERROR_LEVEL, ())
+    }{
+    rules:buildRuleGroup($rules:DUPLICATES_RULE_ID, "2.a", $rules:DUPLICATES_RULE_TITLE
+        , "Tested uniqueness of the records. The cddaId value must be unique for each record in the table. No multiplicities can exist."
+        , ()
+        , $rules:DUPLICATES_RULE_MESSAGE, (), $uiutil:ERROR_LEVEL, ())
+    }{
+    rules:buildRuleGroup($rules:DATATYPES_RULE_ID, "3.a", $rules:DATATYPES_RULE_TITLE, $rules:DATATYPES_RULE_DESCR
+        , (), $rules:DATATYPES_RULE_MESSAGE, (), $uiutil:ERROR_LEVEL, ())
+    }{
+    rules:buildRuleGroup($rules:CODELISTS_RULE_ID, "4.a", $rules:CODELISTS_RULE_TITLE, $rules:CODELISTS_RULE_DESCR
+        , (fn:replace(fn:string-join(ddutil:getCodeListElements($rules:DESIGNATEDAREA_SCHEMA),", "), $rules:DESIGNATEDAREA_NS_PREFIX,""))
+        , $rules:CODELISTS_RULE_MESSAGE, (), $uiutil:ERROR_LEVEL, ())
+    }
+</rules>
+<rules title="{ $rules:DATASET_NAME } - Linked dataset" id="{ $rules:LINKEDDATASET_SCHEMA }">
+    {
+    rules:buildRuleGroup($rules:MANDATORY_RULE_ID, "1.b", $rules:MANDATORY_RULE_TITLE, $rules:MANDATORY_RULE_DESCR
+        , (fn:replace(fn:string-join(ddutil:getMandatoryElements($rules:LINKEDDATASET_SCHEMA),", "), $rules:LINKEDDATASET_NS_PREFIX,""))
+        , $rules:MANDATORY_RULE_MESSAGE, (), $uiutil:ERROR_LEVEL, ())
+    }{
+    rules:buildRuleGroup($rules:DUPLICATES_RULE_ID, "2.b", $rules:DUPLICATES_RULE_TITLE
+        , "Tested uniqueness of the records. The datasetId value must be unique for each record in the table. No multiplicities can exist."
+        , ()
+        , $rules:DUPLICATES_RULE_MESSAGE, (), $uiutil:ERROR_LEVEL, ())
+    }{
+    rules:buildRuleGroup($rules:DATATYPES_RULE_ID, "3.b", $rules:DATATYPES_RULE_TITLE, $rules:DATATYPES_RULE_DESCR
+        , (), $rules:DATATYPES_RULE_MESSAGE, (), $uiutil:ERROR_LEVEL, ())
     }
 </rules>
 </root>
