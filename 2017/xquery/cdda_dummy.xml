@@ -2,9 +2,9 @@
       xsi:schemaLocation="http://dd.eionet.europa.eu/namespaces/11 http://dd.eionet.europa.eu/v2/dataset/3344/schema-dst-3344.xsd">
     <DesignatedArea xmlns="http://dd.eionet.europa.eu/namespaces/873">
         <Row>
-            <cddaId>326427</cddaId>
+            <cddaId>3264270000000000000000000</cddaId>
             <nationalId>Hinter Baergwald</nationalId>
-            <PSlocalId>326427</PSlocalId>
+            <PSlocalId>3264275555555555555555</PSlocalId>
             <PSnamespace>EIONET.ENVIRONMENT.PS.CDDA.LI</PSnamespace>
             <PSversionId/>
             <designatedAreaType>designatedSite</designatedAreaType>
@@ -26,7 +26,7 @@
             <containedBy/>
         </Row>
         <Row>
-            <cddaId>326429</cddaId>
+            <cddaId>326429u</cddaId>
             <nationalId>Mittagsspitze</nationalId>
             <PSlocalId>326429</PSlocalId>
             <PSnamespace>EIONET.ENVIRONMENT.PS.CDDA.LI</PSnamespace>
@@ -988,14 +988,14 @@
     </DesignatedArea>
     <LinkedDataset xmlns="http://dd.eionet.europa.eu/namespaces/874">
         <Row>
-            <datasetId>123</datasetId>
+            <datasetId>123t</datasetId>
             <gmlFileName>CDDA_LI_ProtectedSite_3035.gml</gmlFileName>
             <wfsEndpoint/>
             <wfsVersion/>
             <wfsStoredQuery/>
         </Row>
         <Row>
-            <datasetId>456</datasetId>
+            <datasetId>456r</datasetId>
             <gmlFileName>ABC.gml</gmlFileName>
             <wfsEndpoint/>
             <wfsVersion/>

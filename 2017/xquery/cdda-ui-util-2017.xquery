@@ -235,9 +235,9 @@ as element(td)
 {
     let $isMultivalueElem := $valueDelimiter != ""
     let $value :=  if ($isMultivalueElem) then
-                        string-join($checkedRow//child::*[name() = $elementName], $valueDelimiter)
+                        string-join($checkedRow//child::*[local-name() = $elementName], $valueDelimiter)
                    else
-                        string($checkedRow//child::*[name() = $elementName])
+                        string($checkedRow//child::*[local-name() = $elementName])
     let $isValid := empty(index-of($isInvalid, fn:true()))
     let $valueForDisplay := if (not($isValid)) then uiutil:getElementValueForDisplay($value, $showMissing, $isInvalid, $errLevel, $valueDelimiter) else ""
     let $value := if (string-length($value) > $uiutil:MAX_VALUE_LENGTH) then concat(fn:substring($value, 1, $uiutil:MAX_VALUE_LENGTH), " ...") else $value

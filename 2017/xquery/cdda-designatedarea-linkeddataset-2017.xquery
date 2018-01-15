@@ -62,16 +62,18 @@ declare variable $xmlconv:MULTIVALUE_ELEMS_LD as xs:string* := ddutil:getMultiva
 declare function xmlconv:proceed($url as xs:string)
 as element(div)+
 {
+    let $containerDA := "DesignatedArea"
     let $ruleResults_DA := (
-        xmlutil:executeMandatoryValuesCheck($url, $xmlconv:SCHEMA_ID_DA, $xmlconv:ELEM_SCHEMA_NS_PREFIX_DA, $xmlconv:KEY_ELEMENT_DA, "1.a", "DesignatedArea"),
-        xmlutil:executeDuplicatesCheck($url, $xmlconv:SCHEMA_ID_DA, $xmlconv:ELEM_SCHEMA_NS_PREFIX_DA, $xmlconv:KEY_ELEMENT_DA, "2.a", ("cddaId"), true(), "DesignatedArea"),
-        xmlutil:executeDataTypesCheck($url, $xmlconv:SCHEMA_ID_DA, $xmlconv:ELEM_SCHEMA_NS_PREFIX_DA, $xmlconv:KEY_ELEMENT_DA, "3.a", "DesignatedArea"),
-        xmlutil:executeCodeListCheck($url, $xmlconv:SCHEMA_ID_DA, $xmlconv:ELEM_SCHEMA_NS_PREFIX_DA, $xmlconv:KEY_ELEMENT_DA, "4.a")
+        xmlutil:executeMandatoryValuesCheck($url, $xmlconv:SCHEMA_ID_DA, $xmlconv:ELEM_SCHEMA_NS_PREFIX_DA, $xmlconv:KEY_ELEMENT_DA, "1a", $containerDA),
+        xmlutil:executeDuplicatesCheck($url, $xmlconv:SCHEMA_ID_DA, $xmlconv:ELEM_SCHEMA_NS_PREFIX_DA, $xmlconv:KEY_ELEMENT_DA, "2a", ("cddaId"), true(), $containerDA),
+        xmlutil:executeDataTypesCheck($url, $xmlconv:SCHEMA_ID_DA, $xmlconv:ELEM_SCHEMA_NS_PREFIX_DA, $xmlconv:KEY_ELEMENT_DA, "3a", $containerDA),
+        xmlutil:executeCodeListCheck($url, $xmlconv:SCHEMA_ID_DA, $xmlconv:ELEM_SCHEMA_NS_PREFIX_DA, $xmlconv:KEY_ELEMENT_DA, "4a")
         )
+    let $containerLD := "LinkedDataset"
     let $ruleResults_LD := (
-        xmlutil:executeMandatoryValuesCheck($url, $xmlconv:SCHEMA_ID_LD, $xmlconv:ELEM_SCHEMA_NS_PREFIX_LD, $xmlconv:KEY_ELEMENT_LD, "1.b", "LinkedDataset"),
-        xmlutil:executeDuplicatesCheck($url, $xmlconv:SCHEMA_ID_LD, $xmlconv:ELEM_SCHEMA_NS_PREFIX_LD, $xmlconv:KEY_ELEMENT_LD, "2.b", ("datasetId"), true(), "LinkedDataset"),
-        xmlutil:executeDataTypesCheck($url, $xmlconv:SCHEMA_ID_LD, $xmlconv:ELEM_SCHEMA_NS_PREFIX_LD, $xmlconv:KEY_ELEMENT_LD, "3.b", "LinkedDataset")
+        xmlutil:executeMandatoryValuesCheck($url, $xmlconv:SCHEMA_ID_LD, $xmlconv:ELEM_SCHEMA_NS_PREFIX_LD, $xmlconv:KEY_ELEMENT_LD, "1b", $containerLD),
+        xmlutil:executeDuplicatesCheck($url, $xmlconv:SCHEMA_ID_LD, $xmlconv:ELEM_SCHEMA_NS_PREFIX_LD, $xmlconv:KEY_ELEMENT_LD, "2b", ("datasetId"), true(), $containerLD),
+        xmlutil:executeDataTypesCheck($url, $xmlconv:SCHEMA_ID_LD, $xmlconv:ELEM_SCHEMA_NS_PREFIX_LD, $xmlconv:KEY_ELEMENT_LD, "3b", $containerLD)
         )
 
     return(

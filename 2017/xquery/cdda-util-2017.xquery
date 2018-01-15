@@ -83,7 +83,7 @@ as xs:string*
 declare function xmlutil:isInvalidMandatory($rowElement as element(), $elementName as xs:string)
 as xs:boolean
 {
-    let $elem :=  $rowElement/*[name() = substring-after($elementName, ":")]
+    let $elem :=  $rowElement/*[local-name() = substring-after($elementName, ":")]
     let $isMissing:= cutil:isMissing($elem)
     let $value:= if($isMissing = fn:true()) then fn:string("") else fn:normalize-space(string-join($elem, ""))
 
@@ -128,6 +128,7 @@ as xs:string*
 {
     let $schemaDoc := fn:doc($elemSchemaUrl)/xs:schema
     for $elemName in $allElements
+    let $elemName := substring-after($elemName, ":")
     let $isInvalidValues := xmlutil:isInvalidDatatype($row, $elemName, $schemaDoc)
     where not(empty(index-of($isInvalidValues, fn:true())))
     return
@@ -144,7 +145,7 @@ as xs:string*
 declare function xmlutil:isInvalidDatatype($row as element(), $elementName as xs:string, $schemaDoc as element(xs:schema))
 as xs:boolean*
 {
-    let $elements :=  $row/*[name()=$elementName]
+    let $elements :=  $row/*[local-name()=$elementName]
     for $elem in $elements
         let $isMissing:= cutil:isMissing($elem)
         let $value:= if($isMissing = fn:true()) then fn:string("") else fn:normalize-space(string($elem))
@@ -600,8 +601,9 @@ as element(tr)*
             <td>{ $pos }</td>{
             for $elem in $ruleElements
             let $isInvalid := cutil:containsStr($invalidElems, $elem)
+            let $elem := substring-after($elem, ":")
             return
-                uiutil:buildTD($rowElement, substring-after($elem, ":"), $errMessage, fn:true(), 0, $isInvalid, ddutil:getMultiValueDelim($multiValueElems, $elem), $ruleCode)
+                uiutil:buildTD($rowElement, $elem, $errMessage, fn:true(), 0, $isInvalid, ddutil:getMultiValueDelim($multiValueElems, $elem), $ruleCode)
         }</tr>
 };
 (:~
@@ -653,7 +655,7 @@ as element(tr)*
     where fn:count($i) > 1 and xmlutil:getDuplicateKey($row, $duplicateElements)
     order by $pos
     return
-        <tr align="right" key="{ fn:data($row/*[name() = $keyElement]) }">
+        <tr align="right" key="{ fn:data($row/*[local-name() = $keyElement]) }">
             <td>{$pos}</td>{
                 for $elemName in $ruleElements
                 let $elemNameWithoutNs := substring-after($elemName, ":")
@@ -786,9 +788,10 @@ as element(tr)*
     where not(empty($invalidElems))
     order by $pos
     return
-        <tr align="right" key="{ fn:data($row/*[name() = $keyElement]) }">
+        <tr align="right" key="{ fn:data($row/*[local-name() = $keyElement]) }">
             <td>{ $pos }</td>{
                 for $elemName in $ruleElements
+                let $elemName := substring-after($elemName, ":")
                 let $isInvalidElem := cutil:containsStr($invalidElemKeys, $elemName)
                 let $isInvalid := if(not($isInvalidElem)) then fn:false() else cutil:getHashMapBooleanValues($invalidElems, $elemName)
                 return
