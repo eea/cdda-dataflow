@@ -67,7 +67,7 @@ as element(div)+
         xmlutil:executeMandatoryValuesCheck($url, $xmlconv:SCHEMA_ID_DA, $xmlconv:ELEM_SCHEMA_NS_PREFIX_DA, $xmlconv:KEY_ELEMENT_DA, "1a", $containerDA),
         xmlutil:executeDuplicatesCheck($url, $xmlconv:SCHEMA_ID_DA, $xmlconv:ELEM_SCHEMA_NS_PREFIX_DA, $xmlconv:KEY_ELEMENT_DA, "2a", ("cddaId"), true(), $containerDA),
         xmlutil:executeDataTypesCheck($url, $xmlconv:SCHEMA_ID_DA, $xmlconv:ELEM_SCHEMA_NS_PREFIX_DA, $xmlconv:KEY_ELEMENT_DA, "3a", $containerDA),
-        xmlutil:executeCodeListCheck($url, $xmlconv:SCHEMA_ID_DA, $xmlconv:ELEM_SCHEMA_NS_PREFIX_DA, $xmlconv:KEY_ELEMENT_DA, "4a")
+        xmlutil:executeCodeListCheck($url, $xmlconv:SCHEMA_ID_DA, $xmlconv:ELEM_SCHEMA_NS_PREFIX_DA, $xmlconv:KEY_ELEMENT_DA, "4a", $containerDA)
         )
     let $containerLD := "LinkedDataset"
     let $ruleResults_LD := (

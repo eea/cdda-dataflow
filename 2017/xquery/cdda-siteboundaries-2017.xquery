@@ -67,7 +67,7 @@ as element(div)
             ("SITE_CODE"), true(), $container)
         , xmlutil:executeDataTypesCheck($url, $xmlconv:SCHEMA_ID, $xmlconv:ELEM_SCHEMA_NS_PREFIX, $xmlconv:KEY_ELEMENT, "3", $container)
         , xmlutil:executeCountryCodeCheck($url, $xmlconv:SCHEMA_ID, $xmlconv:ELEM_SCHEMA_NS_PREFIX, $xmlconv:KEY_ELEMENT, "4")
-        , xmlutil:executeCodeListCheck($url, $xmlconv:SCHEMA_ID, $xmlconv:ELEM_SCHEMA_NS_PREFIX, $xmlconv:KEY_ELEMENT, "5")
+        , xmlutil:executeCodeListCheck($url, $xmlconv:SCHEMA_ID, $xmlconv:ELEM_SCHEMA_NS_PREFIX, $xmlconv:KEY_ELEMENT, "5", $container)
         )
 
     return

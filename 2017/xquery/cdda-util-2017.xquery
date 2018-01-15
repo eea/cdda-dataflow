@@ -614,7 +614,7 @@ as element(tr)*
  : @return QA rule results in HTML format.
  :)
 declare function xmlutil:executeDuplicatesCheck($url as xs:string, $schemaId as xs:string,
-    $nsPrefix as xs:string, $keyElement as xs:string, $ruleCode as xs:string, $dupliateKeyElements as xs:string*, $isSites as xs:boolean, $container)
+    $nsPrefix as xs:string, $keyElement as xs:string, $ruleCode as xs:string, $dupliateKeyElements as xs:string*, $isSites as xs:boolean, $container as xs:string)
 as element(div)
 {
     let $ruleElementNames := rules:getRuleElementNames($schemaId, $nsPrefix, $ruleCode)
@@ -636,7 +636,7 @@ as element(div)
  : @return HTML table rows or empty sequence.
  :)
 declare function xmlutil:checkDuplicates($url as xs:string, $schemaId as xs:string, $ruleCode as xs:string, $errMessage as xs:string,
-    $ruleElements as xs:string*, $keyElement as xs:string, $duplicateElements as xs:string*, $container)
+    $ruleElements as xs:string*, $keyElement as xs:string, $duplicateElements as xs:string*, $container as xs:string)
 as element(tr)*
 {
     let $rows := fn:doc($url)//*[local-name() = $container]/*[local-name() = "Row"]
@@ -748,7 +748,7 @@ as xs:boolean
  : @return QA rule results in HTML format.
  :)
 declare function xmlutil:executeDataTypesCheck($url as xs:string, $schemaId as xs:string,
-    $nsPrefix as xs:string, $keyElement as xs:string, $ruleCode as xs:string, $container)
+    $nsPrefix as xs:string, $keyElement as xs:string, $ruleCode as xs:string, $container as xs:string)
 as element(div)
 {
     let $ruleElementNames := rules:getRuleElementNames($schemaId, $nsPrefix, $ruleCode)
@@ -1128,14 +1128,14 @@ xs:string*
  : @return QA rule results in HTML format.
  :)
 declare function xmlutil:executeCodeListCheck($url as xs:string, $schemaId as xs:string,
-    $nsPrefix as xs:string, $keyElement as xs:string, $ruleCode as xs:string)
+    $nsPrefix as xs:string, $keyElement as xs:string, $ruleCode as xs:string, $container as xs:string)
 as element(div)
 {
     let $ruleElementNames := xmlutil:getCodeListElementsForDisplay($schemaId, $nsPrefix, $ruleCode, fn:false())
     let $multiValueElems := ddutil:getMultivalueElements($schemaId)
     let $ruleDef := rules:getRule($schemaId, $ruleCode)
 
-    let $result := xmlutil:checkCodeListValues($url, $schemaId, $nsPrefix, $keyElement, $ruleCode)
+    let $result := xmlutil:checkCodeListValues($url, $schemaId, $nsPrefix, $keyElement, $ruleCode, $container)
     let $additionalInfo :=
         <div>
             <p><strong>Codelist values:</strong></p>{
@@ -1165,20 +1165,20 @@ as xs:string*
  : @return HTML table rows or empty sequence.
  :)
 declare function xmlutil:checkCodeListValues($url as xs:string, $schemaId as xs:string,
-    $nsPrefix as xs:string, $keyElement as xs:string, $ruleCode as xs:string)
+    $nsPrefix as xs:string, $keyElement as xs:string, $ruleCode as xs:string, $container as xs:string)
 as element(tr)*
 {
     let $multiValueElems := ddutil:getMultivalueElements($schemaId)
     let $ruleElems := xmlutil:getCodeListElementsForDisplay($schemaId, $nsPrefix, $ruleCode, true())
     let $errMessage := rules:getRuleMessage($schemaId, $ruleCode)
 
-    for $row at $pos in fn:doc($url)//child::*[local-name() = "Row"]
+    for $row at $pos in fn:doc($url)//*[local-name() = $container]//child::*[local-name() = "Row"]
     let $invalidElems := xmlutil:getInvalidCodelistValues($row, ddutil:getDDCodelistXmlUrl($schemaId))
     let $invalidElemKeys := cutil:getHashMapKeys($invalidElems)
     where fn:not(fn:empty($invalidElems))
     order by $pos
     return
-        <tr align="right" key="{ fn:data($row/*[name() = $keyElement]) }">
+        <tr align="right" key="{ fn:data($row/*[local-name() = $keyElement]) }">
             <td>{ $pos }</td>{
                 for $elemName in $ruleElems
                 let $elemNameWithoutNs := substring-after($elemName, ":")
@@ -1186,7 +1186,7 @@ as element(tr)*
                 let $isInvalid := if(not($isInvalidElem)) then fn:false() else cutil:getHashMapBooleanValues($invalidElems, $elemNameWithoutNs)
                 let $errLevel := if (cutil:containsBoolean($isInvalid, fn:true()) and cutil:containsStr(ddutil:getSuggestedCodeListElements($schemaId), $elemName)) then $uiutil:WARNING_LEVEL else $uiutil:ERROR_LEVEL
                 return
-                    uiutil:buildTD($row, $elemName, $errMessage, fn:false(), $errLevel,($isInvalid), ddutil:getMultiValueDelim($multiValueElems, $elemName), $ruleCode)
+                    uiutil:buildTD($row, $elemNameWithoutNs, $errMessage, fn:false(), $errLevel,($isInvalid), ddutil:getMultiValueDelim($multiValueElems, $elemName), $ruleCode)
         }</tr>
 }
 ;

@@ -60,14 +60,15 @@ declare variable $xmlconv:MULTIVALUE_ELEMS as xs:string* := ddutil:getMultivalue
 declare function xmlconv:proceed($url as xs:string)
 as element(div)
 {
+    let $container := "sites"
     let $ruleResults := (
-        xmlutil:executeMandatoryValuesCheck($url, $xmlconv:SCHEMA_ID, $xmlconv:ELEM_SCHEMA_NS_PREFIX, $xmlconv:KEY_ELEMENT, "1")
+        xmlutil:executeMandatoryValuesCheck($url, $xmlconv:SCHEMA_ID, $xmlconv:ELEM_SCHEMA_NS_PREFIX, $xmlconv:KEY_ELEMENT, "1", $container)
         , xmlutil:executeSiteCodesCheck($url, $xmlconv:SCHEMA_ID, $xmlconv:ELEM_SCHEMA_NS_PREFIX, $xmlconv:KEY_ELEMENT, "2", "3")
         , xmlutil:executeDuplicatesCheck($url, $xmlconv:SCHEMA_ID, $xmlconv:ELEM_SCHEMA_NS_PREFIX, $xmlconv:KEY_ELEMENT, "4",
-            ("SITE_CODE"), true())
-        , xmlutil:executeDataTypesCheck($url, $xmlconv:SCHEMA_ID, $xmlconv:ELEM_SCHEMA_NS_PREFIX, $xmlconv:KEY_ELEMENT, "5")
+            ("SITE_CODE"), true(), $container)
+        , xmlutil:executeDataTypesCheck($url, $xmlconv:SCHEMA_ID, $xmlconv:ELEM_SCHEMA_NS_PREFIX, $xmlconv:KEY_ELEMENT, "5", $container)
         , xmlutil:executeCountryCodeCheck($url, $xmlconv:SCHEMA_ID, $xmlconv:ELEM_SCHEMA_NS_PREFIX, $xmlconv:KEY_ELEMENT, "6")
-        , xmlutil:executeCodeListCheck($url, $xmlconv:SCHEMA_ID, $xmlconv:ELEM_SCHEMA_NS_PREFIX, $xmlconv:KEY_ELEMENT, "7")
+        , xmlutil:executeCodeListCheck($url, $xmlconv:SCHEMA_ID, $xmlconv:ELEM_SCHEMA_NS_PREFIX, $xmlconv:KEY_ELEMENT, "7", $container)
         , xmlutil:executeLongLatCheck($url, $xmlconv:SCHEMA_ID, $xmlconv:ELEM_SCHEMA_NS_PREFIX, $xmlconv:KEY_ELEMENT, "8", ("LON", "LAT"))
         , xmlutil:executeConsistencyCheck($url, $xmlconv:SCHEMA_ID, $xmlconv:ELEM_SCHEMA_NS_PREFIX, $xmlconv:KEY_ELEMENT, "9")
         )
