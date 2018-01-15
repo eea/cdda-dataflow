@@ -597,13 +597,14 @@ as element(tr)*
     where not(empty($invalidElems))
     order by $pos
     return
-        <tr align="right" key="{ fn:data($rowElement/*[name() = $keyElement]) }">
+        <tr align="right" key="{ fn:data($rowElement/*[local-name() = $keyElement]) }">
             <td>{ $pos }</td>{
             for $elem in $ruleElements
             let $isInvalid := cutil:containsStr($invalidElems, $elem)
             let $elem := substring-after($elem, ":")
+            let $errLevel := if($elem = ("iucnCategory", "siteArea", "majorEcosystemType")) then 1 else 0
             return
-                uiutil:buildTD($rowElement, $elem, $errMessage, fn:true(), 0, $isInvalid, ddutil:getMultiValueDelim($multiValueElems, $elem), $ruleCode)
+                uiutil:buildTD($rowElement, $elem, $errMessage, fn:true(), $errLevel, $isInvalid, ddutil:getMultiValueDelim($multiValueElems, $elem), $ruleCode)
         }</tr>
 };
 (:~
@@ -660,8 +661,9 @@ as element(tr)*
                 for $elemName in $ruleElements
                 let $elemNameWithoutNs := substring-after($elemName, ":")
                 let $isInvalid := cutil:containsStr($duplicateElements, $elemNameWithoutNs)
+                let $errLevel := 0
                 return
-                    uiutil:buildTD($row, substring-after($elemName, ":"), $errMessage, fn:false(), 0,($isInvalid), ddutil:getMultiValueDelim($multiValueElems, $elemName), $ruleCode)
+                    uiutil:buildTD($row, $elemNameWithoutNs, $errMessage, fn:false(), $errLevel, ($isInvalid), ddutil:getMultiValueDelim($multiValueElems, $elemName), $ruleCode)
         }</tr>
 
 };

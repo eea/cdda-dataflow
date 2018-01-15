@@ -11,9 +11,9 @@
             <cddaCountryCode>LI</cddaCountryCode>
             <cddaRegionCode>LI</cddaRegionCode>
             <designationTypeCode>LI03</designationTypeCode>
-            <iucnCategory>Ib</iucnCategory>
+            <iucnCategory></iucnCategory>
             <siteArea>66.9</siteArea>
-            <majorEcosystemType/>
+            <majorEcosystemType>test</majorEcosystemType>
             <marineAreaPercentage>0</marineAreaPercentage>
             <spatialDataDissemination>public</spatialDataDissemination>
             <spatialResolutionCode>scaleLarger100K</spatialResolutionCode>
@@ -31,13 +31,13 @@
             <PSlocalId>326429</PSlocalId>
             <PSnamespace>EIONET.ENVIRONMENT.PS.CDDA.LI</PSnamespace>
             <PSversionId/>
-            <designatedAreaType>designatedSite</designatedAreaType>
+            <designatedAreaType></designatedAreaType>
             <cddaCountryCode>LI</cddaCountryCode>
             <cddaRegionCode>LI</cddaRegionCode>
             <designationTypeCode>LI03</designationTypeCode>
             <iucnCategory>Ib</iucnCategory>
             <siteArea>213.1</siteArea>
-            <majorEcosystemType/>
+            <majorEcosystemType>test</majorEcosystemType>
             <marineAreaPercentage>0</marineAreaPercentage>
             <spatialDataDissemination>public</spatialDataDissemination>
             <spatialResolutionCode>scaleLarger100K</spatialResolutionCode>
@@ -61,7 +61,7 @@
             <designationTypeCode>LI03</designationTypeCode>
             <iucnCategory>Ib</iucnCategory>
             <siteArea>922.20001</siteArea>
-            <majorEcosystemType/>
+            <majorEcosystemType>test</majorEcosystemType>
             <marineAreaPercentage>0</marineAreaPercentage>
             <spatialDataDissemination>public</spatialDataDissemination>
             <spatialResolutionCode>scaleLarger100K</spatialResolutionCode>
@@ -85,7 +85,7 @@
             <designationTypeCode>LI03</designationTypeCode>
             <iucnCategory>Ib</iucnCategory>
             <siteArea>16.5</siteArea>
-            <majorEcosystemType/>
+            <majorEcosystemType>test</majorEcosystemType>
             <marineAreaPercentage>0</marineAreaPercentage>
             <spatialDataDissemination>public</spatialDataDissemination>
             <spatialResolutionCode>scaleLarger100K</spatialResolutionCode>
@@ -109,7 +109,7 @@
             <designationTypeCode>LI03</designationTypeCode>
             <iucnCategory>Ib</iucnCategory>
             <siteArea>2</siteArea>
-            <majorEcosystemType/>
+            <majorEcosystemType>test</majorEcosystemType>
             <marineAreaPercentage>0</marineAreaPercentage>
             <spatialDataDissemination>public</spatialDataDissemination>
             <spatialResolutionCode>scaleLarger100K</spatialResolutionCode>
@@ -133,7 +133,7 @@
             <designationTypeCode>LI03</designationTypeCode>
             <iucnCategory>Ib</iucnCategory>
             <siteArea>8.19999</siteArea>
-            <majorEcosystemType/>
+            <majorEcosystemType>test</majorEcosystemType>
             <marineAreaPercentage>0</marineAreaPercentage>
             <spatialDataDissemination>public</spatialDataDissemination>
             <spatialResolutionCode>scaleLarger100K</spatialResolutionCode>
@@ -157,7 +157,7 @@
             <designationTypeCode>LI04</designationTypeCode>
             <iucnCategory>IV</iucnCategory>
             <siteArea>19.6</siteArea>
-            <majorEcosystemType/>
+            <majorEcosystemType>test</majorEcosystemType>
             <marineAreaPercentage>0</marineAreaPercentage>
             <spatialDataDissemination>public</spatialDataDissemination>
             <spatialResolutionCode>scaleLarger100K</spatialResolutionCode>
@@ -181,7 +181,7 @@
             <designationTypeCode>LI04</designationTypeCode>
             <iucnCategory>IV</iucnCategory>
             <siteArea>26.1</siteArea>
-            <majorEcosystemType/>
+            <majorEcosystemType>test</majorEcosystemType>
             <marineAreaPercentage>0</marineAreaPercentage>
             <spatialDataDissemination>public</spatialDataDissemination>
             <spatialResolutionCode>scaleLarger100K</spatialResolutionCode>
@@ -205,7 +205,7 @@
             <designationTypeCode>LI04</designationTypeCode>
             <iucnCategory>IV</iucnCategory>
             <siteArea>26.5</siteArea>
-            <majorEcosystemType/>
+            <majorEcosystemType>test</majorEcosystemType>
             <marineAreaPercentage>0</marineAreaPercentage>
             <spatialDataDissemination>public</spatialDataDissemination>
             <spatialResolutionCode>scaleLarger100K</spatialResolutionCode>
@@ -229,7 +229,7 @@
             <designationTypeCode>LI04</designationTypeCode>
             <iucnCategory>IV</iucnCategory>
             <siteArea>25.5</siteArea>
-            <majorEcosystemType/>
+            <majorEcosystemType>test</majorEcosystemType>
             <marineAreaPercentage>0</marineAreaPercentage>
             <spatialDataDissemination>public</spatialDataDissemination>
             <spatialResolutionCode>scaleLarger100K</spatialResolutionCode>
@@ -253,7 +253,7 @@
             <designationTypeCode>LI04</designationTypeCode>
             <iucnCategory>IV</iucnCategory>
             <siteArea>37.9</siteArea>
-            <majorEcosystemType/>
+            <majorEcosystemType>test</majorEcosystemType>
             <marineAreaPercentage>0</marineAreaPercentage>
             <spatialDataDissemination>public</spatialDataDissemination>
             <spatialResolutionCode>scaleLarger100K</spatialResolutionCode>
@@ -277,7 +277,7 @@
             <designationTypeCode>LI04</designationTypeCode>
             <iucnCategory>IV</iucnCategory>
             <siteArea>37.9</siteArea>
-            <majorEcosystemType/>
+            <majorEcosystemType>test</majorEcosystemType>
             <marineAreaPercentage>0</marineAreaPercentage>
             <spatialDataDissemination>public</spatialDataDissemination>
             <spatialResolutionCode>scaleLarger100K</spatialResolutionCode>
@@ -301,7 +301,7 @@
             <designationTypeCode>LI01</designationTypeCode>
             <iucnCategory>IV</iucnCategory>
             <siteArea>53.79999</siteArea>
-            <majorEcosystemType/>
+            <majorEcosystemType>test</majorEcosystemType>
             <marineAreaPercentage>0</marineAreaPercentage>
             <spatialDataDissemination>public</spatialDataDissemination>
             <spatialResolutionCode>scaleLarger100K</spatialResolutionCode>
@@ -325,7 +325,7 @@
             <designationTypeCode>LI04</designationTypeCode>
             <iucnCategory>IV</iucnCategory>
             <siteArea>60</siteArea>
-            <majorEcosystemType/>
+            <majorEcosystemType>test</majorEcosystemType>
             <marineAreaPercentage>0</marineAreaPercentage>
             <spatialDataDissemination>public</spatialDataDissemination>
             <spatialResolutionCode>scaleLarger100K</spatialResolutionCode>
@@ -349,7 +349,7 @@
             <designationTypeCode>LI04</designationTypeCode>
             <iucnCategory>IV</iucnCategory>
             <siteArea>72.59999</siteArea>
-            <majorEcosystemType/>
+            <majorEcosystemType>test</majorEcosystemType>
             <marineAreaPercentage>0</marineAreaPercentage>
             <spatialDataDissemination>public</spatialDataDissemination>
             <spatialResolutionCode>scaleLarger100K</spatialResolutionCode>
@@ -373,7 +373,7 @@
             <designationTypeCode>LI01</designationTypeCode>
             <iucnCategory>IV</iucnCategory>
             <siteArea>91.4</siteArea>
-            <majorEcosystemType/>
+            <majorEcosystemType>test</majorEcosystemType>
             <marineAreaPercentage>0</marineAreaPercentage>
             <spatialDataDissemination>public</spatialDataDissemination>
             <spatialResolutionCode>scaleLarger100K</spatialResolutionCode>
@@ -397,7 +397,7 @@
             <designationTypeCode>LI04</designationTypeCode>
             <iucnCategory>IV</iucnCategory>
             <siteArea>89.69999</siteArea>
-            <majorEcosystemType/>
+            <majorEcosystemType>test</majorEcosystemType>
             <marineAreaPercentage>0</marineAreaPercentage>
             <spatialDataDissemination>public</spatialDataDissemination>
             <spatialResolutionCode>scaleLarger100K</spatialResolutionCode>
@@ -421,7 +421,7 @@
             <designationTypeCode>LI04</designationTypeCode>
             <iucnCategory>IV</iucnCategory>
             <siteArea>14.1</siteArea>
-            <majorEcosystemType/>
+            <majorEcosystemType>test</majorEcosystemType>
             <marineAreaPercentage>0</marineAreaPercentage>
             <spatialDataDissemination>public</spatialDataDissemination>
             <spatialResolutionCode>scaleLarger100K</spatialResolutionCode>
@@ -445,7 +445,7 @@
             <designationTypeCode>LI01</designationTypeCode>
             <iucnCategory>IV</iucnCategory>
             <siteArea>0.6</siteArea>
-            <majorEcosystemType/>
+            <majorEcosystemType>test</majorEcosystemType>
             <marineAreaPercentage>0</marineAreaPercentage>
             <spatialDataDissemination>public</spatialDataDissemination>
             <spatialResolutionCode>scaleLarger100K</spatialResolutionCode>
@@ -469,7 +469,7 @@
             <designationTypeCode>LI01</designationTypeCode>
             <iucnCategory>IV</iucnCategory>
             <siteArea>0.8</siteArea>
-            <majorEcosystemType/>
+            <majorEcosystemType>test</majorEcosystemType>
             <marineAreaPercentage>0</marineAreaPercentage>
             <spatialDataDissemination>public</spatialDataDissemination>
             <spatialResolutionCode>scaleLarger100K</spatialResolutionCode>
@@ -493,7 +493,7 @@
             <designationTypeCode>LI01</designationTypeCode>
             <iucnCategory>IV</iucnCategory>
             <siteArea>1.25</siteArea>
-            <majorEcosystemType/>
+            <majorEcosystemType>test</majorEcosystemType>
             <marineAreaPercentage>0</marineAreaPercentage>
             <spatialDataDissemination>public</spatialDataDissemination>
             <spatialResolutionCode>scaleLarger100K</spatialResolutionCode>
@@ -517,7 +517,7 @@
             <designationTypeCode>LI04</designationTypeCode>
             <iucnCategory>IV</iucnCategory>
             <siteArea>2</siteArea>
-            <majorEcosystemType/>
+            <majorEcosystemType>test</majorEcosystemType>
             <marineAreaPercentage>0</marineAreaPercentage>
             <spatialDataDissemination>public</spatialDataDissemination>
             <spatialResolutionCode>scaleLarger100K</spatialResolutionCode>
@@ -541,7 +541,7 @@
             <designationTypeCode>LI01</designationTypeCode>
             <iucnCategory>IV</iucnCategory>
             <siteArea>2.29999</siteArea>
-            <majorEcosystemType/>
+            <majorEcosystemType>test</majorEcosystemType>
             <marineAreaPercentage>0</marineAreaPercentage>
             <spatialDataDissemination>public</spatialDataDissemination>
             <spatialResolutionCode>scaleLarger100K</spatialResolutionCode>
@@ -565,7 +565,7 @@
             <designationTypeCode>LI04</designationTypeCode>
             <iucnCategory>IV</iucnCategory>
             <siteArea>2.7</siteArea>
-            <majorEcosystemType/>
+            <majorEcosystemType>test</majorEcosystemType>
             <marineAreaPercentage>0</marineAreaPercentage>
             <spatialDataDissemination>public</spatialDataDissemination>
             <spatialResolutionCode>scaleLarger100K</spatialResolutionCode>
@@ -589,7 +589,7 @@
             <designationTypeCode>LI04</designationTypeCode>
             <iucnCategory>IV</iucnCategory>
             <siteArea>2.5</siteArea>
-            <majorEcosystemType/>
+            <majorEcosystemType>test</majorEcosystemType>
             <marineAreaPercentage>0</marineAreaPercentage>
             <spatialDataDissemination>public</spatialDataDissemination>
             <spatialResolutionCode>scaleLarger100K</spatialResolutionCode>
@@ -613,7 +613,7 @@
             <designationTypeCode>LI04</designationTypeCode>
             <iucnCategory>IV</iucnCategory>
             <siteArea>2.9</siteArea>
-            <majorEcosystemType/>
+            <majorEcosystemType>test</majorEcosystemType>
             <marineAreaPercentage>0</marineAreaPercentage>
             <spatialDataDissemination>public</spatialDataDissemination>
             <spatialResolutionCode>scaleLarger100K</spatialResolutionCode>
@@ -637,7 +637,7 @@
             <designationTypeCode>LI01</designationTypeCode>
             <iucnCategory>IV</iucnCategory>
             <siteArea>3.09999</siteArea>
-            <majorEcosystemType/>
+            <majorEcosystemType>test</majorEcosystemType>
             <marineAreaPercentage>0</marineAreaPercentage>
             <spatialDataDissemination>public</spatialDataDissemination>
             <spatialResolutionCode>scaleLarger100K</spatialResolutionCode>
@@ -661,7 +661,7 @@
             <designationTypeCode>LI01</designationTypeCode>
             <iucnCategory>IV</iucnCategory>
             <siteArea>3</siteArea>
-            <majorEcosystemType/>
+            <majorEcosystemType>test</majorEcosystemType>
             <marineAreaPercentage>0</marineAreaPercentage>
             <spatialDataDissemination>public</spatialDataDissemination>
             <spatialResolutionCode>scaleLarger100K</spatialResolutionCode>
@@ -685,7 +685,7 @@
             <designationTypeCode>LI04</designationTypeCode>
             <iucnCategory>IV</iucnCategory>
             <siteArea>3.5</siteArea>
-            <majorEcosystemType/>
+            <majorEcosystemType>test</majorEcosystemType>
             <marineAreaPercentage>0</marineAreaPercentage>
             <spatialDataDissemination>public</spatialDataDissemination>
             <spatialResolutionCode>scaleLarger100K</spatialResolutionCode>
@@ -709,7 +709,7 @@
             <designationTypeCode>LI04</designationTypeCode>
             <iucnCategory>IV</iucnCategory>
             <siteArea>3.79999</siteArea>
-            <majorEcosystemType/>
+            <majorEcosystemType>test</majorEcosystemType>
             <marineAreaPercentage>0</marineAreaPercentage>
             <spatialDataDissemination>public</spatialDataDissemination>
             <spatialResolutionCode>scaleLarger100K</spatialResolutionCode>
@@ -733,7 +733,7 @@
             <designationTypeCode>LI01</designationTypeCode>
             <iucnCategory>IV</iucnCategory>
             <siteArea>5.3</siteArea>
-            <majorEcosystemType/>
+            <majorEcosystemType>test</majorEcosystemType>
             <marineAreaPercentage>0</marineAreaPercentage>
             <spatialDataDissemination>public</spatialDataDissemination>
             <spatialResolutionCode>scaleLarger100K</spatialResolutionCode>
@@ -757,7 +757,7 @@
             <designationTypeCode>LI04</designationTypeCode>
             <iucnCategory>IV</iucnCategory>
             <siteArea>7.4</siteArea>
-            <majorEcosystemType/>
+            <majorEcosystemType>test</majorEcosystemType>
             <marineAreaPercentage>0</marineAreaPercentage>
             <spatialDataDissemination>public</spatialDataDissemination>
             <spatialResolutionCode>scaleLarger100K</spatialResolutionCode>
@@ -781,7 +781,7 @@
             <designationTypeCode>LI04</designationTypeCode>
             <iucnCategory>IV</iucnCategory>
             <siteArea>6.5</siteArea>
-            <majorEcosystemType/>
+            <majorEcosystemType>test</majorEcosystemType>
             <marineAreaPercentage>0</marineAreaPercentage>
             <spatialDataDissemination>public</spatialDataDissemination>
             <spatialResolutionCode>scaleLarger100K</spatialResolutionCode>
@@ -805,7 +805,7 @@
             <designationTypeCode>LI04</designationTypeCode>
             <iucnCategory>IV</iucnCategory>
             <siteArea>7.5</siteArea>
-            <majorEcosystemType/>
+            <majorEcosystemType>test</majorEcosystemType>
             <marineAreaPercentage>0</marineAreaPercentage>
             <spatialDataDissemination>public</spatialDataDissemination>
             <spatialResolutionCode>scaleLarger100K</spatialResolutionCode>
@@ -829,7 +829,7 @@
             <designationTypeCode>LI04</designationTypeCode>
             <iucnCategory>IV</iucnCategory>
             <siteArea>8.1</siteArea>
-            <majorEcosystemType/>
+            <majorEcosystemType>test</majorEcosystemType>
             <marineAreaPercentage>0</marineAreaPercentage>
             <spatialDataDissemination>public</spatialDataDissemination>
             <spatialResolutionCode>scaleLarger100K</spatialResolutionCode>
@@ -853,7 +853,7 @@
             <designationTypeCode>LI04</designationTypeCode>
             <iucnCategory>IV</iucnCategory>
             <siteArea>12.89999</siteArea>
-            <majorEcosystemType/>
+            <majorEcosystemType>test</majorEcosystemType>
             <marineAreaPercentage>0</marineAreaPercentage>
             <spatialDataDissemination>public</spatialDataDissemination>
             <spatialResolutionCode>scaleLarger100K</spatialResolutionCode>
@@ -877,7 +877,7 @@
             <designationTypeCode>LI04</designationTypeCode>
             <iucnCategory>IV</iucnCategory>
             <siteArea>13.6</siteArea>
-            <majorEcosystemType/>
+            <majorEcosystemType>test</majorEcosystemType>
             <marineAreaPercentage>0</marineAreaPercentage>
             <spatialDataDissemination>public</spatialDataDissemination>
             <spatialResolutionCode>scaleLarger100K</spatialResolutionCode>
@@ -901,7 +901,7 @@
             <designationTypeCode>LI04</designationTypeCode>
             <iucnCategory>IV</iucnCategory>
             <siteArea>14.31647</siteArea>
-            <majorEcosystemType/>
+            <majorEcosystemType>test</majorEcosystemType>
             <marineAreaPercentage>0</marineAreaPercentage>
             <spatialDataDissemination>public</spatialDataDissemination>
             <spatialResolutionCode>scaleLarger100K</spatialResolutionCode>
@@ -925,7 +925,7 @@
             <designationTypeCode>LI02</designationTypeCode>
             <iucnCategory>V</iucnCategory>
             <siteArea>6246.70019</siteArea>
-            <majorEcosystemType/>
+            <majorEcosystemType>test</majorEcosystemType>
             <marineAreaPercentage>0</marineAreaPercentage>
             <spatialDataDissemination>public</spatialDataDissemination>
             <spatialResolutionCode>scaleLarger100K</spatialResolutionCode>
@@ -949,7 +949,7 @@
             <designationTypeCode>LI03</designationTypeCode>
             <iucnCategory>Ib</iucnCategory>
             <siteArea>23.39999</siteArea>
-            <majorEcosystemType/>
+            <majorEcosystemType>test</majorEcosystemType>
             <marineAreaPercentage>0</marineAreaPercentage>
             <spatialDataDissemination>public</spatialDataDissemination>
             <spatialResolutionCode>scaleLarger100K</spatialResolutionCode>
@@ -973,7 +973,7 @@
             <designationTypeCode>LI03</designationTypeCode>
             <iucnCategory>Ib</iucnCategory>
             <siteArea>49</siteArea>
-            <majorEcosystemType/>
+            <majorEcosystemType>test</majorEcosystemType>
             <marineAreaPercentage>0</marineAreaPercentage>
             <spatialDataDissemination>public</spatialDataDissemination>
             <spatialResolutionCode>scaleLarger100K</spatialResolutionCode>
