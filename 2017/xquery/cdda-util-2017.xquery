@@ -217,6 +217,7 @@ as xs:boolean
 
     let $isInvalid := if ($intMin != $xmlutil:ERR_NUMBER_VALUE and string-length($value) < $intMin) then fn:true() else fn:false()
 
+(:
     let $isInvalid :=
         if ($isInvalid = fn:false()) then
             if( $intMax != $xmlutil:ERR_NUMBER_VALUE and string-length($value) > $intMax) then
@@ -225,6 +226,7 @@ as xs:boolean
                 fn:false()
         else
             $isInvalid
+:)
     (: special cases :)
     let $isInvalid :=
         if ($elemName = "ReportingEntityUniqueCode") then
