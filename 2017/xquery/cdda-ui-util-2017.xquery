@@ -21,8 +21,10 @@ declare namespace xhtml = "http://www.w3.org/1999/xhtml";
 declare variable $uiutil:ERROR_LEVEL as xs:integer :=  0;
 (:~ Constant for warning level messages. :)
 declare variable $uiutil:WARNING_LEVEL as xs:integer :=  1;
+declare variable $uiutil:BLOCKER_LEVEL as xs:integer :=  2;
 (:~ Error flag token placed in invalid rule results. :)
 declare variable $uiutil:ERROR_FLAG as xs:string :=  "ERRORFLAG";
+declare variable $uiutil:BLOCKER_FLAG as xs:string :=  "BLOCKERFLAG";
 (:~ Warning flag token placed in invalid rule results. :)
 declare variable $uiutil:WARNING_FLAG as xs:string :=  "WARNINGFLAG";
 (:~ Message displayed for missig values. :)
@@ -84,12 +86,32 @@ declare function uiutil:buildRuleResult($result as element(tr)*, $ruleDef as ele
 as element(div)
 {
 let $ruleCode := $ruleDef/@code
+let $errorLevel := $ruleDef/errorLevel
+let $exceptionLevel :=
+    let $flags := distinct-values($result//span[@style = "display:none"])
+    return if(count($flags) = 1)
+        then
+            $flags
+        else
+            "BLOCKERFLAG"
+
 return
     if (empty($result)) then
         uiutil:buildSuccessHeader($ruleDef)
     else
         <div>{
-            uiutil:buildFailedHeader($ruleDef, "")
+            if($errorLevel = "2")
+            then
+                if($exceptionLevel = "BLOCKERFLAG")
+                then
+                    uiutil:buildBlockerHeader($ruleDef, $ruleDef/message)
+                else if($exceptionLevel = "WARNINGFLAG" and $ruleCode != "1a")
+                    then
+                        uiutil:buildWarningHeader($ruleDef, $ruleDef/message)
+                else
+                    uiutil:buildFailedHeader($ruleDef, "")
+            else
+                uiutil:buildFailedHeader($ruleDef, "")
             }
             {
                 uiutil:getResultInfoTable($result, $ruleCode, $resultTableType)
@@ -102,6 +124,7 @@ return
              </div>{
              $additionalInfo
         }</div>
+
 };
  (:~
   :
@@ -169,6 +192,21 @@ as element(div)
         <p>{ fn:data($rule/message) }</p>{
         uiutil:getFailedMessage("", "")
     }</div>
+};
+(:~
+ : Function builds HTML fragemnt for displaying rule results header with warnings.
+ : @param $rule Rule element defined in rules XML.
+ : @param $blockerMessage Blocker message displayed in the header.
+ : @return HTML fragment
+ :)
+declare function uiutil:buildBlockerHeader($rule as element(rule), $blockerMessage as xs:string)
+as element(div)
+{
+    <div result="{ uiutil:getResultCode($rule/@code , "blocker") }">{
+        uiutil:buildTitle($rule) }{
+        uiutil:buildDescr($rule)
+        }<div style="color:red">BLOCKER - { $blockerMessage }</div>
+    </div>
 };
 (:~
  : Function builds HTML fragemnt for displaying failed rule result header.
@@ -356,6 +394,8 @@ as xs:string
 {
     if($errLevel = $uiutil:WARNING_LEVEL) then
         $uiutil:WARNING_FLAG
+    else if($errLevel = $uiutil:BLOCKER_LEVEL) then
+        $uiutil:BLOCKER_FLAG
     else
         $uiutil:ERROR_FLAG
 };
@@ -494,6 +534,8 @@ as element(span)*{
     return
         if($resultCode = "ok") then
             <span style="background-color:green;font-size:0.8em;color:white;padding-left:9px;padding-right:9px;text-align:center">OK</span>
+        else if($resultCode = "blocker") then
+            <span style="background-color:red;font-size:0.8em;color:white;padding-left:3px;padding-right:3px;text-align:center">BLOCKER{ $errCountStr }</span>
         else if($resultCode = "error") then
             <span style="background-color:red;font-size:0.8em;color:white;padding-left:3px;padding-right:3px;text-align:center">ERROR{ $errCountStr }</span>
         else if($resultCode = "warning") then

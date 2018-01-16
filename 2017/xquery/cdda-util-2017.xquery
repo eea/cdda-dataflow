@@ -602,7 +602,7 @@ as element(tr)*
             for $elem in $ruleElements
             let $isInvalid := cutil:containsStr($invalidElems, $elem)
             let $elem := substring-after($elem, ":")
-            let $errLevel := if($elem = ("iucnCategory", "siteArea", "majorEcosystemType")) then 1 else 0
+            let $errLevel := if($elem = ("iucnCategory", "siteArea", "majorEcosystemType")) then 1 else 2
             return
                 uiutil:buildTD($rowElement, $elem, $errMessage, fn:true(), $errLevel, $isInvalid, ddutil:getMultiValueDelim($multiValueElems, $elem), $ruleCode)
         }</tr>
@@ -661,7 +661,7 @@ as element(tr)*
                 for $elemName in $ruleElements
                 let $elemNameWithoutNs := substring-after($elemName, ":")
                 let $isInvalid := cutil:containsStr($duplicateElements, $elemNameWithoutNs)
-                let $errLevel := 0
+                let $errLevel := 2
                 return
                     uiutil:buildTD($row, $elemNameWithoutNs, $errMessage, fn:false(), $errLevel, ($isInvalid), ddutil:getMultiValueDelim($multiValueElems, $elemName), $ruleCode)
         }</tr>
@@ -797,7 +797,7 @@ as element(tr)*
                 let $isInvalidElem := cutil:containsStr($invalidElemKeys, $elemName)
                 let $isInvalid := if(not($isInvalidElem)) then fn:false() else cutil:getHashMapBooleanValues($invalidElems, $elemName)
                 return
-                    uiutil:buildTD($row, $elemName, $errMessage, fn:false(), 0,($isInvalid), ddutil:getMultiValueDelim($multiValueElems, $elemName), $ruleCode)
+                    uiutil:buildTD($row, $elemName, $errMessage, fn:false(), 2,($isInvalid), ddutil:getMultiValueDelim($multiValueElems, $elemName), $ruleCode)
         }</tr>
 };
 
@@ -1186,7 +1186,7 @@ as element(tr)*
                 let $elemNameWithoutNs := substring-after($elemName, ":")
                 let $isInvalidElem := cutil:containsStr($invalidElemKeys, $elemNameWithoutNs)
                 let $isInvalid := if(not($isInvalidElem)) then fn:false() else cutil:getHashMapBooleanValues($invalidElems, $elemNameWithoutNs)
-                let $errLevel := if (cutil:containsBoolean($isInvalid, fn:true()) and cutil:containsStr(ddutil:getSuggestedCodeListElements($schemaId), $elemName)) then $uiutil:WARNING_LEVEL else $uiutil:ERROR_LEVEL
+                let $errLevel := if (cutil:containsBoolean($isInvalid, fn:true()) and cutil:containsStr(ddutil:getSuggestedCodeListElements($schemaId), $elemName)) then $uiutil:WARNING_LEVEL else $uiutil:BLOCKER_LEVEL
                 return
                     uiutil:buildTD($row, $elemNameWithoutNs, $errMessage, fn:false(), $errLevel,($isInvalid), ddutil:getMultiValueDelim($multiValueElems, $elemName), $ruleCode)
         }</tr>
