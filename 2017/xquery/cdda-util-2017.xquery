@@ -1188,7 +1188,12 @@ as element(tr)*
                 let $elemNameWithoutNs := substring-after($elemName, ":")
                 let $isInvalidElem := cutil:containsStr($invalidElemKeys, $elemNameWithoutNs)
                 let $isInvalid := if(not($isInvalidElem)) then fn:false() else cutil:getHashMapBooleanValues($invalidElems, $elemNameWithoutNs)
-                let $errLevel := if (cutil:containsBoolean($isInvalid, fn:true()) and cutil:containsStr(ddutil:getSuggestedCodeListElements($schemaId), $elemName)) then $uiutil:WARNING_LEVEL else $uiutil:BLOCKER_LEVEL
+                let $errLevel := if (
+                    cutil:containsBoolean($isInvalid, fn:true())
+                    and
+                    cutil:containsStr(ddutil:getSuggestedCodeListElements($schemaId), $elemNameWithoutNs))
+                    then $uiutil:WARNING_LEVEL
+                    else $uiutil:BLOCKER_LEVEL
                 return
                     uiutil:buildTD($row, $elemNameWithoutNs, $errMessage, fn:false(), $errLevel,($isInvalid), ddutil:getMultiValueDelim($multiValueElems, $elemName), $ruleCode)
         }</tr>
@@ -1201,14 +1206,14 @@ as element(tr)*
  : @param $codeListXmlUrl Url of DD codelists XML
  : @return List of invalid element names and invalid value true/false indexes(in case of multivalue elments).
  :)
-declare function xmlutil:getInvalidCodelistValues($row as element(
-
-), $codeListXmlUrl as xs:string)
-as xs:string*
+declare function xmlutil:getInvalidCodelistValues(
+    $row as element(),
+    $codeListXmlUrl as xs:string
+) as xs:string*
 {
     let $codeListValues := fn:doc($codeListXmlUrl)//dd:value-list
     for $codelistElement in $codeListValues
-    let $elements :=  $row/*[local-name()=$codelistElement/@element]
+    let $elements :=  $row/*[local-name() = $codelistElement/@element]
     let $fixedValues := $codelistElement//dd:value/lower-case(@value)
 
     (:let $fixedValues :=
@@ -1301,7 +1306,7 @@ as element(tr)*
     return
         <tr>
             <td>{ fn:data($valueList/@element) }</td>
-            <td>{ if ($valueList/@fixed = 'true') then "Fixed" else "Suggested" }</td>
+            <td>{ if ($valueList/@fixed = 'true' or $valueList/@type = "fixed" or $valueList/@type = "vocabulary") then "Fixed" else "Suggested" }</td>
             <td>{ fn:string-join($fixedValues, ", ")}</td>
             <td>{ ddutil:getMultiValueDelim($multiValueDelimiters, $valueList/@element) }</td>
         </tr>

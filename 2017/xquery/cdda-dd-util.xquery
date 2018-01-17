@@ -10,6 +10,7 @@ xquery version "1.0" encoding "UTF-8";
  : Common utility methods used for extracting data from Data Dictionary
  :)
 module namespace ddutil = "http://converters.eionet.europa.eu/ddutil";
+import module namespace functx = "http://www.functx.com" at "cdda-functx-2017.xquery";
 import module namespace cutil = "http://converters.eionet.europa.eu/cutil" at "cdda-common-util.xquery";
 declare namespace dd = "http://dd.eionet.europa.eu";
 declare namespace ddrdf="http://dd.eionet.europa.eu/schema.rdf#";
@@ -92,7 +93,8 @@ as xs:string*
 declare function ddutil:getSuggestedCodeListElements($schemaId as xs:string)
 as xs:string*
 {
-    fn:doc(ddutil:getDDCodelistXmlUrl($schemaId))//dd:value-list[count(@fixed)=0]/@element
+    (:fn:doc(ddutil:getDDCodelistXmlUrl($schemaId))//dd:value-list[count(@fixed)=0]/@element:)
+    fn:doc(ddutil:getDDCodelistXmlUrl($schemaId))//dd:value-list[type="quantitative"]/@element
 };
 (:~
  : Extract all mandatory elements from XML Schema. Mandatory element minOccurs=1.
