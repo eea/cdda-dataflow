@@ -17,6 +17,7 @@ xquery version "1.0" encoding "UTF-8";
  :      - Rule HELPER methods: QA rules related helper methods
  :)
 module namespace xmlutil = "http://converters.eionet.europa.eu/cdda/xmlutil";
+import module namespace functx = "http://www.functx.com" at "cdda-functx-2017.xquery";
 import module namespace cutil = "http://converters.eionet.europa.eu/cutil" at "cdda-common-util.xquery";
 (: UI utility methods for build HTML formatted QA result:)
 import module namespace uiutil = "http://converters.eionet.europa.eu/ui" at "cdda-ui-util-2017.xquery";
@@ -1178,8 +1179,14 @@ as element(tr)*
 
     for $row at $pos in fn:doc($url)//*[local-name() = $container]//child::*[local-name() = "Row"]
     let $invalidElems := xmlutil:getInvalidCodelistValues($row, ddutil:getDDCodelistXmlUrl($schemaId))
+
     let $invalidElemKeys := cutil:getHashMapKeys($invalidElems)
-    where fn:not(fn:empty($invalidElems))
+    let $ignoredElems := ("designationTypeCode")
+    let $invalidElemKeys :=
+        for $ignoredElem in $ignoredElems
+        return fn:remove($invalidElemKeys, functx:if-empty(index-of($invalidElemKeys, $ignoredElem), 0))
+
+    where fn:not(fn:empty($invalidElemKeys))
     order by $pos
     return
         <tr align="right" key="{ fn:data($row/*[local-name() = $keyElement]) }">
@@ -1280,7 +1287,7 @@ as element(table){
     <table class="datatable" border="1">
         <tr>
             <th>Element name</th>
-            <th>Fixed/suggested</th>
+            <th>Fixed/suggested/vocabulary</th>
             <th>Values</th>
             <th>Multivalue delimiter</th>
         </tr>{
@@ -1306,7 +1313,12 @@ as element(tr)*
     return
         <tr>
             <td>{ fn:data($valueList/@element) }</td>
-            <td>{ if ($valueList/@fixed = 'true' or $valueList/@type = "fixed" or $valueList/@type = "vocabulary") then "Fixed" else "Suggested" }</td>
+            <td>{ if ($valueList/@fixed = 'true' or $valueList/@type = "fixed")
+                then "Fixed"
+                else if ($valueList/@type = "vocabulary")
+                then "Vocabulary"
+                else "Suggested" }
+            </td>
             <td>{ fn:string-join($fixedValues, ", ")}</td>
             <td>{ ddutil:getMultiValueDelim($multiValueDelimiters, $valueList/@element) }</td>
         </tr>

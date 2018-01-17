@@ -287,15 +287,15 @@ declare variable $rules:RULES_XML as element(root) :=
     {
     rules:buildRuleGroup($rules:MANDATORY_RULE_ID, "1b", $rules:MANDATORY_RULE_TITLE, $rules:MANDATORY_RULE_DESCR
         , (fn:replace(fn:string-join(ddutil:getMandatoryElements($rules:LINKEDDATASET_SCHEMA),", "), $rules:LINKEDDATASET_NS_PREFIX,""))
-        , $rules:MANDATORY_RULE_MESSAGE, (), $uiutil:ERROR_LEVEL, ())
+        , $rules:MANDATORY_RULE_MESSAGE, (), $uiutil:BLOCKER_LEVEL, ())
     }{
     rules:buildRuleGroup($rules:DUPLICATES_RULE_ID, "2b", $rules:DUPLICATES_RULE_TITLE
         , "Tested uniqueness of the records. The datasetId value must be unique for each record in the table. No multiplicities can exist."
         , ()
-        , $rules:DUPLICATES_RULE_MESSAGE, (), $uiutil:ERROR_LEVEL, ())
+        , $rules:DUPLICATES_RULE_MESSAGE, (), $uiutil:BLOCKER_LEVEL, ())
     }{
     rules:buildRuleGroup($rules:DATATYPES_RULE_ID, "3b", $rules:DATATYPES_RULE_TITLE, $rules:DATATYPES_RULE_DESCR
-        , (), $rules:DATATYPES_RULE_MESSAGE, (), $uiutil:ERROR_LEVEL, ())
+        , (), $rules:DATATYPES_RULE_MESSAGE, (), $uiutil:BLOCKER_LEVEL, ())
     }
 </rules>
 </root>
