@@ -26,7 +26,7 @@ import module namespace ddutil = "http://converters.eionet.europa.eu/ddutil" at 
 (: Dataset rule definitions and utility methods:)
 import module namespace rules = "http://converters.eionet.europa.eu/cdda/rules" at "cdda-rules-2017.xquery";
 (: SPARQL utility methods for querying data from CR :)
-import module namespace sparqlutil = "http://converters.eionet.europa.eu/cdda/sparql" at "cdda-sparql-util-2017.xquery";
+(:import module namespace sparqlutil = "http://converters.eionet.europa.eu/cdda/sparql" at "cdda-sparql-util-2017.xquery";:)
 (: Utility methods for connecting Discomap webservice:)
 (:
 import module namespace nutsws = "http://converters.eionet.europa.eu/cdda/nutsws" at "cdda-util-nuts-webservice.xquery";
@@ -1540,6 +1540,7 @@ as xs:string
  : @param $ruleCode Rule code in rules XML.
  : @return QA rule results in HTML format.
  :)
+(:
 declare function xmlutil:executeSiteCodesCheck($url as xs:string, $schemaId as xs:string,
     $nsPrefix as xs:string, $keyElement as xs:string, $ruleCode as xs:string, $ruleCodeMissingSiteCode as xs:string)
 as element(div)*
@@ -1549,9 +1550,15 @@ as element(div)*
     let $ruleDef := rules:getRule($schemaId, $ruleCode)
     let $ruleDefMissingSiteCode := rules:getRule($schemaId, $ruleCodeMissingSiteCode)
 
-    (: get site codes from CR :)
-    (: let $countrySiteCodes := if (fn:string-length($countryCode) = 2) then sparqlutil:executeSparqlQuery(sparqlutil:getSiteCodesQuery($countryCode)) else():)
-    (: get site codes from DD :)
+    :)
+(: get site codes from CR :)(:
+
+    :)
+(: let $countrySiteCodes := if (fn:string-length($countryCode) = 2) then sparqlutil:executeSparqlQuery(sparqlutil:getSiteCodesQuery($countryCode)) else():)(:
+
+    :)
+(: get site codes from DD :)(:
+
     let $countrySiteCodes := if (fn:string-length($countryCode) = 2) then
             doc(concat($sparqlutil:SITE_CODE_GRAPH, "?countryCode=", $countryCode))/rdf:RDF
         else
@@ -1622,6 +1629,7 @@ as element(div)*
         $result1 union $result2
 
 };
+
 declare function xmlutil:checkSiteCodes($url as xs:string, $schemaId as xs:string,
     $nsPrefix as xs:string, $keyElement as xs:string, $ruleCode as xs:string, $countryCode as xs:string, $countrySiteCodesRdf as element(rdf:RDF)?)
 as element(tr)*
@@ -1742,6 +1750,7 @@ as element(tr)*
     return
         $tr union $trJs
 };
+:)
 (:~
  : QA rule entry: Check consistency of different elements and values.
  : @param $uri XML document URL.
