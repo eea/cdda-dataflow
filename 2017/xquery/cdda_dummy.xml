@@ -2,7 +2,7 @@
       xsi:schemaLocation="http://dd.eionet.europa.eu/namespaces/11 http://dd.eionet.europa.eu/v2/dataset/3344/schema-dst-3344.xsd">
     <DesignatedArea xmlns="http://dd.eionet.europa.eu/namespaces/873">
         <Row>
-            <cddaId>32642700</cddaId>
+            <cddaId>326429</cddaId>
             <nationalId>Hinter BaergwaldHinter BaergwaldHinter BaergwaldHinter Baergwald</nationalId>
             <PSlocalId>3264275555555555555555</PSlocalId>
             <PSnamespace>EIONET.ENVIRONMENT.PS.CDDA.LI</PSnamespace>
@@ -11,7 +11,7 @@
             <cddaCountryCode>LI</cddaCountryCode>
             <cddaRegionCode>LI</cddaRegionCode>
             <designationTypeCode>LI03</designationTypeCode>
-            <iucnCategory>notApplicable</iucnCategory>
+            <iucnCategory></iucnCategory>
             <siteArea>66.9</siteArea>
             <majorEcosystemType>marine</majorEcosystemType>
             <marineAreaPercentage>0</marineAreaPercentage>
@@ -36,8 +36,8 @@
             <cddaRegionCode>LI</cddaRegionCode>
             <designationTypeCode>LI03</designationTypeCode>
             <iucnCategory>Ib</iucnCategory>
-            <siteArea>2</siteArea>
-            <majorEcosystemType>marineAndTerrestrial</majorEcosystemType>
+            <siteArea></siteArea>
+            <majorEcosystemType></majorEcosystemType>
             <marineAreaPercentage>0</marineAreaPercentage>
             <spatialDataDissemination>public</spatialDataDissemination>
             <spatialResolutionCode>scaleLarger100K</spatialResolutionCode>
@@ -50,19 +50,19 @@
             <containedBy/>
         </Row>
         <Row>
-            <cddaId>4</cddaId>
+            <cddaId>43333333333333333333333333334324234</cddaId>
             <nationalId>Garsaelli</nationalId>
             <PSlocalId>326426</PSlocalId>
             <PSnamespace>EIONET.ENVIRONMENT.PS.CDDA.LI</PSnamespace>
             <PSversionId/>
-            <designatedAreaType>designatedSite</designatedAreaType>
+            <designatedAreaType>teeeest</designatedAreaType>
             <cddaCountryCode>LI</cddaCountryCode>
             <cddaRegionCode>LI</cddaRegionCode>
             <designationTypeCode>LI03123</designationTypeCode>
             <iucnCategory>Ib</iucnCategory>
             <siteArea>922.20001</siteArea>
             <majorEcosystemType>marine</majorEcosystemType>
-            <marineAreaPercentage>0</marineAreaPercentage>
+            <marineAreaPercentage>101</marineAreaPercentage>
             <spatialDataDissemination>public</spatialDataDissemination>
             <spatialResolutionCode>scaleLarger100K</spatialResolutionCode>
             <eionetChangeDate/>
@@ -995,22 +995,29 @@
             <wfsStoredQuery/>
         </Row>
         <Row>
-            <datasetId>456</datasetId>
-            <gmlFileName>ABC.gml</gmlFileName>
+            <datasetId>123</datasetId>
+            <gmlFileName>CDDA_035.gml</gmlFileName>
             <wfsEndpoint/>
             <wfsVersion/>
             <wfsStoredQuery/>
         </Row>
         <Row>
-            <datasetId>321</datasetId>
+            <datasetId></datasetId>
+            <gmlFileName></gmlFileName>
+            <wfsEndpoint/>
+            <wfsVersion/>
+            <wfsStoredQuery/>
+        </Row>
+        <Row>
+            <datasetId></datasetId>
             <gmlFileName>ABC.gmlABC.gmlABC.gmlABC.gmlABC.gmlABC.gmlABC.gmlABC.gmlABC.gmlABC.gmlABC.gmlABC.gmlABC.gmlABC.gmlABC.gmlABC.gmlABC.gmlABC.gmlABC.gmlABC.gmlABC.gmlABC.gmlABC.gmlABC.gmlABC.gmlABC.gmlABC.gmlABC.gmlABC.gmlABC.gmlABC.gmlABC.gmlABC.gmlABC.gmlABC.gmlABC.gmlABC.gmlABC.gmlABC.gmlABC.gmlABC.gmlABC.gmlABC.gmlABC.gmlABC.gmlABC.gmlABC.gmlABC.gml</gmlFileName>
             <wfsEndpoint/>
             <wfsVersion/>
             <wfsStoredQuery/>
         </Row>
         <Row>
-            <datasetId>323</datasetId>
-            <gmlFileName>QWE.gml</gmlFileName>
+            <datasetId>3238888888888888888888888888888</datasetId>
+            <gmlFileName>ABC.gmlABC</gmlFileName>
             <wfsEndpoint/>
             <wfsVersion/>
             <wfsStoredQuery/>
