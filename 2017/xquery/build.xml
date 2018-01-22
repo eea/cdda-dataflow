@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="cdda-2017" default="test" basedir=".">
+    <property name="dist" location="dist" />
+    
+    <property name="src_common" value="main/common" />
+    <property name="src_wise_common" value="main/wise-common" />
+
+    <property name="src_ds_biology" value="main/biology" />
+    <property name="src_ds_emissions" value="main/emissions" />
+    <property name="src_ds_water_quality" value="main/water-quality" />
+    <property name="src_ds_water_quantity" value="main/water-quantity" />
+    <property name="src_ds_water_quality_marine" value="main/water-quality-marine" />
+    
+    <property name="src_ds_emissions_tbl_directdischarges" value="${src_ds_emissions}/table-directdischarges" />
+    <property name="src_ds_emissions_tbl_emissions" value="${src_ds_emissions}/table-emissions" />
+    <property name="src_ds_emissions_tbl_riverineinputloads" value="${src_ds_emissions}/table-riverineinputloads" />
+
+	<property name="src_ds_water_quality_tbl_aggregated_data" value="${src_ds_water_quality}/table-aggregated-data" />
+    <property name="src_ds_water_quality_tbl_aggregated_data_by_water_body" value="${src_ds_water_quality}/table-aggregated-data-by-water-body" />
+    <property name="src_ds_water_quality_tbl_biology_eqr_classification_procedure" value="${src_ds_water_quality}/table-biology-eqr-classification-procedure" />
+    <property name="src_ds_water_quality_tbl_biology_eqr_data" value="${src_ds_water_quality}/table-biology-eqr-data" />
+    <property name="src_ds_water_quality_tbl_disaggregated_data" value="${src_ds_water_quality}/table-disaggregated-data" />
+
+    <property name="src_ds_biology_wise2_envelope" value="${src_ds_biology}/envelope" />
+
+    <property name="src_ds_biology_tbl_biology_eqr_data" value="${src_ds_biology}/table-biology-eqr-data" />
+    <property name="src_ds_biology_tbl_biology_eqr_data_by_water_body" value="${src_ds_biology}/table-biology-eqr-data-by-water-body" />
+    <property name="src_ds_biology_tbl_biology_eqr_classification_procedure" value="${src_ds_biology}/table-biology-eqr-classification-procedure" />
+
+    <property name="src_ds_water_quality_marine_tbl_disaggregated_data" value="${src_ds_water_quality_marine}/table-disaggregated-data" />
+    
+    <property name="src_ds_water_quantity_tbl_additional_water_resources" value="${src_ds_water_quantity}/table-additional-water-resources" />
+    <property name="src_ds_water_quantity_tbl_monitoring_data" value="${src_ds_water_quantity}/table-monitoring-data" />
+    <property name="src_ds_water_quantity_tbl_renewable_freshwater-resources" value="${src_ds_water_quantity}/table-renewable-freshwater-resources" />
+    <property name="src_ds_water_quantity_tbl_reservoir_data" value="${src_ds_water_quantity}/table-reservoir-data" />
+    <property name="src_ds_water_quantity_tbl_water_abstraction" value="${src_ds_water_quantity}/table-water-abstraction" />
+    <property name="src_ds_water_quantity_tbl_water_returns" value="${src_ds_water_quantity}/table-water-returns" />
+    <property name="src_ds_water_quantity_tbl_water_use" value="${src_ds_water_quantity}/table-water-use" />
+    
+    <target name="clean">
+        <delete dir="${dist}"/>
+    </target>
+
+	<target name="test">
+		<antcall target="dist">
+			<param name="test_mode" value="true" />
+		</antcall>
+	</target>
+
+	<target name="prod">
+		<antcall target="dist">
+			<param name="test_mode" value="false" />
+		</antcall>
+	</target>
+	
+    <target name="dist" depends="clean">
+        <mkdir dir="${dist}" />
+
+        <antcall target="mergeScripts">
+            <param name="dest_dir" value="${dist}" />
+            <param name="filename" value="cdda-2017-qa.xquery" />
+            <param name="filesetId" value="cdda-2017-scripts" />
+        </antcall>
+
+        <antcall target="mergeScripts">
+            <param name="dest_dir" value="${dist}" />
+            <param name="filename" value="cdda-2017-envelope-qa.xquery" />
+            <param name="filesetId" value="cdda-2017-envelope-scripts" />
+        </antcall>
+    </target>
+    
+    <target name="mergeScripts">
+        <property name="destfile" value="${dest_dir}/${filename}" />
+        
+        <concat destfile="${destfile}" encoding="UTF-8" outputencoding="UTF-8" fixlastline="true">
+            <filterchain refid="filterModuleDeclarations" />
+            <path refid="${filesetId}" />
+        </concat>
+        
+        <concat destfile="${destfile}" encoding="UTF-8" outputencoding="UTF-8" fixlastline="true" append="true">
+            <filterchain refid="filterVariableDeclarations" />
+            <path refid="${filesetId}" />
+        </concat>
+        
+        <concat destfile="${destfile}" encoding="UTF-8" outputencoding="UTF-8" fixlastline="true" append="true">
+            <filterchain refid="filterFunctionDeclarations" />
+            <path refid="${filesetId}" />
+        </concat>
+    </target>
+    
+    <filterchain id="filterModuleDeclarations">
+        <linecontains>
+            <contains value=" namespace " />
+        </linecontains>
+        <linecontains negate="true">
+            <contains value="import module" />
+        </linecontains>
+        <replaceregex pattern="module " replace="declare " />
+    </filterchain>
+    
+    <filterchain id="filterVariableDeclarations">
+        <linecontains>
+            <contains value="declare variable" />
+        </linecontains>
+    	<replaceregex pattern="\:_TEST\-MODE as xs\:boolean \:= false\(\)" replace=":_TEST-MODE as xs:boolean := ${test_mode}()" />
+    </filterchain>
+    
+    <filterchain id="filterFunctionDeclarations">
+        <linecontains negate="true">
+            <contains value="xquery version" />
+        </linecontains>
+        <linecontains negate="true">
+            <contains value=" namespace " />
+        </linecontains>
+        <linecontains negate="true">
+            <contains value="declare variable" />
+        </linecontains>
+    </filterchain>
+
+    <path id="cdda-2017-scripts">
+        <fileset file="cdda-functx-2017.xquery" />
+        <fileset file="cdda-dd-util.xquery" />
+        <fileset file="cdda-common-util.xquery" />
+        <fileset file="cdda-ui-util-2017.xquery" />
+        <fileset file="cdda-util-2017.xquery" />
+        <fileset file="cdda-rules-2017.xquery" />
+        <fileset file="cdda-designatedarea-linkeddataset-2017.xquery" />
+    </path>
+
+    <path id="cdda-2017-envelope-scripts">
+        <fileset file="cdda-functx-2017.xquery" />
+        <fileset file="cdda-dd-util.xquery" />
+        <fileset file="cdda-common-util.xquery" />
+        <fileset file="cdda-ui-util-2017.xquery" />
+        <fileset file="cdda-rules-2017.xquery" />
+        <fileset file="cdda-envelope-2017.xquery" />
+    </path>
+</project>
