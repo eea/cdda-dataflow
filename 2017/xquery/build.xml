@@ -61,12 +61,6 @@
             <param name="filename" value="cdda-2017-qa.xquery" />
             <param name="filesetId" value="cdda-2017-scripts" />
         </antcall>
-
-        <antcall target="mergeScripts">
-            <param name="dest_dir" value="${dist}" />
-            <param name="filename" value="cdda-2017-envelope-qa.xquery" />
-            <param name="filesetId" value="cdda-2017-envelope-scripts" />
-        </antcall>
     </target>
     
     <target name="mergeScripts">
@@ -125,14 +119,5 @@
         <fileset file="cdda-util-2017.xquery" />
         <fileset file="cdda-rules-2017.xquery" />
         <fileset file="cdda-designatedarea-linkeddataset-2017.xquery" />
-    </path>
-
-    <path id="cdda-2017-envelope-scripts">
-        <fileset file="cdda-functx-2017.xquery" />
-        <fileset file="cdda-dd-util.xquery" />
-        <fileset file="cdda-common-util.xquery" />
-        <fileset file="cdda-ui-util-2017.xquery" />
-        <fileset file="cdda-rules-2017.xquery" />
-        <fileset file="cdda-envelope-2017.xquery" />
     </path>
 </project>
