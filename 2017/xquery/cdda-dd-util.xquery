@@ -35,6 +35,7 @@ as xs:string
 {
     concat($ddutil:SCHEMA_URL, $schemaId)
 };
+
 (:~
  : Get DD table URL for given ID.
  : @param schemaId DD table ID
@@ -45,6 +46,7 @@ as xs:string
 {
     concat($ddutil:TABLE_VIEW_URL, $schemaId)
 };
+
 (:~
  : Get DD Elements XML Schema URL for given ID.
  : @param schemaId DD table ID
@@ -55,6 +57,7 @@ as xs:string
 {
     concat($ddutil:ELEM_SCHEMA_URL, $schemaId)
 };
+
 (:~
  : Get DD table code list values XML  URL
  : @param schemaId DD table ID
@@ -65,6 +68,7 @@ as xs:string
 {
     concat($ddutil:CODELIST_XML_URL, $schemaId, "&amp;type=TBL&amp;format=xml")
 };
+
 (:~
  : Extract all elements from XML Schema.
  : @param schemaUrl URL of XML Schema
@@ -75,6 +79,7 @@ as xs:string*
 {
     fn:doc(ddutil:getDDSchemaUrl($schemaId))//xs:element[@name="Row"]/xs:complexType/xs:sequence/xs:element/string(@ref)
 };
+
 (:~
  : Extract all elements with fixed values.
  : @param codeListXmlUrl URL of XML with code list elements
@@ -85,6 +90,7 @@ as xs:string*
 {
     fn:doc(ddutil:getDDCodelistXmlUrl($schemaId))//dd:value-list/@element
 };
+
 (:~
  : Extract all elements with suggested values.
  : @param codeListXmlUrl URL of XML with code list elements
@@ -93,7 +99,6 @@ as xs:string*
 declare function ddutil:getSuggestedCodeListElements($schemaId as xs:string)
 as xs:string*
 {
-    (:fn:doc(ddutil:getDDCodelistXmlUrl($schemaId))//dd:value-list[count(@fixed)=0]/@element:)
     fn:doc(ddutil:getDDCodelistXmlUrl($schemaId))//dd:value-list[type="quantitative"]/@element
 };
 (:~
@@ -108,6 +113,7 @@ as xs:string*
     return
         string($element/@ref)
 };
+
 (:~
  : Extract all elements with mulitvalues
  : @param schemaId DD table ID
@@ -120,6 +126,7 @@ as xs:string*
     return
         cutil:createHashMapEntry(fn:substring-after($element/@ref, ":"), fn:data($element/@ddrdf:multiValueDelim))
 };
+
 (:~
  : Define elements with multivalues.
  : @param $multiValueDelimiters list of multivalue elements and their delimiters
@@ -135,8 +142,8 @@ as xs:string
             cutil:getHashMapValue($multiValueDelimiters, $elemName)[1]
         else
             ""
-}
-;
+};
+
 (:~
  : Define all elements names to show in the header of errors table.
  : @return the list of XML element local-names (without namespace).
@@ -148,6 +155,7 @@ as xs:string*
     return
         replace($n, $nsPrefix, "")
 };
+
 (:~
  : Return element names with namespace prefix
  : @param $elemNames sequence of strings
@@ -160,3 +168,4 @@ as xs:string*
     return
         if (fn:contains($elemName, ":")) then $elemName else fn:concat($ns, $elemName)
 };
+

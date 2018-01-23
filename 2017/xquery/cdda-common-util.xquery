@@ -28,6 +28,7 @@ as xs:boolean
 {
      fn:not(fn:empty(fn:index-of($seq, $str)))
 };
+
 (:~
  : Checks if sequence contains given boolean
  : @param $seq sequence of booleans
@@ -39,6 +40,7 @@ as xs:boolean
 {
      fn:not(fn:empty(fn:index-of($seq, $booelan)))
 };
+
 (:~
  : Checks if element value is empty or not.
  : @param $value Element value.
@@ -56,6 +58,7 @@ as xs:boolean
     else
         fn:false()
 };
+
 (:~
  : Checks if XML element is missing or not.
  : @param $node XML node
@@ -69,6 +72,7 @@ as xs:boolean
     else
         fn:false()
 };
+
 (:~
  : Checks if XML element is missing or value is empty.
  : @param $node XML element or value
@@ -82,6 +86,7 @@ as xs:boolean
     else
         cutil:isEmpty(string-join($node, ""))
 };
+
 (:~
  : Function removes the file part from the end of URL and appends 'xml' for getting the envelope xml description.
  : @param $url XML File URL.
@@ -99,8 +104,8 @@ as xs:string
             $ret
         else
              ""
-(: For testing "http://cdrtest.eionet.europa.eu/ee/eu/art17/envriytkg/xml" :)
 };
+
 (:~
  : Function reads reproting country code from envelope xml. Returns empty string if envelope XML not found.
  : @param $url XML file URL.
@@ -118,6 +123,7 @@ as xs:string
         :)
         $countryCode
 };
+
 (:~
  : Remove leading or trailing chars from the string.
  : @param $s Original string.
@@ -138,6 +144,7 @@ as xs:string
         else
             $s
 };
+
 (:~
  : Count total digits of the number. Comma, period or other special caharacter
  : and leading or trailing zeros are not considered as a digit.
@@ -168,6 +175,7 @@ as xs:integer
     return
         string-length($s)
 };
+
 (:~
  : Get key values from the self constructed map - sequence of structured strings.
  : MAP structure: (key1||value1##value2##value3 , key2||value1##value2##value3).
@@ -181,6 +189,7 @@ as xs:string*
     return
         fn:substring-before($entry, "||")
 };
+
 (:~
  : Get value from the self constructed map - sequence of structured strings.
  : MAP structure: (key1||value1##value2##value3 , key2||value1##value2##value3).
@@ -197,6 +206,7 @@ as xs:string*
     return
         fn:substring-after($entry, "||")
 };
+
 (:~
  : Get the list of values from the self constructed Map object - sequence of structured strings.
  : MAP structure: (key1||value1##value2##value3 , key2||value1##value2##value3).
@@ -217,6 +227,7 @@ as xs:boolean*
             else if ($val="false") then fn:false()
             else fn:false()
 };
+
 (:~
  : Create Map Entry object - key value pair stored in sequnce. Value represents a list of values delimited with ##.
  : MAP structure: (key1||value1##value2##value3 , key2||value1##value2##value3).
@@ -229,6 +240,7 @@ as xs:string*
 {
     concat($key,"||",string-join($values, "##"))
 };
+
 (:~
  : Function for sort sequences.
  : @param $seq Sequence of items.
@@ -241,6 +253,7 @@ as item()*
    order by $item
    return $item
  };
+
  (:~
   : Removes namespaces from the element names.
   : @param $allElements List of XML elements.
@@ -253,6 +266,7 @@ as item()*
     return
         fn:substring-after($elem, ":")
  };
+
 (:~
   : Removes namespaces from the element names.
   : @param $allElements List of XML elements.
@@ -265,7 +279,9 @@ as item()*
     for $elem in $allElements
     return
         fn:concat($nsPrefix, $elem)
- };(:~
+ };
+
+(:~
  : Convaert list of booleans into list of strings.
  : @param $booleanValues List of boolean values
  : @return List of string values.
@@ -277,6 +293,7 @@ as xs:string*
     return
         string($value)
 };
+
 (:~
  : Return element namespace prefix with :
  : @param $seq sequence of strings
@@ -287,6 +304,7 @@ as xs:string
 {
     if (fn:contains($elemName, ":")) then fn:concat(fn:substring-before($elemName, ":"), ":") else ""
 };
+
 (:~
  : Return element name without namespace prefix
  : @param $seq sequence of strings
@@ -297,6 +315,7 @@ as xs:string
 {
     if (fn:contains($elemName, ":")) then fn:substring-after($elemName, ":") else $elemName
 };
+
 (:~
  : Return element names with namespace prefix
  : @param $elemNames sequence of strings
@@ -309,6 +328,7 @@ as xs:string*
     return
         if (fn:contains($elemName, ":")) then $elemName else fn:concat($ns, $elemName)
 };
+
 (:~
  : Replaces the given tokens in string. Then number of given tokens and the lenght of replacements list should be equal.
  : @param $str Strin that will be parsed
@@ -336,3 +356,4 @@ as xs:string
         $strOut
 
 };
+

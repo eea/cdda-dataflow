@@ -320,6 +320,7 @@ as xs:string*
     where not(empty(index-of($ruleElems, $n)))
     return $n
 };
+
 (:~
  : Define all fields to show in the errors table. Can be in random order.
  : @param $ruleCode Rule code in rules XML.
@@ -337,6 +338,7 @@ as xs:string*
         else
             fn:concat($nsPrefix, $ruleElem)
 };
+
 (:~
  : Get element names without namespace for given rule in correct order.
  : @param $ruleCode Rule code in rules XML.
@@ -357,6 +359,7 @@ as xs:string*
         else
             $allNames[$idx[1]]
 };
+
 (:~
  : Get error messages for sub rules.
  : @param $ruleCode Parent rule code
@@ -375,6 +378,7 @@ as xs:string
     return
         if (count($subRuleMessages) > 1) then string-join($subRuleMessages, "; ") else fn:string($subRuleMessages)
 };
+
 (:~
  : Get error message for given rule Code from the rules XML.
  : @param $ruleCode Rule code in rules XML.
@@ -387,6 +391,7 @@ as xs:string
     return
         fn:concat($rule/@code, " ", $rule/message)
 };
+
 (:~
  : Get rule element for given rule Code from the rules XML.
  : @param $ruleCode Rule code in rules XML.
@@ -396,8 +401,6 @@ declare function rules:getRule($schemaId as xs:string, $ruleCode as xs:string)
 as element(rule)
 {
     rules:getRules($schemaId)//child::rule[@code = $ruleCode][1]
-(:$mandatoryElements: {fn:replace(fn:string-join(rules:getMandatoryElements(),", "),$rules:ELEM_SCHEMA_NS_PREFIX,"")}:)
-
 };
 
 (:~
@@ -420,20 +423,14 @@ as xs:string*
     else
         ddutil:getAllElements($schemaId)
 };
-(:
-    let $ruleTitle := fn:string(rules:getRules()//rule[@code = $ruleCode][1]/title)
-    return
-        xmlutil:getRuleElems($rules:RULE_ELEMS, $ruleTitle)
-:)
-
 
 declare function rules:getRules($schemaId as xs:string)
 as element(rules){
 
     $rules:RULES_XML/child::rules[@id = $schemaId][1]
 
-}
-;
+};
+
 (:~
  : Get the rule element definitions for given table from the rules XML. The returned elements will be displayed in the result table.
  : @param $tableId DD table numeric ID.
@@ -457,3 +454,4 @@ as xs:string*
     return
         $ddManadotryElements
 };
+

@@ -29,11 +29,8 @@ import module namespace rules = "http://converters.eionet.europa.eu/cdda/rules" 
 declare namespace xmlconv="http://converters.eionet.europa.eu/cdda/sites";
 declare namespace dd11="http://dd.eionet.europa.eu/namespace.jsp?ns_id=11";
 declare namespace dd417="http://dd.eionet.europa.eu/namespace.jsp?ns_id=417";
-
-(:
- : External global variable given as an external parameter by the QA service
- :)
- declare variable $source_url as xs:string external;
+(: External global variable given as an external parameter by the QA service  :)
+declare variable $source_url as xs:string external;
 (:~ DD table ID :)
 (: Designated Area :)
 declare variable $xmlconv:SCHEMA_ID_DA as xs:string :=  $rules:DESIGNATEDAREA_SCHEMA;
@@ -49,6 +46,35 @@ declare variable $xmlconv:KEY_ELEMENT_LD as xs:string := fn:concat($xmlconv:ELEM
 declare variable $xmlconv:MULTIVALUE_ELEMS_DA as xs:string* := ddutil:getMultivalueElements($xmlconv:SCHEMA_ID_DA);
 declare variable $xmlconv:MULTIVALUE_ELEMS_LD as xs:string* := ddutil:getMultivalueElements($xmlconv:SCHEMA_ID_LD);
 
+
+
+(: Feedback status: the returned string will be used as feedback status value :)
+declare function xmlconv:feedbackStatus($toc as element()*) as xs:string
+{
+    let $span := $toc//span[@id='feedbackStatusTmp']
+    return
+        if (exists($span[contains(@class, 'BLOCKER')])) then
+            "BLOCKER"
+        else if (exists($span[contains(@class, 'ERROR')])) then
+            "ERROR"
+        else if (exists($span[contains(@class, 'WARNING')])) then
+                "WARNING"
+        else if (exists($span[contains(@class, 'INFO')])) then
+                "INFO"
+            else
+                "OK"
+};
+
+declare function xmlconv:buildSummary($ruleResults as element(div)*, $rules as element(rules))
+as element(div)
+{
+    let $resultErrors := uiutil:getResultErrors($ruleResults)
+    let $resultCodes := uiutil:getResultCodes($ruleResults)
+    return
+        <div>{
+            uiutil:buildTableOfContents($rules//rule, $resultCodes, $resultErrors, "")
+        }</div>
+};
 
 (:===================================================================
  :              MODULE ENTRY POINT
@@ -76,11 +102,31 @@ as element(div)+
         xmlutil:executeDataTypesCheck($url, $xmlconv:SCHEMA_ID_LD, $xmlconv:ELEM_SCHEMA_NS_PREFIX_LD, $xmlconv:KEY_ELEMENT_LD, "3b", $containerLD)
         )
 
+    let $resultDA := uiutil:buildScriptResult($ruleResults_DA, ddutil:getDDTableUrl($xmlconv:SCHEMA_ID_DA), rules:getRules($xmlconv:SCHEMA_ID_DA))
+    let $resultDAs := xmlconv:buildSummary($ruleResults_DA, rules:getRules($xmlconv:SCHEMA_ID_DA))
+    let $resultLD := uiutil:buildScriptResult($ruleResults_LD, ddutil:getDDTableUrl($xmlconv:SCHEMA_ID_LD), rules:getRules($xmlconv:SCHEMA_ID_LD))
+    let $resultLDs := xmlconv:buildSummary($ruleResults_LD, rules:getRules($xmlconv:SCHEMA_ID_LD))
+    let $errorLevel := xmlconv:feedbackStatus(($resultDA, $resultLD))
+    let $resultTableOfContents :=
+        <div>
+        <h1>Common Database on Designated Areas (CDDA) 2017</h1>
+        <ul>{
+             <li><strong>Designated area</strong>&#32;&#32;{  uiutil:getRuleResultBox('a',concat('a-',lower-case(xmlconv:feedbackStatus(($resultDA)))), 0) }
+                 {$resultDAs}</li>,
+             <li><strong>Linked dataset</strong>&#32;&#32;{  uiutil:getRuleResultBox('b',concat('b-',lower-case(xmlconv:feedbackStatus(($resultLD)))), 0) }
+                 {$resultLDs}</li>
+        }</ul>
+        </div>
     return(
-        uiutil:buildScriptResult($ruleResults_DA, ddutil:getDDTableUrl($xmlconv:SCHEMA_ID_DA), rules:getRules($xmlconv:SCHEMA_ID_DA)),
-        uiutil:buildScriptResult($ruleResults_LD, ddutil:getDDTableUrl($xmlconv:SCHEMA_ID_LD), rules:getRules($xmlconv:SCHEMA_ID_LD))
+        <div>
+            <span id="feedbackStatus" class="{ $errorLevel }" style="display:none">dd</span>
+            {$resultTableOfContents}
+            {$resultDA}
+            {$resultLD}
+        </div>
     )
 
 };
 
 xmlconv:proceed($source_url)
+

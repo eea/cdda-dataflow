@@ -9,19 +9,15 @@ xquery version "3.0";
 
 module namespace functx = "http://www.functx.com";
 
-declare function functx:if-empty(
-    $arg as item()?,
-    $value as item()*
-) as item()* {
+declare function functx:if-empty($arg as item()?, $value as item()*) as item()* {
     if (string($arg) != '')
     then data($arg)
     else $value
 };
-declare function functx:if-absent(
-    $arg as item()* ,
-    $value as item()*
-)  as item()* {
+
+declare function functx:if-absent($arg as item()* , $value as item()*) as item()* {
     if (exists($arg))
     then $arg
     else $value
- } ;
+};
+

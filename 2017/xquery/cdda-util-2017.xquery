@@ -218,16 +218,6 @@ as xs:boolean
 
     let $isInvalid := if ($intMin != $xmlutil:ERR_NUMBER_VALUE and string-length($value) < $intMin) then fn:true() else fn:false()
 
-(:
-    let $isInvalid :=
-        if ($isInvalid = fn:false()) then
-            if( $intMax != $xmlutil:ERR_NUMBER_VALUE and string-length($value) > $intMax) then
-                fn:true()
-            else
-                fn:false()
-        else
-            $isInvalid
-:)
     (: special cases :)
     let $isInvalid :=
         if ($elemName = "ReportingEntityUniqueCode") then
@@ -254,6 +244,7 @@ as xs:boolean
     return
         $isInvalid
 };
+
 (:~
  : Check decimal values - min/max values, total digits.
  : @param $value Element value
@@ -310,8 +301,8 @@ as xs:boolean
 
     return
         not(empty(fn:index-of($invalid,fn:true())))
-}
-;
+};
+
 (:~
  : Check double values - min/max values, total digits.
  : @param $value Element value
@@ -336,6 +327,7 @@ as xs:boolean
     return
         not(empty(fn:index-of($invalid,fn:true())))
 };
+
 (:~
  : Check integer values - min/max values, total digits.
  : @param $value Element value
@@ -363,6 +355,7 @@ as xs:boolean
     return
         not(empty(fn:index-of($invalid,fn:true())))
 };
+
 (:~
  : Check date values - YYYY-MM-DD format.
  : @param $value Element value
@@ -428,6 +421,7 @@ declare function xmlutil:isInvalidDate($value, $schemaDef as element(xs:restrict
     return
         $ret
 };
+
 (:~
  : Build HTML table for displaying data types rules defined in XML Schema.
  : @param $elemSchemaUrl XML Schema URL containing element definitions.
@@ -450,6 +444,7 @@ as element(table)
         xmlutil:buildDataTypeDefsRows($elemSchemaUrl, $allElements)
     }</table>
 };
+
 (:~
  : Build HTML table rows for displaying data types rules defined in XML Schema.
  : @param $elemSchemaUrl XML Schema URL containing element definitions.
@@ -484,6 +479,7 @@ as element(tr)*
             <td>{ fn:string($pn/xs:simpleType/xs:restriction/xs:totalDigits/@value) }</td>
         </tr>
 };
+
 (:~
  : Return the list of numeric values. If value is not castable as numeric, then return 0.
  : @param $row Row element to be checked.
@@ -503,37 +499,6 @@ as xs:decimal*{
 };
 
 (:~
- : Get the list of distinc errror codes in ascending order from the semicolon separated string of error codes.
- : @param $allErrors Semicolon separated string of error codes.
- : @return The list of error codes.
- :)
-(:declare function xmlutil:getParsedErrorCodes($allErrors as xs:string)
-as xs:integer*
-{
-    let $errors := fn:reverse(fn:distinct-values(fn:tokenize($allErrors, ";")))
-    for $e in $errors
-    let $strE := substring-after(normalize-space($e), ".")
-    where $strE!=""
-    order by fn:number($e ) ascending
-    return
-        $strE
-};:)
-(:~
- : Get the error codes in correct order.
- : @param $allErrors List of error codes.
- : @return List of error codes.
- :)
-(:declare function xmlutil:getOrderedErrorCodes($allErrors as xs:string*)
-as xs:integer
-{
-    let $errors := fn:reverse(fn:distinct-values(fn:tokenize($allErrors, ";")))
-    for $e in $allErrors
-    order by fn:number($e) ascending
-    return
-        $e
-};:)
-
-(:~
  : Get error messages for sub rules.
  : @param $ruleDefs Rule elements from Rules XML definition.
  : @param $ruleCode Parent rule code
@@ -547,6 +512,7 @@ as element(rule)*
         for $ruleDef in $ruleDefs[@code = concat($ruleCode, ".", $subRuleCode)]
             return $ruleDef
 };
+
 (:=================================================================================
  : QA rule - : Check duplicate rows
  :=================================================================================
@@ -610,6 +576,7 @@ as element(tr)*
                 uiutil:buildTD($rowElement, $elem, $errMessage, fn:true(), $errLevel, $isInvalid, ddutil:getMultiValueDelim($multiValueElems, $elem), $ruleCode)
         }</tr>
 };
+
 (:~
  : QA rule entry: Check duplicate values.
  : Raises errors when some of the rows contain duplicate values.
@@ -632,6 +599,7 @@ as element(div)
     return
         uiutil:buildCommonRuleResult($result, $ruleDef, $ruleElementNames)
 };
+
 (:~
  : Goes through all the Rows and checks duplicate values. Returns HTML table rows if invalid values found, otherwise the result is empty.
  : CountryCode, NationalStationID, Year, Month, Day, CASNumber and SampleDepth
@@ -670,6 +638,7 @@ as element(tr)*
         }</tr>
 
 };
+
 declare function xmlutil:checkDuplicateSites($url as xs:string, $schemaId as xs:string, $ruleCode as xs:string, $errMessage as xs:string,
     $ruleElements as xs:string*, $keyElement as xs:string)
 as element(tr)*
@@ -711,6 +680,7 @@ as element(tr)*
         }</tr>
 
 };
+
 declare function xmlutil:getDuplicateKey($row as element(), $duplicateElements as xs:string*)
 as xs:string
 {
@@ -723,6 +693,7 @@ as xs:string
 
 
 };
+
 declare function xmlutil:getRowElementValue($row as element(), $elementName as xs:string)
 as xs:string
 {
@@ -771,6 +742,7 @@ as element(div)
     return
         uiutil:buildRuleResult($result, $ruleDef, $ruleElementNames, $additionalInfo, $uiutil:RESULT_TYPE_TABLE)
 };
+
 (:~
  : Goes through all the Rows and checks data types. Returns HTML table rows if invalid values found, otherwise the result is empty.
  : @param $uri XML document URL.
@@ -844,6 +816,7 @@ as element(div)
             }</div>
           </div>
 };
+
 (:~
  : Goes throug all the Rows in the document and checks if longitudes and latitudes are OK.
  : At first it checks country specific boundaries using country code from envelope level.
@@ -875,18 +848,7 @@ as element(tr)*
     return
         <tr align="right" key="{ fn:data($row/*[name() = $keyElement]) }">
             <td>{ $pos }</td>
-            {()(:
-                if ($isInvalidNuts) then
-                    <span style="color: blue;font-size:0.8em;">{ $invalidNutsMessage }</span>
-                    union <br/>
-                else
-                    ()
-                }{
-                if ($isInvalidX1 or $isInvalidY1) then
-                    <span style="color: blue;font-size:0.8em;">2. Outside the bounding boxes.</span>
-                else
-                    ()
-            :)}
+            {()}
             {
                 for $elemName in $ruleElems
                 let $elemNameWithoutNs := substring-after($elemName, ":")
@@ -941,8 +903,8 @@ as element(tr)*
             <td>{ data($row/miny) }</td>
             <td>{ data($row/maxy) }</td>
         </tr>
-}
-;
+};
+
 (:~
  : Build empty XML for countries boundaries.
  : return XML.
@@ -960,8 +922,8 @@ as element(root){
             <maxy/>
         </row>
     </root>
-}
-;
+};
+
 (:~
  : Return all rows from countries boundaries XML.
  : return XML.
@@ -975,8 +937,8 @@ as element(row)*{
         else
             xmlutil:getEmptyMinMax()//root/row
     return $minMaxRows
-}
-;
+};
+
 (:~
  : Build HTML table for displaying countries boundaries.
  : @param $elemSchemaUrl XML Schema URL containing element definitions.
@@ -1029,6 +991,7 @@ as element(div){
                 }</table>
             </div>
 };
+
 (:~
  : Check if value is correct longitude or lattitude.
  : @param $value Element value
@@ -1073,6 +1036,7 @@ as xs:boolean
     return
         $isInvalid
 };
+
 (:~
  : Check coordinates against Discomap webservice
  :)
@@ -1091,35 +1055,9 @@ as node()*
         let $inputPointXmlParam := concat("<fields>", string-join($inputPointXmlParamGroup, ""), "</fields>")
         let $nutsWebserviceUrl := ()(:xmlutil:getNutsWebServiceUrl($inputPointXmlParam, $referenceDatasetParam, $projectionParam, $inputFieldsParam ):)
         return
-            ()(:nutsws:callJsonWebservice($nutsWebserviceUrl, "value"):)
+            ()
 };
-(:
-declare function xmlutil:getNutsWebServiceUrl($inputPointXmlParam as xs:string, $referenceDatasetParam as xs:string,
-     $projectionParam as xs:string, $inputFieldsParam as xs:string)
-as xs:string
-{
-    let $params := concat("?inputPointXML=", encode-for-uri($inputPointXmlParam), "&amp;ReferenceDataset=", $referenceDatasetParam, "&amp;inputFields=",
-        $inputFieldsParam, "&amp;projection=", $projectionParam, "&amp;f=pjson")
 
-    return
-        concat($nutsws:NUTS_WEBSERVICE_URL, $params)
-};
-declare function xmlutil:getInputPointXmlParam($url as xs:string, $cc as xs:string, $longLatElements as xs:string*) as
-xs:string*
-{
-    for $row at $pos in fn:doc($url)//child::*[local-name() = "Row"]
-    let $x := if (cutil:isMissingOrEmpty($row/*[local-name() = $longLatElements[1]][1])) then "" else fn:normalize-space($row/*[local-name() = $longLatElements[1]][1])
-    let $y := if (cutil:isMissingOrEmpty($row/*[local-name() = $longLatElements[2]][1])) then "" else fn:normalize-space($row/*[local-name() = $longLatElements[2]][1])
-
-    let $groupSeparator := if ($pos div $nutsws:FIELD_GROUP_SIZE = floor($pos div $nutsws:FIELD_GROUP_SIZE)) then $xmlutil:LIST_ITEM_SEP else ""
-    where ($x castable as xs:decimal and xs:decimal($x) < 180 and xs:decimal($x) > -180) and
-            ($y castable as xs:decimal and xs:decimal($y) < 90 and xs:decimal($y) > -90)
-    return
-            concat("<field x=&quot;", $x,
-                 "&quot; y=&quot;", $y,
-                 "&quot; id=&quot;", $cc, "_", $pos, "&quot; code=&quot;", $cc, "_", $pos ,"&quot;/>", $groupSeparator)
-};
-:)
 (:=================================================================================
  : QA rule - : Check correctness of values against code lists (fixed values)
  :=================================================================================
@@ -1150,6 +1088,7 @@ as element(div)
     return
         uiutil:buildRuleResult($result, $ruleDef, $ruleElementNames, $additionalInfo, $uiutil:RESULT_TYPE_TABLE_CODES)
 };
+
 (:~
  : The function guarantees that all code list elements are displayed in results
  :)
@@ -1163,6 +1102,7 @@ as xs:string*
         fn:distinct-values(fn:insert-before(ddutil:getCodeListElements($schemaId), 1,
             rules:getRuleElementNames($schemaId, $nsPrefix, $ruleCode)))
 };
+
 (:~
  : Goes through all the Rows and checks values against code lists (fixed or suggested values) defined in DD.
  : @param $uri XML document URL.
@@ -1204,8 +1144,8 @@ as element(tr)*
                 return
                     uiutil:buildTD($row, $elemNameWithoutNs, $errMessage, fn:false(), $errLevel,($isInvalid), ddutil:getMultiValueDelim($multiValueElems, $elemName), $ruleCode)
         }</tr>
-}
-;
+};
+
 (:~
  : Goes through all elements in one row and checks corrext fixed values
  : Returns a map, where key = element name and value is a list of true/false values for each entry (normally only 1 value if it is not multivalue element)
@@ -1223,13 +1163,6 @@ declare function xmlutil:getInvalidCodelistValues(
     let $elements :=  $row/*[local-name() = $codelistElement/@element]
     let $fixedValues := $codelistElement//dd:value/lower-case(@value)
 
-    (:let $fixedValues :=
-        if ($codelistElement/@element = "CDDA_Dissemination_code") then
-            fn:remove($fixedValues, index-of($fixedValues, "00")[1])
-        else
-            $fixedValues
-    :)
-    (: if fixed value is boolean, the also the following values are allowed Y, N, yes, no, -1, 1, 0:)
     let $fixedValues := if (cutil:containsStr($fixedValues, "true") and cutil:containsStr($fixedValues, "false")) then
                             fn:distinct-values(fn:insert-before($xmlutil:ALLOWED_BOOLEAN_VALUES, 1, $fixedValues))
                         else
@@ -1240,6 +1173,7 @@ declare function xmlutil:getInvalidCodelistValues(
     return
         cutil:createHashMapEntry($codelistElement/@element, cutil:castBooleanSequenceToStringSeq($isInvalidValues))
 };
+
 (:~
  : @param $row XML Row element to be checked.
  : @param $elements list of XML elements
@@ -1252,8 +1186,8 @@ as xs:boolean*
     for $elem in $elements
         let $invalidFixedValues := xmlutil:isInvalidFixedValue($elem, $codes)
         return $invalidFixedValues
-}
-;
+};
+
 (:~
  : @param $row XML Row element to be checked.
  : @param $elem XML element to be checked
@@ -1294,6 +1228,7 @@ as element(table){
             xmlutil:buildFixedValuesDefsRows($codeListXmlUrl, $multiValueDelimiters)
     }</table>
 };
+
 (:~
  : Build HTML table rows for displaying code list elements.
  : @param $codeListXmlUrl Url of DD codelists XML
@@ -1395,6 +1330,7 @@ as element(div)
                 </div>
            </div>
 };
+
 (:~
  : Goes through all the Rows checks the country code - has to match the one of reporting country.
  : @param $uri XML document URL.
@@ -1428,6 +1364,7 @@ as element(tr)*
                     uiutil:buildTD($row, $elemName, $errMessage, fn:false(), $uiutil:ERROR_LEVEL,($isInvalid), ddutil:getMultiValueDelim($multiValueElems, $elemName), $ruleCode)
             }</tr>
 };
+
 declare function xmlutil:isInvalidCountryCode($pn, $cc as xs:string){
 
     if (not(cutil:isMissingOrEmpty($pn))) then
@@ -1441,24 +1378,23 @@ declare function xmlutil:isInvalidCountryCode($pn, $cc as xs:string){
         fn:false()
     else
         fn:false()
-}
-;
+};
 
 (:PARENT_ISO - see country codes table; must be ISO3 alpha code of the reporting country:)
 declare function xmlutil:isInvalidPARENT_ISO($pn, $cc as xs:string){
 
     let $parent_iso :=xmlutil:getAllowedParentIso3($cc)
     return empty(fn:index-of($parent_iso,normalize-space($pn)))
-}
-;
+};
+
 (:ISO3 - see country codes table; must be available for respective PARENT_ISO code:)
 declare function xmlutil:isInvalidISO3($pn, $cc as xs:string){
 
     let $parent_iso := normalize-space($pn/../*[local-name() = "PARENT_ISO"])
     let $iso3 :=xmlutil:getAllowedIso3ByParentIso($parent_iso)
     return empty(fn:index-of($iso3,normalize-space($pn)))
-}
-;
+};
+
 (:DESIG_ABBR - four characters; first two is ISO2 code of respective PARENT_ISO or ISO3 country code; last two can be only numeric from 00 to 99:)
 declare function xmlutil:isInvalidDESIG_ABBR($pn, $cc as xs:string){
 
@@ -1474,32 +1410,30 @@ declare function xmlutil:isInvalidDESIG_ABBR($pn, $cc as xs:string){
             empty(index-of(xmlutil:getAllowedIso3($iso3),substring($desig_abbr,1,3))) or not(substring($desig_abbr,4,2) castable as xs:integer) or number(substring($desig_abbr,4,2)) lt 0 or number(substring($desig_abbr,4,2)) gt 99
         else
             fn:true()
-}
-;
+};
+
 declare function xmlutil:getAllowedIso3ByIso2($cc as xs:string){
 
     if(string-length($cc)=2) then
             fn:doc($rules:COUNTRY_CODES_URL)//data[parent_iso3=fn:doc($rules:COUNTRY_CODES_URL)//data[iso2=$cc]/parent_iso3]/iso3
     else
             fn:doc($rules:COUNTRY_CODES_URL)//data/iso3
-}
-;
-
+};
 
 declare function xmlutil:getAllowedIso3ByParentIso($cc as xs:string){
     if(string-length($cc)=3) then
             fn:doc($rules:COUNTRY_CODES_URL)//data[parent_iso3=$cc]/iso3
     else
             fn:doc($rules:COUNTRY_CODES_URL)//data/iso3
-}
-;
+};
+
 declare function xmlutil:getAllowedParentIso3($cc as xs:string){
     if(string-length($cc)=2) then
             fn:doc($rules:COUNTRY_CODES_URL)//data[iso2=$cc]/parent_iso3
     else
             fn:doc($rules:COUNTRY_CODES_URL)//data/parent_iso3
-}
-;
+};
+
 declare function xmlutil:getAllowedIso2($cc as xs:string)
 as xs:string*
 {
@@ -1510,8 +1444,8 @@ as xs:string*
             fn:doc($rules:COUNTRY_CODES_URL)//data/iso2
     return
         $iso2
-}
-;
+};
+
 declare function xmlutil:getAllowedIso3($iso3 as xs:string)
 as xs:string*
 {
@@ -1519,8 +1453,8 @@ as xs:string*
             fn:doc($rules:COUNTRY_CODES_URL)//data[iso3=$iso3]/iso3
     else
             fn:doc($rules:COUNTRY_CODES_URL)//data/iso3
-}
-;
+};
+
 declare function xmlutil:getIso2ByIso3($iso3_list)
 as xs:string
 {
@@ -1528,229 +1462,11 @@ as xs:string
     return
         data(doc($rules:COUNTRY_CODES_URL)//data[iso3=$iso3]/iso2[1])
 };
+
 (:=================================================================================
  : QA rule - : Check correctness of Site code values against DD site codes vocabulary
  :=================================================================================
  :)
-
-(:~
- : QA rule entry: Check values against site codes defined in DD.
- : Raises errors when some of the rows contain invalid values.
- : @param $uri XML document URL.
- : @param $ruleCode Rule code in rules XML.
- : @return QA rule results in HTML format.
- :)
-(:
-declare function xmlutil:executeSiteCodesCheck($url as xs:string, $schemaId as xs:string,
-    $nsPrefix as xs:string, $keyElement as xs:string, $ruleCode as xs:string, $ruleCodeMissingSiteCode as xs:string)
-as element(div)*
-{
-
-    let $countryCode := cutil:getReportingCountry($url)
-    let $ruleDef := rules:getRule($schemaId, $ruleCode)
-    let $ruleDefMissingSiteCode := rules:getRule($schemaId, $ruleCodeMissingSiteCode)
-
-    :)
-(: get site codes from CR :)(:
-
-    :)
-(: let $countrySiteCodes := if (fn:string-length($countryCode) = 2) then sparqlutil:executeSparqlQuery(sparqlutil:getSiteCodesQuery($countryCode)) else():)(:
-
-    :)
-(: get site codes from DD :)(:
-
-    let $countrySiteCodes := if (fn:string-length($countryCode) = 2) then
-            doc(concat($sparqlutil:SITE_CODE_GRAPH, "?countryCode=", $countryCode))/rdf:RDF
-        else
-            ()
-
-    let $siteCodeResult := if (fn:string-length($countryCode) = 2 and not(empty($countrySiteCodes))) then xmlutil:checkSiteCodes($url, $schemaId, $nsPrefix, $keyElement, $ruleCode, $countryCode, $countrySiteCodes) else ()
-    let $siteCodeMissingResult := if (fn:string-length($countryCode) = 2 and not(empty($countrySiteCodes))) then xmlutil:checkSiteCodesMissing($url, $schemaId, $nsPrefix, $keyElement, $ruleCodeMissingSiteCode, $countryCode, $countrySiteCodes) else ()
-
-    let $warnMess :=if (fn:string-length($countryCode) != 2) then "Could not check site code values, because Country Code was not found from envelope metadata." else concat("Reporting country is ",$countryCode)
-    let $warnSiteCodeMess := if(fn:empty($countrySiteCodes)) then "Could not get the list of allocated site codes from Data Dictionary for country " else ""
-    let $result1 :=
-        if(fn:empty($siteCodeResult) and fn:string-length($countryCode)=2 and not(empty($countrySiteCodes))) then
-            uiutil:buildSuccessHeader($ruleDef)
-        else if(fn:empty($siteCodeResult) and fn:string-length($countryCode)!=2) then
-            uiutil:buildInfoHeader($ruleDef, $warnMess, "orange")
-        else if(fn:empty($countrySiteCodes)) then
-            uiutil:buildInfoHeader($ruleDef, concat($warnSiteCodeMess, $countryCode) , "orange")
-        else
-          <div>
-            {
-            if (count($siteCodeResult//span[text() = $uiutil:ERROR_FLAG]) > 0) then
-                uiutil:buildFailedHeader($ruleDef, $warnMess)
-            else
-                uiutil:buildWarningHeader($ruleDef, concat($ruleDef/message, " ", $warnMess))
-            }
-            {
-                uiutil:getResultInfoTable($siteCodeResult, $ruleDef/@code, $uiutil:RESULT_TYPE_MINIMAL)
-            }
-            <div id="detailDiv-{$ruleDef/@code}" style="display: none;">
-                <table border="1" class="datatable" error="{ rules:getRuleMessage($schemaId, $ruleDef) }">
-                    <tr>
-                        <th>Row</th>
-                        <th>SITE_CODE</th>
-                        <th>Error message</th>
-                        <th>Site name</th>
-                        <th>Year created</th>
-                        <th>Year disappeared/discontinued</th>
-                    </tr>
-                    {$siteCodeResult
-                }</table>
-            </div>
-           </div>
-    let $result2 :=
-        if(fn:empty($siteCodeMissingResult) and fn:string-length($countryCode)=2 and not(empty($countrySiteCodes))) then
-            uiutil:buildSuccessHeader($ruleDefMissingSiteCode)
-        else if(fn:empty($siteCodeMissingResult) and fn:string-length($countryCode)!=2) then
-            uiutil:buildInfoHeader($ruleDefMissingSiteCode, $warnMess, "orange")
-        else if (empty($countrySiteCodes)) then
-            uiutil:buildInfoHeader($ruleDefMissingSiteCode, concat($warnSiteCodeMess, $countryCode) , "orange")
-        else
-          <div>
-            { uiutil:buildFailedHeader($ruleDefMissingSiteCode, $warnMess) }
-            {
-                uiutil:getResultInfoTable($siteCodeMissingResult, $ruleDefMissingSiteCode/@code, $uiutil:RESULT_TYPE_MINIMAL)
-            }
-            <div id="detailDiv-{$ruleDefMissingSiteCode/@code}" style="display: none;">
-                <table border="1" class="datatable" error="{ rules:getRuleMessage($schemaId, $ruleDefMissingSiteCode) }">
-                    <tr>
-                        <th>SITE_CODE</th>
-                        <th>Site name</th>
-                        <th>Year created</th>
-                    </tr>
-                    {$siteCodeMissingResult
-                }</table>
-            </div>
-          </div>
-    return
-        $result1 union $result2
-
-};
-
-declare function xmlutil:checkSiteCodes($url as xs:string, $schemaId as xs:string,
-    $nsPrefix as xs:string, $keyElement as xs:string, $ruleCode as xs:string, $countryCode as xs:string, $countrySiteCodesRdf as element(rdf:RDF)?)
-as element(tr)*
-{
-    let $errMessage := rules:getRuleMessage($schemaId, $ruleCode)
-    let $siteCodeElem := "SITE_CODE"
-    let $countrySiteCodes := $countrySiteCodesRdf//skos:Concept[ends-with(ddrdf:countryAllocated/lower-case(@rdf:resource), lower-case($countryCode))]
-
-    for $row at $pos in fn:doc($url)//child::*[local-name() = "Row"]
-
-    let $siteCode := $row//*[local-name() = $siteCodeElem][1]
-    let $siteCodeValue := if (cutil:isMissingOrEmpty($siteCode)) then "" else normalize-space($siteCode)
-    let $siteCodeInDD := $countrySiteCodes[ddrdf:siteCode = $siteCodeValue]
-
-    let $isNotAllocated := count($siteCodeInDD) = 0
-
-    (: count(sparqlutil:executeSparqlQuery(sparqlutil:getSiteCodeExistsQuery($siteCodeValue))) = 0 :)
-    let $searchSiteCodes := if ($isNotAllocated) then doc(concat($sparqlutil:SITE_CODE_GRAPH, "?identifier=", $siteCodeValue)) else ()
-    let $doesNotExist :=
-        if ($isNotAllocated) then
-            count($searchSiteCodes//skos:Concept[ddrdf:siteCode/text() = $siteCodeValue]) = 0
-        else
-            fn:false()
-
-    let $isDisappeared :=
-        count($siteCodeInDD[ddrdf:status = 'DISAPPEARED']) > 0
-    let $isDeleted :=
-        count($siteCodeInDD[ddrdf:status = 'DELETED']) > 0
-
-    let $errLevel := if ($isDisappeared) then $uiutil:WARNING_LEVEL else $uiutil:ERROR_LEVEL
-
-    where $siteCodeValue != "" and ($isNotAllocated or $isDeleted or $isDisappeared)
-    order by $pos
-    return
-        <tr align="right" key="{ fn:data($row/*[name() = $keyElement]) }">
-            <td>{ $pos }</td>{
-                uiutil:buildTD($row, concat($nsPrefix,$siteCodeElem), $errMessage, fn:false(), $errLevel,(fn:true()), "", $ruleCode)
-            }
-            {
-            if ($doesNotExist) then
-                <td style="text-align:left" colspan="4">The site code does not exist in the database</td>
-            else if ($isNotAllocated) then
-                <td style="text-align:left" colspan="4">The site code has been allocated to different country</td>
-            else if ($isDeleted) then
-                <td style="text-align:left">Discontinued site code</td>
-            else if ($isDisappeared) then
-                <td style="text-align:left">Disappeared site code</td>
-            else
-                <td/>
-            }
-            {
-            if (not($isNotAllocated)) then
-                <td style="text-align:left">{
-                    data($siteCodeInDD/ddrdf:siteName)
-                }</td>
-                union
-                <td>{
-                    data($siteCodeInDD/ddrdf:yearCreated)
-                }</td>
-                union
-                <td>{
-                    if ($isDeleted) then
-                        data($siteCodeInDD/ddrdf:yearsDeleted)
-                    else if ($isDisappeared) then
-                        data($siteCodeInDD/ddrdf:yearsDisappeared)
-                    else
-                        ""
-                }</td>
-            else
-                ()
-            }
-        </tr>
-}
-;
-declare function xmlutil:checkSiteCodesMissing($url as xs:string, $schemaId as xs:string,
-    $nsPrefix as xs:string, $keyElement as xs:string, $ruleCode as xs:string, $countryCode as xs:string, $countrySiteCodesRdf as element(rdf:RDF)?)
-as element(tr)*
-{
-    let $numOfRows := 100
-    let $errMessage := rules:getRuleMessage($schemaId, $ruleCode)
-    let $siteCodeElem := "SITE_CODE"
-    let $reportedSiteCodes := fn:doc($url)//child::*[local-name() = "Row"]/*[local-name() = $siteCodeElem]/text()
-
-    let $errLevel := $uiutil:ERROR_LEVEL
-
-    let $countrySiteCodes := $countrySiteCodesRdf//skos:Concept[ends-with(ddrdf:countryAllocated/lower-case(@rdf:resource), lower-case($countryCode))]
-    let $activeSiteCodes := $countrySiteCodes[ddrdf:status = 'ASSIGNED']
-
-    let $missingSiteCodes :=
-        for $siteCode in $activeSiteCodes
-        where count(index-of($reportedSiteCodes, $siteCode/ddrdf:siteCode/text())) = 0
-        return
-            $siteCode
-    let $missingSiteCodesCount := count($missingSiteCodes)
-
-    for $siteCode at $pos in $missingSiteCodes
-
-    let $tr :=
-        <tr align="right" id="tr{$pos}" style="{ if ($pos > $numOfRows) then "display:none" else "" }">{
-            uiutil:getErrorTD(<span>{$siteCode/ddrdf:siteCode/text()}</span>, $errMessage, fn:false(),
-                $siteCodeElem, $errLevel, false(), $ruleCode)
-            }<td style="text-align:left">{
-                $siteCode/ddrdf:siteName/text()
-            }</td>
-            <td>{
-                $siteCode/ddrdf:yearCreated/text()
-            }</td>
-        </tr>
-    let $trJs :=
-            if ($pos = $numOfRows and $missingSiteCodesCount > $numOfRows) then
-                <tr id="trShow"><td colspan="3">
-<script type="text/javascript"> var numOfRows = { $numOfRows + 1 }; var maxRows = { $missingSiteCodesCount };<![CDATA[ function showHideRows(showHide){document.getElementById("tr" + numOfRows).style.display = showHide;for (var i = numOfRows; i != maxRows + 1; i++){document.getElementById("tr" + i).style.display = showHide;if (i == maxRows){break;}}document.getElementById("trHide").style.display = showHide;if (showHide == "") {document.getElementById("trShow").style.display = "none";}else {document.getElementById("trShow").style.display = "";}}]]></script>
-                    ... <a href="javascript:void(0)" onclick="showHideRows('');">show all {$missingSiteCodesCount} rows</a></td></tr>
-            else if ($pos = $missingSiteCodesCount and $missingSiteCodesCount > $numOfRows) then
-                <tr id="trHide" style="display:none"><td colspan="3"><a href="javascript:void(0)" onclick="showHideRows('none');">Hide rows</a></td></tr>
-            else
-                ()
-    return
-        $tr union $trJs
-};
-:)
 (:~
  : QA rule entry: Check consistency of different elements and values.
  : @param $uri XML document URL.
@@ -1769,6 +1485,7 @@ as element(div)
     return
         uiutil:buildCommonRuleResult($result, $ruleDef, $ruleElementNames)
 };
+
 (:~
  : Goes through all the Rows checks the consistency of fields.
  : @param $uri XML document URL.

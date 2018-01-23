@@ -41,9 +41,9 @@ declare variable $uiutil:RESULT_TYPE_TABLE_CODES := "table-codes";
  : ======================================================================
  :)
 
- declare function uiutil:buildScriptResult($ruleResults as element(div)*, $schemaUrl as xs:string, $rules as element(rules))
- as element(div)
- {
+declare function uiutil:buildScriptResult($ruleResults as element(div)*, $schemaUrl as xs:string, $rules as element(rules))
+as element(div)
+{
     let $resultErrors := uiutil:getResultErrors($ruleResults)
     let $resultCodes := uiutil:getResultCodes($ruleResults)
     return
@@ -56,7 +56,7 @@ declare variable $uiutil:RESULT_TYPE_TABLE_CODES := "table-codes";
         return
             $ruleResult
     }</div>
- };
+};
 
 declare function uiutil:buildScriptResultFullHtml($ruleResults as element(div)*, $schemaUrl as xs:string, $rules as element(rules))
 as element(html)
@@ -73,6 +73,7 @@ as element(html)
     </body>
   </html>
 };
+
  (:~
  : @return QA rule results in HTML format.
  :)
@@ -81,6 +82,7 @@ as element(div)
 {
     uiutil:buildRuleResult($result, $ruleDef, $ruleElementNames, <div/>, $uiutil:RESULT_TYPE_MINIMAL)
 };
+
 declare function uiutil:buildRuleResult($result as element(tr)*, $ruleDef as element(rule), $ruleElementNames as xs:string*,
         $additionalInfo as element(div), $resultTableType as xs:string)
 as element(div)
@@ -126,9 +128,7 @@ return
         }</div>
 
 };
- (:~
-  :
-  :)
+
 declare function uiutil:buildScriptHeader($rules as element(rules))
 as element(h2)
 {
@@ -137,6 +137,7 @@ as element(h2)
         <h2>The following { if ($ruleCount > 1) then $ruleCount else "" } quality test{ if ($ruleCount > 1) then "s" else "" } were made against this table - {
         fn:data($rules/@title) }</h2>
 };
+
 (:~
  : Build link to DD.
  : @param $schemaId DD table ID
@@ -147,6 +148,7 @@ as element(p)
 {
     <p>View detailed data definitions in <a href="{ $schemaUrl }">Data Dictionary</a></p>
 };
+
 (:~
  : Function builds HTML fragemnt for displaying successful rule result header.
  : @param $rule Rule element defined in rules XML.
@@ -161,6 +163,7 @@ as element(div)
         }<div style="color:green">OK - the test was passed successfully.</div>
     </div>
 };
+
 (:~
  : Function builds HTML fragemnt for displaying successful sub rule result header.
  : @param $rule Rule element defined in rules XML.
@@ -177,6 +180,7 @@ as element(div)
         <div style="color:green">OK - the test was passed successfully.</div>
     </div>
 };
+
 (:~
  : Function builds HTML fragemnt for displaying failed sub rule result header.
  : @param $rule Rule element defined in rules XML.
@@ -193,6 +197,7 @@ as element(div)
         uiutil:getFailedMessage("", "")
     }</div>
 };
+
 (:~
  : Function builds HTML fragemnt for displaying rule results header with warnings.
  : @param $rule Rule element defined in rules XML.
@@ -208,6 +213,7 @@ as element(div)
         }<div style="color:red">BLOCKER - { $blockerMessage }</div>
     </div>
 };
+
 (:~
  : Function builds HTML fragemnt for displaying failed rule result header.
  : @param $rule Rule element defined in rules XML.
@@ -223,6 +229,7 @@ as element(div)
         uiutil:getFailedMessage(fn:string($rule/message),$errMessage)
     }</div>
 };
+
 (:~
  : Function builds HTML fragemnt for displaying rule results header with warnings.
  : @param $rule Rule element defined in rules XML.
@@ -238,6 +245,7 @@ as element(div)
         }<div style="color:orange">WARNING - { $warnMessage }</div>
     </div>
 };
+
 (:~
  : Function builds HTML fragemnt for displaying rule results header with info.
  : @param $rule Rule element defined in rules XML.
@@ -254,6 +262,7 @@ as element(div)
         }<div style="color:{$textColor}">{ $infoMessage }</div>
     </div>
 };
+
 (:~
  : Build error TD, if the checked element value is invalid. The returned td element is displayed in the tabel of rule results.
  : This is the entry function for building result table cells. If the checked element value is valid, then just return the value between td tags.
@@ -284,8 +293,8 @@ as element(td)
             <td>{ $value }</td>
         else
             uiutil:getErrorTD($valueForDisplay, $errMess, $showMissing, $elementName, $errLevel, $isMultivalueElem, $ruleCode)
-}
-;
+};
+
 (:~
  : Function builds HTML td element with invalid value and error codes
  : @param $errValue Element value.
@@ -309,14 +318,14 @@ declare function uiutil:getElementValue($row as element(), $element as xs:string
 as xs:string
 {
     fn:string-join(uiutil:getElementValues($row/*[name()=$element]), $delimiter)
-}
-;
+};
+
 declare function uiutil:getElementValueSorted($row as element(), $element as xs:string, $delimiter as xs:string)
 as xs:string
 {
     string-join(cutil:sort(uiutil:getElementValues($row/*[name()=$element])), $delimiter)
-}
-;
+};
+
 declare function uiutil:getElementValues($elements as element())
 as xs:string*
 {
@@ -324,8 +333,8 @@ as xs:string*
     where not(cutil:isEmpty($elem))
     return
             normalize-space(string($elem))
-}
-;
+};
+
 (:~
  : Build the HTML span element for displaying XML element value. The value can be multivalue element
  : and some of the values can be valid and the others could be invalid. Invalid values should be colored red.
@@ -369,8 +378,8 @@ as element(span)*
             else
                 ()
             )
-}
-;
+};
+
 (:~
  : Return the color of error message.
  : @param $errLevel error level (0 - ERROR, 1 - WARNING)
@@ -384,6 +393,7 @@ as xs:string
     else
         "red"
 };
+
 (:~
  : Return the flag name of error message.
  : @param $errLevel error level (0 - ERROR, 1 - WARNING)
@@ -410,6 +420,7 @@ as element(h2)
 {
     <h2><a name="{ fn:string($rule/@code) }">{ fn:string($rule/@code) }.</a>&#32;{ fn:string($rule/title) }</h2>
 };
+
 (:~
  : Build HTML descritoption element
  : @param $rule Rule element defined in rules XML.
@@ -431,6 +442,7 @@ as element(p)
             ()
     }</p>
 };
+
 (:~
  : Get red colored error message displayed for invalid value. Concats 2 messages if both provided.
  : @param $errMessage Error message.
@@ -449,6 +461,7 @@ as element(div)
     return
         <div style="color:red">{ $fullMessage }</div>
 };
+
 (:~
  : Get rule message description from the XML rule element.
  : @param $rule Rule element defined in rules XML.
@@ -459,6 +472,7 @@ as xs:string
 {
     fn:string($rule/message)
 };
+
 (:~
  : Builds the HTML table header row with all the required element names.
  : @param $ruleElementNames List of element names.
@@ -473,8 +487,8 @@ as element(tr)
                 return
                     <th>{$n}</th>
     }</tr>
-}
-;
+};
+
 (:~
  : Build HTML title and table with invalid rows for sub-rule.
  : @param $ruleDef Rule code in rules XML.
@@ -492,17 +506,23 @@ as element(div){
         }</table>
     </div>
 };
+
 (:~ Build HTML list containing links to QA rules. Display result message at the end of link.
  : @param $rules List of rule elements from rules XML.
  : @param $results List of rule result codes.
  : @return HTML list of rule headings.
  :)
 declare function uiutil:buildTableOfContents($rules as element(rule)*, $results as xs:string*, $resultErrors as element(td)*)
+as element(div) {
+    uiutil:buildTableOfContents($rules, $results, $resultErrors, "display:none;")
+};
+
+declare function uiutil:buildTableOfContents($rules as element(rule)*, $results as xs:string*, $resultErrors as element(td)*, $style as xs:string)
 as element(div)
 {
     let $ruleCount := fn:count($rules[contains(@code, ".") = false()])           
     let $resultTableOfContents :=
-        <ul>{
+        <ul style="{$style}">{
             for $rule in $rules[contains(@code, ".") = false()]
             let $countErrors := count($resultErrors[@errorCode = data($rule/@code)])
             return
@@ -510,13 +530,14 @@ as element(div)
         }</ul>
     let $errorLevel := uiutil:feedbackStatus($resultTableOfContents)
     let $feedbackMessage :=
-        if ($errorLevel = 'INFO') then
+        if ($errorLevel = 'OK') then
             "All tests passed without errors or warnings"
         else
             normalize-space(string-join($resultTableOfContents//li[contains(span, $errorLevel)], ' || '))
     return
-        <div><span id="feedbackStatus" class="{ $errorLevel }" style="display:none">{ $feedbackMessage }</span>{ $resultTableOfContents }</div>
+        <div><span id="feedbackStatusTmp" class="{ $errorLevel }" style="display:none">{ $feedbackMessage }</span>{ $resultTableOfContents }</div>
 };
+
 (:~
  : Create rule result message displayed in the list of rules at the end of each rule.
  : @param $errorCode Rule code.
@@ -546,6 +567,7 @@ as element(span)*{
             <span/>
 
 };
+
 (:~
  : Build rule results code containg rule code and result message eg.: "1-ok" or "2-error"
  : @param $errorCode Rule code.
@@ -557,6 +579,7 @@ as xs:string
 {
    fn:concat($errorCode, "-", $result)
 };
+
 (:~
  : Return rule results from span result attribute.
  : @param $results List of rule results as HTML fragments starting with span element.
@@ -574,6 +597,7 @@ as xs:string*
         else
             ()
 };
+
 (:~
  : Return rule results from span result attribute.
  : @param $results List of rule results as HTML fragments starting with span element.
@@ -619,6 +643,7 @@ as element(table)
                 </tr>
     }</table>
 };
+
 declare function uiutil:buttonStyle(){
 
     let $buttonStyle :=
@@ -685,6 +710,7 @@ declare function uiutil:getResultInfoTable($mandatoryResult as element(tr)*, $ru
 as element(div){
     uiutil:getResultInfoTable($mandatoryResult, $ruleCode, $uiutil:RESULT_TYPE_MINIMAL)
 };
+
 declare function uiutil:getResultInfoTable($mandatoryResult as element(tr)*, $ruleCode as xs:string, $type as xs:string)
 as element(div){
 
@@ -731,10 +757,6 @@ as element(div){
                <div id="emptyDiv-{$ruleCode}" style="display: block;"/>
            </div>
 };
-
-
-
-
 
 (:~
 : JavaScript
@@ -848,41 +870,6 @@ declare function uiutil:feedbackStatus($toc as element(ul)) as xs:string
         else if (exists($toc//span[contains(., 'WARNING')])) then
             "WARNING"
         else
-            "INFO"
-};
-
-(:~
- : The returned span element with feedback status and message will be added into <div class="feedbacktext">
- : @param $results
- : @return span element.
- :)
-declare function uiutil:feedbackStatusAndMessage($results as element(div)) as element(span)
-{
-    let $blockerCount := count($results//div[@result='blocker'])
-    let $errorCount := count($results//div[@result='error'])
-    let $warningCount := count($results//div[@result='warning'])
-    
-    let $errorLevel :=
-        if ($blockerCount) then
-            "BLOCKER"
-        else if ($errorCount) then
-            "ERROR"
-        else if ($warningCount) then
-            "WARNING"
-        else
-            "INFO"
-    
-    let $feedbackMessage :=
-        if ($errorLevel = 'BLOCKER') then
-            concat($blockerCount, ' envelope test', substring('s ', number(not($blockerCount > 1)) * 2), 'generated blocking errors')
-        else if ($errorLevel = 'ERROR') then
-            concat($errorCount, ' envelope test', substring('s ', number(not($errorCount > 1)) * 2), 'generated errors')
-        else if ($errorLevel = 'WARNING') then
-            concat($warningCount, ' envelope test', substring('s ', number(not($warningCount > 1)) * 2), 'generated warnings')
-        else
-            "Envelope tests passed without errors or warnings"
-
-    return
-        <span id="feedbackStatus" class="{ $errorLevel }" style="display:none">{ $feedbackMessage }</span>
+            "OK"
 };
 
