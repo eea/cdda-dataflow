@@ -109,17 +109,24 @@ as element(div)+
     let $errorLevel := xmlconv:feedbackStatus(($resultDA, $resultLD))
     let $resultTableOfContents :=
         <div>
-        <h1>Common Database on Designated Areas (CDDA) 2017</h1>
+        <h1>Common Database on Designated Areas (CDDA)</h1>
         <ul>{
              <li><strong>Designated area</strong>&#32;&#32;{  uiutil:getRuleResultBox('a',concat('a-',lower-case(xmlconv:feedbackStatus(($resultDA)))), 0) }
                  {$resultDAs}</li>,
+             <br/>,
              <li><strong>Linked dataset</strong>&#32;&#32;{  uiutil:getRuleResultBox('b',concat('b-',lower-case(xmlconv:feedbackStatus(($resultLD)))), 0) }
                  {$resultLDs}</li>
         }</ul>
         </div>
+    let $feedbackMessage :=
+        if ($errorLevel = 'OK') then
+            "All tests passed without errors or warnings"
+        else
+            normalize-space(string-join(distinct-values($resultTableOfContents//span[@id="feedbackStatusTmp"]), ' || '))
+
     return(
         <div>
-            <span id="feedbackStatus" class="{ $errorLevel }" style="display:none">dd</span>
+            <span id="feedbackStatus" class="{ $errorLevel }" style="display:none">{ $feedbackMessage }</span>
             {$resultTableOfContents}
             {$resultDA}
             {$resultLD}

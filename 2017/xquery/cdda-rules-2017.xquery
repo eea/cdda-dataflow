@@ -40,7 +40,7 @@ declare variable $rules:MIN_MAX_URL as xs:string := "stations-min-max.xml";
 declare variable $rules:COUNTRY_CODES_URL as xs:string := "iso3_country_codes.xml";
 
 
-declare variable $rules:DATASET_NAME as xs:string := "Common Database on Designated Areas (CDDA) 2017";
+declare variable $rules:DATASET_NAME as xs:string := "Common Database on Designated Areas (CDDA)";
 
 declare variable $rules:RULE_REPLACE_TOKEN := "<replace>";
 
