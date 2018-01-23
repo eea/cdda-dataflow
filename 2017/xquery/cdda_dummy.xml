@@ -8,8 +8,8 @@
 			<PSnamespace>EIONET.ENVIRONMENT.PS.CDDA.LI</PSnamespace>
 			<PSversionId/>
 			<designatedAreaType>designatedSite</designatedAreaType>
-			<cddaCountryCode>LI</cddaCountryCode>
-			<cddaRegionCode>LI</cddaRegionCode>
+			<cddaCountryCode>xx</cddaCountryCode>
+			<cddaRegionCode>xx</cddaRegionCode>
 			<designationTypeCode>LI03</designationTypeCode>
 			<iucnCategory>Ib</iucnCategory>
 			<siteArea>66.9</siteArea>

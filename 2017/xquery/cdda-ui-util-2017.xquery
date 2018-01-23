@@ -719,7 +719,7 @@ as element(div){
 
        let $colHeaderText :=
             if ($countInvalidRecords > 0 and count($mandatoryResult[1]/td)>1 and exists($mandatoryResult[1]/td[2]/@title)
-                and contains(lower-case($mandatoryResult[1]/td[2]/@title), "mandatory values")) then
+                and contains(lower-case($mandatoryResult[1]/td[2]/@title), "mandatory values test")) then
                 "Number of records with missing values"
             else
                 "Number of records detected"

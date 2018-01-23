@@ -45,17 +45,17 @@ declare variable $rules:DATASET_NAME as xs:string := "Common Database on Designa
 declare variable $rules:RULE_REPLACE_TOKEN := "<replace>";
 
 declare variable $rules:MANDATORY_RULE_ID := "mandatory";
-declare variable $rules:MANDATORY_RULE_TITLE := "Mandatory values";
-declare variable $rules:MANDATORY_RULE_DESCR := concat("This test checked the presence of mandatory elements - ", $rules:RULE_REPLACE_TOKEN, ".");
+declare variable $rules:MANDATORY_RULE_TITLE := "Mandatory values test";
+declare variable $rules:MANDATORY_RULE_DESCR := concat("Tested the presence of mandatory values - ", $rules:RULE_REPLACE_TOKEN, ".");
 declare variable $rules:MANDATORY_RULE_MESSAGE := "Missing mandatory values have been found.";
 
 declare variable $rules:DUPLICATES_RULE_ID := "duplicates";
-declare variable $rules:DUPLICATES_RULE_TITLE := "Duplicates";
-declare variable $rules:DUPLICATES_RULE_DESCR := concat("This test checked the uniqueness of primary keys. ", $rules:RULE_REPLACE_TOKEN, " should be a a unique record in the table.");
+declare variable $rules:DUPLICATES_RULE_TITLE := "Record uniqueness test";
+declare variable $rules:DUPLICATES_RULE_DESCR := concat("Tested uniqueness of the records. The ", $rules:RULE_REPLACE_TOKEN, " value must be unique for each record in the table. No multiplicities can exist.");
 declare variable $rules:DUPLICATES_RULE_MESSAGE := "Duplicate records have been identified.";
 
 declare variable $rules:DATATYPES_RULE_ID := "datatypes";
-declare variable $rules:DATATYPES_RULE_TITLE := "Data types";
+declare variable $rules:DATATYPES_RULE_TITLE := "Data types test";
 declare variable $rules:DATATYPES_RULE_DESCR := "This test checked that the format of reported elements matches the Data Dictionary specifications.";
 declare variable $rules:DATATYPES_RULE_MESSAGE := "Some of the provided values are not in correct format.";
 
@@ -65,8 +65,8 @@ declare variable $rules:CODECONVENTION_RULE_DESCR := concat("This test checked t
 declare variable $rules:CODECONVENTION_RULE_MESSAGE := "Some of the provided values do not follow the code conventions.";
 
 declare variable $rules:CODELISTS_RULE_ID := "codelists";
-declare variable $rules:CODELISTS_RULE_TITLE := "Valid codes";
-declare variable $rules:CODELISTS_RULE_DESCR := concat("This test checked the correctness of values against code lists (fixed values) defined in Data Dictionary - ", $rules:RULE_REPLACE_TOKEN, ".");
+declare variable $rules:CODELISTS_RULE_TITLE := "Valid codes test";
+declare variable $rules:CODELISTS_RULE_DESCR := concat("Tested the correctness of values against the respective codelists. Checked values are  ", $rules:RULE_REPLACE_TOKEN, ".");
 declare variable $rules:CODELISTS_RULE_MESSAGE := "Some of the provided values do not exist in the relevant code lists.";
 
 declare variable $rules:COORDINATES_RULE_ID := "coordinates";

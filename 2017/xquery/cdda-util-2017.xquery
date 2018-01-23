@@ -54,7 +54,7 @@ declare variable $xmlutil:EU_MAX_X as xs:integer := 33;
 (:~ EU boundary: max y :)
 declare variable $xmlutil:EU_MAX_Y as xs:integer := 72;
 (:~ declare allowed values for boolean fields :)
-declare variable $xmlutil:ALLOWED_BOOLEAN_VALUES as xs:string* := ("true", "false", "1", "0", "y", "n", "yes", "no", "-1");
+declare variable $xmlutil:ALLOWED_BOOLEAN_VALUES as xs:string* := ("true", "false", "1", "0");
 
 (:
  : ======================================================================

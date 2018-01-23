@@ -16,15 +16,15 @@ declare namespace dd = "http://dd.eionet.europa.eu";
 declare namespace ddrdf="http://dd.eionet.europa.eu/schema.rdf#";
 
 (:~ DD path :)
-declare variable $ddutil:DD_PATH as xs:string :=  "http://dd.eionet.europa.eu"; (: + schemaId :)
+declare variable $ddutil:DD_PATH as xs:string :=  "http://dd.eionet.europa.eu";
 (:~ DD table XML Schema URL :)
-declare variable $ddutil:SCHEMA_URL as xs:string := concat($ddutil:DD_PATH, "/GetSchema?id=TBL"); (: + schemaId :)
+declare variable $ddutil:SCHEMA_URL as xs:string := concat($ddutil:DD_PATH, "/GetSchema?id=TBL");
 (:~ DD table elements XML Schema URL :)
-declare variable $ddutil:ELEM_SCHEMA_URL as xs:string := concat($ddutil:DD_PATH, "/GetContainerSchema?id=TBL");(: + schemaId :)
+declare variable $ddutil:ELEM_SCHEMA_URL as xs:string := concat($ddutil:DD_PATH, "/GetContainerSchema?id=TBL");
 (:~ DD table elements XML Schema URL :)
-declare variable $ddutil:TABLE_VIEW_URL as xs:string := concat($ddutil:DD_PATH, "/dstable.jsp?table_id=");(: + schemaId :)
+declare variable $ddutil:TABLE_VIEW_URL as xs:string := concat($ddutil:DD_PATH, "/dstable.jsp?table_id=");
 (:~ DD table elements XML Schema URL :)
-declare variable $ddutil:CODELIST_XML_URL as xs:string := concat($ddutil:DD_PATH, "/CodelistServlet?id="); (: + schemaId :)
+declare variable $ddutil:CODELIST_XML_URL as xs:string := concat($ddutil:DD_PATH, "/CodelistServlet?id=");
 (:~
  : Get DD XML Schema URL for given ID.
  : @param schemaId DD table ID
