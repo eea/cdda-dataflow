@@ -123,9 +123,10 @@ return
                     uiutil:buildTableHeaderRow($ruleElementNames)
                     }{ $result
                 }</table>
-             </div>{
-             $additionalInfo
-        }</div>
+                <br/>
+                {$additionalInfo}
+             </div>
+        </div>
 
 };
 

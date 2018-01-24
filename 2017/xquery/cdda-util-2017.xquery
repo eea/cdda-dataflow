@@ -1080,9 +1080,8 @@ as element(div)
 
     let $result := xmlutil:checkCodeListValues($url, $schemaId, $nsPrefix, $keyElement, $ruleCode, $container)
     let $additionalInfo :=
-        <div>
-            <p><strong>Codelist values:</strong></p>{
-                xmlutil:buildCodelistValuesDefs(ddutil:getDDCodelistXmlUrl($schemaId), $multiValueElems)
+        <div>{
+                xmlutil:buildCodelistValuesDefs(ddutil:getDDCodelistXmlUrl($schemaId), $result, $multiValueElems)
         }</div>
 
     return
@@ -1216,17 +1215,24 @@ as xs:boolean
  : @param $multiValueDelimiters list of multivalue elements and their delimiters
  : return HTML table elements.
  :)
-declare function xmlutil:buildCodelistValuesDefs($codeListXmlUrl as xs:string, $multiValueDelimiters as xs:string*)
+declare function xmlutil:buildCodelistValuesDefs($codeListXmlUrl as xs:string, $result as element(tr)*, $multiValueDelimiters as xs:string*)
 as element(table){
     <table class="datatable" border="1">
-        <tr>
-            <th>Element name</th>
-            <th>Fixed/suggested/vocabulary</th>
-            <th>Values</th>
-            <th>Multivalue delimiter</th>
-        </tr>{
-            xmlutil:buildFixedValuesDefsRows($codeListXmlUrl, $multiValueDelimiters)
-    }</table>
+        <thead>
+            <tr>
+                <th colspan="4">Code lists</th>
+            </tr>
+            <tr>
+                <th>Field name</th>
+                <th>Code list type</th>
+                <th>Code list URL</th>
+                <th>Multi-value delimiter</th>
+            </tr>
+        </thead>
+        <tbody>
+            {xmlutil:buildFixedValuesDefsRows($codeListXmlUrl, $result, $multiValueDelimiters)}
+        </tbody>
+    </table>
 };
 
 (:~
@@ -1235,26 +1241,38 @@ as element(table){
  : @param $multiValueDelimiters list of multivalue elements and their delimiters
  : return HTML tr elements.
  :)
-declare function xmlutil:buildFixedValuesDefsRows($codeListXmlUrl as xs:string, $multiValueDelimiters as xs:string*)
+declare function xmlutil:buildFixedValuesDefsRows($codeListXmlUrl as xs:string, $result as element(tr)*, $multiValueDelimiters as xs:string*)
 as element(tr)*
 {
-    for $valueList in fn:doc($codeListXmlUrl)//dd:value-list
-    let $fixedValues := $valueList//dd:value/@value
-    (: if fixed value is boolean, the also the following values are allowed Y, N, yes, no, -1, 1, 0:)
-    let $fixedValues := if (cutil:containsStr($fixedValues, "true") and cutil:containsStr($fixedValues, "false")) then
-                            fn:distinct-values(fn:insert-before($xmlutil:ALLOWED_BOOLEAN_VALUES, 1, $fixedValues))
-                        else
-                            $fixedValues
+    let $codelists :=
+    <codelistUrls>
+        <url columnName="designatedAreaType" value="http://dd.eionet.europa.eu/vocabulary/cdda/designatedAreaTypeValue/" />
+        <url columnName="cddaCountryCode" value="http://dd.eionet.europa.eu/vocabulary/cdda/cddaRegionCodeValue/" />
+        <url columnName="cddaRegionCode" value="http://dd.eionet.europa.eu/vocabulary/cdda/cddaRegionCodeValue/" />
+        <url columnName="designationTypeCode" value="http://dd.eionet.europa.eu/vocabulary/cdda/designationTypeCodeValue/" />
+        <url columnName="iucnCategory" value="http://dd.eionet.europa.eu/vocabulary/cdda/IucnCategoryValue/" />
+        <url columnName="majorEcosystemType" value="http://dd.eionet.europa.eu/vocabulary/cdda/majorEcosystemTypeValue/" />
+        <url columnName="spatialDataDissemination" value="http://dd.eionet.europa.eu/vocabulary/cdda/spatialDataDisseminationValue/" />
+        <url columnName="spatialResolutionCode" value="http://dd.eionet.europa.eu/vocabulary/cdda/spatialResolutionCodeValue/" />
+        <url columnName="eionetChangeType" value="http://dd.eionet.europa.eu/fixedvalues/elem/92564" />
+        <url columnName="siteEnded" value="http://dd.eionet.europa.eu/fixedvalues/elem/92568" />
+    </codelistUrls>
+
+    for $columnName at $pos in distinct-values(data($result//td/@element))
+    let $valueList := fn:doc($codeListXmlUrl)//dd:value-list[@element=$columnName]
+    let $dd_url := $codelists//url[@columnName=$columnName]/@value
+
     return
         <tr>
-            <td>{ fn:data($valueList/@element) }</td>
+            <td>{ $columnName }</td>
             <td>{ if ($valueList/@fixed = 'true' or $valueList/@type = "fixed")
                 then "Fixed"
                 else if ($valueList/@type = "vocabulary")
                 then "Vocabulary"
                 else "Suggested" }
             </td>
-            <td>{ fn:string-join($fixedValues, ", ")}</td>
+            <td><a target="_blank" href="{ string($dd_url) }">
+                { string($dd_url) }</a></td>
             <td>{ ddutil:getMultiValueDelim($multiValueDelimiters, $valueList/@element) }</td>
         </tr>
 };
