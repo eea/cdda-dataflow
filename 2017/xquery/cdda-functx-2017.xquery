@@ -21,3 +21,11 @@ declare function functx:if-absent($arg as item()* , $value as item()*) as item()
     else $value
 };
 
+declare function functx:substring-before-if-contains
+  ( $arg as xs:string? ,
+    $delim as xs:string )  as xs:string? {
+
+   if (contains($arg,$delim))
+   then substring-before($arg,$delim)
+   else $arg
+ } ;

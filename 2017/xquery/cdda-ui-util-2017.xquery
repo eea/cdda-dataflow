@@ -14,6 +14,7 @@ xquery version "1.0" encoding "UTF-8";
 module namespace uiutil = "http://converters.eionet.europa.eu/ui";
 (: Common utility methods :)
 import module namespace cutil = "http://converters.eionet.europa.eu/cutil" at "cdda-common-util.xquery";
+import module namespace functx = "http://www.functx.com" at "cdda-functx-2017.xquery";
 
 declare namespace xhtml = "http://www.w3.org/1999/xhtml";
 
@@ -46,10 +47,11 @@ as element(div)
 {
     let $resultErrors := uiutil:getResultErrors($ruleResults)
     let $resultCodes := uiutil:getResultCodes($ruleResults)
+    let $resultNrOfRecordsDetected := $ruleResults//p[@id]
     return
     <div class="feedbacktext">{
         uiutil:buildScriptHeader($rules)
-        }{ uiutil:buildTableOfContents($rules//rule, $resultCodes, $resultErrors)
+        }{ uiutil:buildTableOfContents($rules//rule, $resultCodes, $resultErrors, $resultNrOfRecordsDetected)
         }{ if ($schemaUrl = "") then "" else uiutil:buildLinkToDD($schemaUrl)
         }{
         for $ruleResult in $ruleResults
@@ -119,10 +121,11 @@ return
                 uiutil:getResultInfoTable($result, $ruleCode, $resultTableType)
             }
             <div id="detailDiv-{$ruleCode}" style="display: none;">
-                <table border="1" class="datatable" error="{ uiutil:getRuleMessage($ruleDef) }">{
-                    uiutil:buildTableHeaderRow($ruleElementNames)
-                    }{ $result
-                }</table>
+                <table border="1" class="datatable" error="{ uiutil:getRuleMessage($ruleDef) }">
+                    { uiutil:buildTableHeaderRow($ruleElementNames) }
+                    <!-- { fn:subsequence($result, 1, 300)} -->
+                    { $result }
+                </table>
                 <br/>
                 {$additionalInfo}
              </div>
@@ -513,19 +516,30 @@ as element(div){
  : @param $results List of rule result codes.
  : @return HTML list of rule headings.
  :)
-declare function uiutil:buildTableOfContents($rules as element(rule)*, $results as xs:string*, $resultErrors as element(td)*)
-as element(div) {
-    uiutil:buildTableOfContents($rules, $results, $resultErrors, "display:none;")
+declare function uiutil:buildTableOfContents(
+        $rules as element(rule)*,
+        $results as xs:string*,
+        $resultErrors as element(td)*,
+        $resultNrOfRecordsDetected
+) as element(div) {
+    uiutil:buildTableOfContents($rules, $results, $resultErrors, "display:none;", $resultNrOfRecordsDetected)
 };
 
-declare function uiutil:buildTableOfContents($rules as element(rule)*, $results as xs:string*, $resultErrors as element(td)*, $style as xs:string)
-as element(div)
+declare function uiutil:buildTableOfContents(
+        $rules as element(rule)*,
+        $results as xs:string*,
+        $resultErrors as element(td)*,
+        $style as xs:string,
+        $resultNrOfRecordsDetected
+) as element(div)
 {
     let $ruleCount := fn:count($rules[contains(@code, ".") = false()])           
     let $resultTableOfContents :=
         <ul style="{$style}">{
             for $rule in $rules[contains(@code, ".") = false()]
-            let $countErrors := count($resultErrors[@errorCode = data($rule/@code)])
+            (:let $countErrors := count($resultErrors[@errorCode = data($rule/@code)]):)
+            let $countErrors :=
+                    xs:integer($resultNrOfRecordsDetected[@id = concat("records-rulecode-", data($rule/@code))]/functx:substring-before-if-contains(data(), ' '))
             return
                 <li><a href="#{ fn:data($rule/@code) }">{ if ($ruleCount > 1) then fn:concat(fn:data($rule/@code), ".&#32;") else "" }{ fn:data($rule/title) }</a>&#32;&#32;{  uiutil:getRuleResultBox(fn:data($rule/@code), $results, $countErrors) }</li>
         }</ul>
@@ -545,7 +559,7 @@ as element(div)
  : @param $results Rule results codes ("1-ok")
  : return HTML containing rule result message
  :)
-declare function uiutil:getRuleResultBox($errorCode as xs:string, $results as xs:string*, $countErrors as xs:integer)
+declare function uiutil:getRuleResultBox($errorCode as xs:string, $results as xs:string*, $countErrors as xs:integer?)
 as element(span)*{
 
     let $errCountStr := if ($countErrors > 0 ) then concat(" (", $countErrors, ") ") else ""
@@ -716,7 +730,7 @@ declare function uiutil:getResultInfoTable($mandatoryResult as element(tr)*, $ru
 as element(div){
 
        let $countInvalidRecords := count($mandatoryResult)
-       let $resultText := <p>{$countInvalidRecords} record{if ($countInvalidRecords > 1) then "s" else ""} detected.</p>
+       let $resultText := <p id="records-rulecode-{$ruleCode}">{$countInvalidRecords} record{if ($countInvalidRecords > 1) then "s" else ""} detected.</p>
 
        let $colHeaderText :=
             if ($countInvalidRecords > 0 and count($mandatoryResult[1]/td)>1 and exists($mandatoryResult[1]/td[2]/@title)
@@ -795,19 +809,19 @@ declare function uiutil:javaScript(){
                                         if(inputElements[c].checked==false){
                                         inputElements[c].checked=true;
                                         }
-                                     }
-                                     else{
+                                    }
+                                    else{
                                         if(inputElements[c].checked==true){
                                         inputElements[c].checked=false;
                                         }
-                                     }
+                                    }
                                 }
-                             }
-                             checkboxToggle(checkboxTableId, detailTableDivId, checkboxClassName);
+                            }
+                            checkboxToggle(checkboxTableId, detailTableDivId, checkboxClassName);
                          }
 
 
-                     }
+                    }
 
                    function checkboxToggle(checkboxTableId, detailTableDivId, checkboxClassName){
                         var detailTableDiv = document.getElementById(detailTableDivId);
@@ -819,30 +833,35 @@ declare function uiutil:javaScript(){
                         var checkboxTable = document.getElementById(checkboxTableId);
                         var inputElements = checkboxTable.getElementsByTagName('input');
 
-
                             detailTableDiv.style.display = "none";
                             for(var k = 1; k != trs.length; k++){
 
                                 trs[k].style.display = "none";
                             }
-
+                            var printCounter = 0;
                             for(var c = 0; c != inputElements.length; c++){
                                  if(inputElements[c].className === checkboxClassName){
                                     if(inputElements[c].checked){
                                         detailTableDiv.style.display = "table";
                                         for(var i = 1; i != trs.length; i++){
                                             var tds=trs[i].getElementsByTagName("td");
+
                                             for(var j = 1; j != tds.length; j++){
                                                 if(tds[j].innerHTML.length != 0){
                                                     if(tds[j].getAttribute("element") == inputElements[c].value){
                                                     trs[i].style.display = "table-row";
+                                                    printCounter++;
                                                     break;
                                                     }
                                                 }
                                             }
+                                            if(printCounter == 300){
+                                                break;
+                                            }
+
                                         }
                                     }
-                                }
+                                 }
                             }
 
                     }

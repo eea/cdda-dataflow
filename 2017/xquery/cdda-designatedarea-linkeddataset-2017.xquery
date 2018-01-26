@@ -70,9 +70,10 @@ as element(div)
 {
     let $resultErrors := uiutil:getResultErrors($ruleResults)
     let $resultCodes := uiutil:getResultCodes($ruleResults)
+    let $resultNrOfRecordsDetected := $ruleResults//p[@id]
     return
         <div>{
-            uiutil:buildTableOfContents($rules//rule, $resultCodes, $resultErrors, "")
+            uiutil:buildTableOfContents($rules//rule, $resultCodes, $resultErrors, "", $resultNrOfRecordsDetected)
         }</div>
 };
 

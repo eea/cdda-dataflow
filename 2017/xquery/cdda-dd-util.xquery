@@ -12,6 +12,8 @@ xquery version "1.0" encoding "UTF-8";
 module namespace ddutil = "http://converters.eionet.europa.eu/ddutil";
 import module namespace functx = "http://www.functx.com" at "cdda-functx-2017.xquery";
 import module namespace cutil = "http://converters.eionet.europa.eu/cutil" at "cdda-common-util.xquery";
+import module namespace rules = "http://converters.eionet.europa.eu/cdda/rules" at "cdda-rules-2017.xquery";
+
 declare namespace dd = "http://dd.eionet.europa.eu";
 declare namespace ddrdf="http://dd.eionet.europa.eu/schema.rdf#";
 
@@ -88,7 +90,16 @@ as xs:string*
 declare function ddutil:getCodeListElements($schemaId as xs:string)
 as xs:string*
 {
-    fn:doc(ddutil:getDDCodelistXmlUrl($schemaId))//dd:value-list/@element
+    let $elements := fn:doc(ddutil:getDDCodelistXmlUrl($schemaId))//dd:value-list/@element
+    return
+    fn:remove(
+        $elements,
+        functx:if-empty(
+            fn:index-of($elements, "designationTypeCode"),
+            0
+        )
+    )
+
 };
 
 (:~

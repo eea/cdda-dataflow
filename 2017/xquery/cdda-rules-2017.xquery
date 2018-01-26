@@ -361,25 +361,6 @@ as xs:string*
 };
 
 (:~
- : Get error messages for sub rules.
- : @param $ruleCode Parent rule code
- : @param $subRuleCodes List of sub rule codes.
- : @return xs:string
- :)
-declare function rules:getSubRuleMessages($schemaId as xs:string, $ruleCode as xs:string, $subRuleCodes as xs:string*)
-as xs:string
-{
-    let $rules := rules:getRules($schemaId)//group[rule/@code = $ruleCode]
-    let $subRuleMessages :=
-         for $subRuleCode in fn:reverse($subRuleCodes)
-         let $rule := $rules//rule[@code = concat($ruleCode, ".", $subRuleCode)]
-         return
-             fn:concat($rule/@code, " ", $rule/message)
-    return
-        if (count($subRuleMessages) > 1) then string-join($subRuleMessages, "; ") else fn:string($subRuleMessages)
-};
-
-(:~
  : Get error message for given rule Code from the rules XML.
  : @param $ruleCode Rule code in rules XML.
  : @return xs:string
