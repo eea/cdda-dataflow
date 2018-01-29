@@ -123,8 +123,13 @@ return
             <div id="detailDiv-{$ruleCode}" style="display: none;">
                 <table border="1" class="datatable" error="{ uiutil:getRuleMessage($ruleDef) }">
                     { uiutil:buildTableHeaderRow($ruleElementNames) }
-                    <!-- { fn:subsequence($result, 1, 300)} -->
-                    { $result }
+                    {
+                        if($ruleCode = ("2a", "2b"))
+                        then
+                            fn:subsequence($result, 1, 300)
+                        else
+                            $result
+                    }
                 </table>
                 <br/>
                 {$additionalInfo}
@@ -818,7 +823,7 @@ declare function uiutil:javaScript(){
                                 }
                             }
                             checkboxToggle(checkboxTableId, detailTableDivId, checkboxClassName);
-                         }
+                        }
 
 
                     }
@@ -833,36 +838,36 @@ declare function uiutil:javaScript(){
                         var checkboxTable = document.getElementById(checkboxTableId);
                         var inputElements = checkboxTable.getElementsByTagName('input');
 
-                            detailTableDiv.style.display = "none";
-                            for(var k = 1; k != trs.length; k++){
+                        detailTableDiv.style.display = "none";
+                        for(var k = 1; k != trs.length; k++){
 
-                                trs[k].style.display = "none";
-                            }
-                            var printCounter = 0;
-                            for(var c = 0; c != inputElements.length; c++){
-                                 if(inputElements[c].className === checkboxClassName){
-                                    if(inputElements[c].checked){
-                                        detailTableDiv.style.display = "table";
-                                        for(var i = 1; i != trs.length; i++){
-                                            var tds=trs[i].getElementsByTagName("td");
+                            trs[k].style.display = "none";
+                        }
+                        var printCounter = 0;
+                        for(var c = 0; c != inputElements.length; c++){
+                             if(inputElements[c].className === checkboxClassName){
+                                if(inputElements[c].checked){
+                                    detailTableDiv.style.display = "table";
+                                    for(var i = 1; i != trs.length; i++){
+                                        var tds=trs[i].getElementsByTagName("td");
 
-                                            for(var j = 1; j != tds.length; j++){
-                                                if(tds[j].innerHTML.length != 0){
-                                                    if(tds[j].getAttribute("element") == inputElements[c].value){
+                                        for(var j = 1; j != tds.length; j++){
+                                            if(tds[j].innerHTML.length != 0){
+                                                if(tds[j].getAttribute("element") == inputElements[c].value){
                                                     trs[i].style.display = "table-row";
                                                     printCounter++;
                                                     break;
-                                                    }
                                                 }
                                             }
-                                            if(printCounter == 300){
-                                                break;
-                                            }
-
                                         }
+                                        if(printCounter == 300){
+                                            break;
+                                        }
+
                                     }
-                                 }
-                            }
+                                }
+                             }
+                        }
 
                     }
 
