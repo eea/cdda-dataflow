@@ -5,7 +5,7 @@
 			<cddaId>326427</cddaId>
 			<nationalId>Hinter Baergwald</nationalId>
 			<PSlocalId>326427</PSlocalId>
-			<PSnamespace>EIONET.ENVIRONMENT.PS.CDDA.LI</PSnamespace>
+			<PSnamespace>qwe</PSnamespace>
 			<PSversionId/>
 			<designatedAreaType>designatedSite</designatedAreaType>
 			<cddaCountryCode>xx</cddaCountryCode>
@@ -13,7 +13,7 @@
 			<designationTypeCode>LI03</designationTypeCode>
 			<iucnCategory>Ib</iucnCategory>
 			<siteArea>66.9</siteArea>
-			<majorEcosystemType/>
+			<majorEcosystemType>qwe</majorEcosystemType>
 			<marineAreaPercentage>0</marineAreaPercentage>
 			<spatialDataDissemination>public</spatialDataDissemination>
 			<spatialResolutionCode>scaleLarger100K</spatialResolutionCode>
@@ -29,7 +29,7 @@
 			<cddaId>326429</cddaId>
 			<nationalId>Mittagsspitze</nationalId>
 			<PSlocalId>326429</PSlocalId>
-			<PSnamespace>EIONET.ENVIRONMENT.PS.CDDA.LI</PSnamespace>
+			<PSnamespace>asd</PSnamespace>
 			<PSversionId/>
 			<designatedAreaType>designatedSite</designatedAreaType>
 			<cddaCountryCode>LI</cddaCountryCode>
@@ -101,7 +101,7 @@
 			<cddaId>326430</cddaId>
 			<nationalId>Rinderwald</nationalId>
 			<PSlocalId>326430</PSlocalId>
-			<PSnamespace>EIONET.ENVIRONMENT.PS.CDDA.LI</PSnamespace>
+			<PSnamespace></PSnamespace>
 			<PSversionId/>
 			<designatedAreaType>designatedSite</designatedAreaType>
 			<cddaCountryCode>LI</cddaCountryCode>

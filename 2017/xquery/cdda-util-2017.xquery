@@ -561,9 +561,10 @@ as element(tr)*
     let $nsPrefix := cutil:getElemNsPrefix($keyElement)
     let $ruleElements := cutil:getElementsWithNs($ruleElements, $nsPrefix)
 
-    for $rowElement at $pos in fn:doc($url)//*[local-name() = $container]//child::*[local-name() = "Row"]
+    for $rowElement in fn:doc($url)//*[local-name() = $container]//child::*[local-name() = "Row"]
     let $invalidElems := xmlutil:getInvalidMandatoryValues($rowElement, $mandatoryElements)
     where not(empty($invalidElems))
+    count $pos
     order by $pos
     return
         <tr align="right" key="{ fn:data($rowElement/*[local-name() = $keyElement]) }">
@@ -620,11 +621,12 @@ as element(tr)*
         for $duplicateRow in $rows
         return
             xmlutil:getDuplicateKey($duplicateRow, $duplicateElements)
-    for $row at $pos in $rows
+    for $row in $rows
     let $key := xmlutil:getDuplicateKey($row, $duplicateElements)
 
     let $i := index-of($keys, $key)
     where fn:count($i) > 1 and xmlutil:getDuplicateKey($row, $duplicateElements)
+    count $pos
     order by $pos
     return
         <tr align="right" key="{ fn:data($row/*[local-name() = $keyElement]) }">
@@ -708,10 +710,11 @@ as element(tr)*
     let $elemSchemaUrl := ddutil:getDDElemSchemaUrl($schemaId)
     let $allElements := ddutil:getAllElements($schemaId)
 
-    for $row at $pos in fn:doc($url)//*[local-name() = $container]//child::*[local-name() = "Row"]
+    for $row in fn:doc($url)//*[local-name() = $container]//child::*[local-name() = "Row"]
     let $invalidElems := xmlutil:getInvalidDataTypeValues($row, $elemSchemaUrl, $allElements)
     let $invalidElemKeys := cutil:getHashMapKeys($invalidElems)
     where not(empty($invalidElems))
+    count $pos
     order by $pos
     return
         <tr align="right" key="{ fn:data($row/*[local-name() = $keyElement]) }">
@@ -784,7 +787,7 @@ as element(tr)*
     let $ruleElems := xmlutil:getCodeListElementsForDisplay($schemaId, $nsPrefix, $ruleCode, true())
     let $errMessage := rules:getRuleMessage($schemaId, $ruleCode)
 
-    for $row at $pos in fn:doc($url)//*[local-name() = $container]//child::*[local-name() = "Row"]
+    for $row in fn:doc($url)//*[local-name() = $container]//child::*[local-name() = "Row"]
     let $invalidElems := xmlutil:getInvalidCodelistValues($row, ddutil:getDDCodelistXmlUrl($schemaId))
 
     let $invalidElemKeys := cutil:getHashMapKeys($invalidElems)
@@ -794,6 +797,7 @@ as element(tr)*
         return fn:remove($invalidElemKeys, functx:if-empty(index-of($invalidElemKeys, $ignoredElem), 0))
 
     where fn:not(fn:empty($invalidElemKeys))
+    count $pos
     order by $pos
     return
         <tr align="right" key="{ fn:data($row/*[local-name() = $keyElement]) }">
