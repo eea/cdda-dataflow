@@ -32,6 +32,7 @@ declare variable $uiutil:WARNING_FLAG as xs:string :=  "WARNINGFLAG";
 declare variable $uiutil:MISSING_VALUE_LABEL as xs:string :=  "-empty-";
 (:~ Maximum length of string value displayed in the result table :)
 declare variable $uiutil:MAX_VALUE_LENGTH as xs:integer :=  100;
+declare variable $uiutil:MAX_RECORD_RESULTS as xs:integer :=  300;
 
 declare variable $uiutil:RESULT_TYPE_MINIMAL := "minimal";
 declare variable $uiutil:RESULT_TYPE_TABLE := "table";
@@ -768,14 +769,15 @@ as element(div){
 
        return
             <div >
-               {uiutil:javaScript()}
-               {$resultText}
-               {$resultTable}
-               <div style="margin-top:0.5em;margin-bottom:0.5em;">
-                   {uiutil:showAndHideRecordsButton($ruleCode)}
-               </div>
-               <div id="emptyDiv-{$ruleCode}" style="display: block;"/>
-           </div>
+                {uiutil:javaScript()}
+                {$resultText}
+                {$resultTable}
+                <div style="margin-top:0.5em;margin-bottom:0.5em;">
+                    {uiutil:showAndHideRecordsButton($ruleCode)}
+                </div>
+                <p id="limitText-{$ruleCode}" style="display: none; color: red;">More than {$uiutil:MAX_RECORD_RESULTS} rows detected, result set was truncated!</p>
+                <div id="emptyDiv-{$ruleCode}" style="display: block;"/>
+            </div>
 };
 
 (:~
@@ -824,8 +826,17 @@ declare function uiutil:javaScript(){
                             }
                             checkboxToggle(checkboxTableId, detailTableDivId, checkboxClassName);
                         }
+                        else{
+                            var idLimitText = "limitText".concat(checkboxTableId.substring(checkboxTableId.length - 3));
+                            var pLimitText = document.getElementById(idLimitText);
+                            pLimitText.style.display = "none";
 
-
+                            var detailTableDiv = document.getElementById(detailTableDivId);
+                            var table = detailTableDiv.getElementsByTagName("table");
+                            var trs = table[0].getElementsByTagName("tr");
+                            var rowCount = trs.length;
+                        }
+                        
                     }
 
                    function checkboxToggle(checkboxTableId, detailTableDivId, checkboxClassName){
@@ -834,6 +845,10 @@ declare function uiutil:javaScript(){
                         var table = detailTableDiv.getElementsByTagName("table");
 
                         var trs=table[0].getElementsByTagName("tr") ;
+
+                        var idLimitText = "limitText".concat(checkboxTableId.substring(checkboxTableId.length - 3));
+                        var pLimitText = document.getElementById(idLimitText);
+                        pLimitText.style.display = "none";
 
                         var checkboxTable = document.getElementById(checkboxTableId);
                         var inputElements = checkboxTable.getElementsByTagName('input');
@@ -861,6 +876,7 @@ declare function uiutil:javaScript(){
                                             }
                                         }
                                         if(printCounter == 300){
+                                            pLimitText.style.display = "block";
                                             break;
                                         }
 
