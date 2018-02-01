@@ -827,16 +827,21 @@ declare function uiutil:javaScript(){
                             checkboxToggle(checkboxTableId, detailTableDivId, checkboxClassName);
                         }
                         else{
-                            var idLimitText = "limitText".concat(checkboxTableId.substring(checkboxTableId.length - 3));
+                            var idLimitText = "limitText".concat(detailTableDivId.substring(detailTableDivId.length - 3));
                             var pLimitText = document.getElementById(idLimitText);
                             pLimitText.style.display = "none";
+                            if(checkOrUncheckAllCheckboxesBoolean=='true'){
+                                var detailTableDiv = document.getElementById(detailTableDivId);
+                                var table = detailTableDiv.getElementsByTagName("table");
+                                var trs = table[0].getElementsByTagName("tr");
+                                var rowCount = trs.length;
 
-                            var detailTableDiv = document.getElementById(detailTableDivId);
-                            var table = detailTableDiv.getElementsByTagName("table");
-                            var trs = table[0].getElementsByTagName("tr");
-                            var rowCount = trs.length;
+                                if(Math.sign(rowCount - 300) == 1){
+                                    pLimitText.style.display = "block";
+                                }
+                            }
                         }
-                        
+
                     }
 
                    function checkboxToggle(checkboxTableId, detailTableDivId, checkboxClassName){
@@ -887,11 +892,7 @@ declare function uiutil:javaScript(){
 
                     }
 
-
-
-
-
-                ]]>
+               ]]>
            </script>
     return
         <script type="text/javascript">{normalize-space($js)}</script>

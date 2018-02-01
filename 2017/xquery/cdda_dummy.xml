@@ -13032,5 +13032,12 @@
             <wfsVersion/>
             <wfsStoredQuery/>
         </Row>
+		<Row>
+            <datasetId>123</datasetId>
+            <gmlFileName>ABC.gml</gmlFileName>
+            <wfsEndpoint/>
+            <wfsVersion/>
+            <wfsStoredQuery/>
+        </Row>
     </LinkedDataset>
 </CDDA>
