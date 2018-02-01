@@ -836,7 +836,7 @@ declare function uiutil:javaScript(){
                                 var trs = table[0].getElementsByTagName("tr");
                                 var rowCount = trs.length;
 
-                                if(Math.sign(rowCount - 300) == 1){
+                                if(Math.abs(rowCount) != 300 - rowCount){
                                     pLimitText.style.display = "block";
                                 }
                             }
